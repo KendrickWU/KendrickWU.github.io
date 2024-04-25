@@ -13,12 +13,12 @@ I am pursuing a Ph.D. in the Department of Industrial Engineering and Decision A
 
 🥇Honors and Awards
 ======
--“Outstanding Graduate”of Huazhong University of Science and Technology
--Individual Scholarship：Innovation of Science and Technology Scholarship
--Individual Scholarship：Study scholarship
--H Prize of Interdisciplinary Contest In Modeling (ICM)
--The Second Prize of “Puyi Cup” National College Students English Writing Contest
--The Outstanding Volunteer of Youth Reading Challenges Forbes World Record, Asia & Pacific Area
+- “Outstanding Graduate”of Huazhong University of Science and Technology
+- Individual Scholarship：Innovation of Science and Technology Scholarship
+- Individual Scholarship：Study scholarship
+- H Prize of Interdisciplinary Contest In Modeling (ICM)
+- The Second Prize of “Puyi Cup” National College Students English Writing Contest
+- The Outstanding Volunteer of Youth Reading Challenges Forbes World Record, Asia & Pacific Area
 
 How to edit your site's GitHub repository
 ------
