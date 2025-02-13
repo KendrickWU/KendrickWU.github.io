@@ -203,7 +203,7 @@ collections:
     output: true
     permalink: /:collection/:path/
   publications:
-    output: true
+    output: flase
     permalink: /:collection/:path/
   portfolio:
     output: true

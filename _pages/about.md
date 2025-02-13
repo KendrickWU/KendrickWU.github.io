@@ -20,6 +20,4 @@ I am pursuing a Ph.D. in the Department of Industrial Engineering and Decision A
 - The Second Prize of “Puyi Cup” National College Students English Writing Contest
 - The Outstanding Volunteer of Youth Reading Challenges Forbes World Record, Asia & Pacific Area
 
-For more info
-------
-More info about me can be found in Wechat![KendrickWU](/images/wechat.png)
+
