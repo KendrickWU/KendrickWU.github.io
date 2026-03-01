@@ -1,3 +1,28 @@
+# macOS
+.DS_Store
+
+# Personal local materials (do not publish)
+TA_Stuff/
+
+# IDE
+.idea/
+.vscode/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# LaTeX build artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
 # Ignore the contents of the _site directory
 _site/
 
