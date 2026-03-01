@@ -56,7 +56,7 @@ I am actively seeking **internship opportunities** in large language model compa
    - Online control for token routing across GPUs with transition costs; incorporate temporal locality via affinity reward
    - Derived Lyapunov drift-plus-penalty controller with [O(1/V), O(V)] optimality gap
 
-5. **Topology-aware MoE Routing via Two-stage Re-rank** (working paper, idea stage)
+5. **Topology-aware MoE Routing via Two-stage Re-rank** (working paper)
    - Two-stage routing with semantic candidate constraint and topology-aware re-ranking
    - Targets multi-node prefill-heavy regimes to reduce cross-node bytes
 

@@ -1,7 +1,7 @@
 ---
 title: "Topology-aware MoE Routing via Two-stage Re-rank"
 authors: ["Hongfan Wu"]
-venue: "Working Paper (Idea Stage)"
+venue: "Working Paper"
 ---
 
 Two-stage routing with a semantic candidate constraint (top-M) and topology-aware within-candidate re-ranking (communication cost + load guard).
