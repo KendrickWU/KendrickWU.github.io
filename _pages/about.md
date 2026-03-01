@@ -13,7 +13,7 @@ I am actively seeking **internship opportunities** in large language model compa
 
 ## 🔬 Research Interests
 
-- **Distributed LLM/MoE Inference Systems**: Efficient routing and load balancing for Mixture-of-Experts models across distributed GPUs; shadow-price-based dynamic routing (PriceMoE); locality-aware token routing via online stochastic control (Fluid-Affinity); topology-aware routing for cross-node communication optimization
+- **Distributed LLM/MoE Inference Systems**: Efficient routing and load balancing for Mixture-of-Experts models under system constraints; shadow-price-based dynamic routing (PriceMoE); locality-aware online control for routing stability and tail-latency
 - **Online Stochastic Control & Queueing**: Threshold policies, Lyapunov drift analysis, and fluid approximations; network utility maximization with capacity constraints
 - **Spatial Matching & Marketplace Design**: Ride-hailing systems with heterogeneous demand and coordinated matching; Key Matching Indices for two-demand-class systems
 
@@ -56,9 +56,8 @@ I am actively seeking **internship opportunities** in large language model compa
    - Online control for token routing across GPUs with transition costs; incorporate temporal locality via affinity reward
    - Derived Lyapunov drift-plus-penalty controller with [O(1/V), O(V)] optimality gap
 
-5. **Topology-aware MoE Routing via Two-stage Re-rank** (working paper)
-   - Two-stage routing with semantic candidate constraint and topology-aware re-ranking
-   - Targets multi-node prefill-heavy regimes to reduce cross-node bytes
+5. **System-constrained MoE Routing** (working paper, details available upon request)
+   - Studies routing policies under hardware/deployment constraints with a focus on robustness and tail-latency
 
 ---
 

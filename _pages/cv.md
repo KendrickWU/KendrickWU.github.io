@@ -17,7 +17,7 @@ redirect_from:
 
 ## Research Interests
 
-Distributed LLM/MoE inference systems; online stochastic control and queueing; topology-aware routing and communication optimization; spatial matching and marketplace design.
+Distributed LLM/MoE inference systems; online stochastic control and queueing; system-constrained routing and load balancing; spatial matching and marketplace design.
 
 ## Education
 
@@ -69,12 +69,12 @@ Working Paper
 - Online control for token routing across GPUs with transition (communication) costs; incorporate temporal locality via an affinity reward
 - Derive Lyapunov drift-plus-penalty controller with [O(1/V), O(V)] optimality gap vs. average queue length tradeoff
 
-### Topology-aware MoE Routing via Two-stage Re-rank
+### System-constrained MoE Routing (private details)
 
 Working Paper
 
-- Two-stage routing with a semantic candidate constraint (top-M) and topology-aware within-candidate re-ranking (communication cost + load guard)
-- Targets multi-node prefill-heavy regimes to reduce cross-node bytes and stabilize tail latency; connects to OR online control viewpoints
+- Routing policies under hardware/deployment constraints with a focus on robustness, stability, and tail-latency
+- Details (method and evaluation) are available upon request
 
 ## Research Summary (Selected Themes)
 
