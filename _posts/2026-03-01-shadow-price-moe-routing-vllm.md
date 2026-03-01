@@ -7,145 +7,162 @@ tags: [MoE, vLLM, Routing, Shadow Price, Queueing Theory, A100]
 excerpt: "A practical story of how queue lengths become shadow prices, and how that idea can be implemented in vLLM by modifying CPU-side expert selection only—then validated on Qwen2.5-MoE-72B with 8×A100 TTFT/TPOT measurements."
 ---
 
-## Motivation
-
-Mixture-of-Experts (MoE) models promise *scale with sparsity*: you get a huge parameter count but only activate a small number of experts per token. In serving, however, MoE introduces a systems problem that dense models largely avoid:
-
-- Each expert behaves like a **server** with its own effective service rate.
-- Tokens routed to the same expert form a **queue**.
-- A naïve top-$k$ semantic routing policy can create persistent **load imbalance**, which shows up as tail latency.
-
-This post explains a simple idea:
-
-> Treat (estimated) expert queue length as a **shadow price** for congestion, and penalize routing decisions by that price.
-
-Then I show how to implement a minimal viable version in **vLLM** by modifying only the CPU scheduling layer (no kernel changes), and how I validated it on **Qwen2.5-MoE-72B** with **8×A100**.
+> This post is the blog-form version of my internal note: **“Shadow Price in MoE Routing: From Queueing Theory to a Minimal vLLM Implementation”** (last updated 2026-03-01).
+>
+> Scope: a minimal, **kernel-free** PriceMoE/queue-aware routing implementation in vLLM, plus the key experimental evidence used to validate it.
 
 ---
 
-## From queues to shadow prices (the OR view)
+## 0. Why this matters (systems view)
 
-A common abstraction is to view MoE routing as an online resource allocation problem. Each token $t$ chooses $k$ experts out of $E$ experts.
+Mixture-of-Experts (MoE) inference is often limited by **load imbalance** rather than average FLOPs: a subset of experts become hotspots, stretching the critical path of dispatch/expert compute/combine. This shows up as degraded throughput and worse tail latency.
 
-Let:
+A practical router should therefore be:
 
-- $s_{t,e}$ be the semantic score (e.g., router logit) of expert $e$ for token $t$.
-- $q_e$ be the current queue length (or a proxy) of expert $e$.
-- $\lambda_e$ be the shadow price associated with expert $e$'s capacity constraint.
+- **Congestion-aware**: avoid routing into already-hot experts.
+- **Cheap**: zero/near-zero overhead when disabled.
+- **Compatible** with existing kernels (so it’s easy to land in an inference stack).
 
-A minimal “shadow-price” routing rule can be written as:
+---
+
+## 1. From queueing theory to “shadow price” routing
+
+### 1.1 Virtual queue as a dual signal
+
+Following a queueing/dual interpretation, each expert $e$ maintains a virtual queue length $q_e(t)$ that summarizes how congested the expert is. In a fluid picture:
 
 $$
-\text{choose }\operatorname{TopK}_e\; \Big( s_{t,e} - \alpha\, q_e \Big)
+\dot{q}_e(t)=\lambda_e(t)-\mu_e\,u_e(t)
 $$
 
-where $\alpha > 0$ converts queue units into score units.
+In vLLM there is no literal “token waiting queue per expert” exposed at the Python side. So in the MVP we use a **virtual queue**: a smoothed counter of how often each expert has been selected recently.
 
-### Why this makes sense
+### 1.2 Shadow price corrected logits
 
-In queueing/control interpretations, $q_e$ (or a monotone transform of it) plays a dual role:
+Let $s_{t,e}$ be the pre-softmax router logits for token $t$. PriceMoE applies a shadow-price correction:
 
-- **Operational**: it predicts waiting time under high utilization.
-- **Economic**: it behaves like a Lagrange multiplier (shadow price) for limited service capacity.
+$$
+  ilde{s}_{t,e}(t)=s_{t,e}-\alpha\,q_e(t)
+$$
 
-So you can read $\alpha q_e$ as a *congestion surcharge*.
+and then routes by top-$k$ on $\tilde{s}$.
 
----
-
-## Minimal implementation in vLLM
-
-### Design goal
-
-I wanted a minimal patch that:
-
-- modifies **only** expert selection (routing) on the CPU side;
-- does **not** touch custom CUDA kernels;
-- is easy to A/B test against the baseline routing.
-
-### What I changed
-
-In `FusedMoE.select_experts()`, I injected a queue-length penalty term into the expert scoring.
-
-- Baseline (conceptually): pick top-$k$ experts by semantic score.
-- Modified: pick top-$k$ by `semantic_score - alpha * queue_penalty(expert)`.
-
-I used **queue length proxies from runtime bookkeeping** in the scheduler (token counts per expert / per step), rather than true GPU FIFO depth.
-
-> Note: this is intentionally "minimal". The point is feasibility and directional evidence, not the final best controller.
-
-### Why no kernel changes are needed
-
-The kernel only needs the final selected expert indices (top-$k$). If we change how indices are chosen *before* launching the kernel, the rest of the pipeline remains unchanged.
+- $\alpha=0$ recovers the baseline router.
+- Larger $\alpha$ spreads traffic more aggressively.
 
 ---
 
-## Experiment: Qwen2.5-MoE-72B on 8×A100
+## 2. Implementation in vLLM (MVP, kernel-free)
 
-### Setup
+### 2.1 Where to hook: `FusedMoE._select_experts()`
 
-- Model: **Qwen2.5-MoE-72B**
-- GPUs: **8×A100**
-- Compared policies:
-  1. Baseline vLLM routing
-  2. Shadow-price routing (queue-penalized selection)
+In vLLM, routing selection happens in:
 
-### Metrics
+- `external/vllm/vllm/model_executor/layers/fused_moe/layer.py`
+- method: `FusedMoE._select_experts(hidden_states, router_logits)`
 
-I recorded:
+The goal is to inject a per-expert bias *before* vLLM’s fused top-k path runs, keeping the performance-critical fused kernels intact.
 
-- **TTFT** (Time To First Token)
-- **TPOT** (Time Per Output Token)
+### 2.2 The core design: a thin router with two hooks
 
-These two numbers are a good first lens for MoE serving because:
+We implement a small `PriceMoERouter` with two inexpensive hooks:
 
-- TTFT is sensitive to prefill scheduling and early congestion.
-- TPOT reflects steady-state decode throughput and tail effects.
+- `get_expert_load_bias(device) -> Optional[Tensor(E,)]`
+  - Returns bias $b_e=-\alpha q_e$ as a float32 vector (shape `(E,)`).
+  - Returns `None` when $\alpha=0$ so the caller can skip any extra logic.
 
-### Results
+- `update_queue(topk_ids)`
+  - Updates the EMA virtual queue using selected expert IDs.
+  - Uses `scatter_add_` + in-place EMA to avoid expensive ops.
 
-I’m including a results table template below. Replace the numbers with your measured results (or I can fill them in if you paste your logs):
+### 2.3 What changes in `_select_experts()`
 
-| Policy | TTFT (p50) | TTFT (p95) | TPOT (p50) | TPOT (p95) | Notes |
-| --- | ---: | ---: | ---: | ---: | --- |
-| Baseline | TODO | TODO | TODO | TODO | vLLM default |
-| Shadow-price | TODO | TODO | TODO | TODO | $\alpha$ = TODO |
+Inside `_select_experts()`, when the router is enabled:
 
----
+- Read bias `b` from router.
+- If `b is not None`: apply `router_logits = router_logits + b.unsqueeze(0)`.
+- Call the existing fused top-k routine.
+- After routing, call `update_queue(topk_ids)`.
 
-## Practical notes: choosing $\alpha$ (penalty strength)
+This means:
 
-A tiny penalty does nothing; an overly large penalty can cause "over-avoidance" (hurting quality or creating oscillation).
+- **No CUDA kernel changes**.
+- When disabled, routing is identical to baseline (zero overhead path).
 
-In practice I recommend:
+### 2.4 Control knobs (env vars)
 
-1. Start with a small $\alpha$ that changes routing only rarely.
-2. Increase until you see measurable p95 improvements.
-3. Verify you don’t break output quality (at least spot-check).
+The MVP is gated by environment variables (safe for A/B testing):
 
----
-
-## Limitations (what this MVP does *not* solve)
-
-- True queue length is hard to observe precisely without deeper integration.
-- A static $\alpha$ is not necessarily optimal across workloads.
-- Token-to-expert affinity and communication topology costs are not modeled here.
-
-But for an MVP, the key question is:
-
-> Can a shadow-price idea be implemented *cheaply* in a production-grade engine, and does it move latency metrics in the right direction?
-
-For me, the answer is yes.
+- `VLLM_PRICE_MOE_ENABLED=1`
+- `VLLM_PRICE_MOE_ALPHA=<float>`
+- `VLLM_PRICE_MOE_EMA_DECAY=<float>`
 
 ---
 
-## Takeaways
+## 3. Evidence: alpha sweep & load-balance metrics
 
-- Queueing theory gives a clean mental model for MoE routing congestion.
-- Shadow prices offer a principled way to turn congestion into a routing penalty.
-- In vLLM, you can test this idea by modifying **CPU-side expert selection only**.
+### 3.1 Metrics
 
-If you want, I can follow up with:
+Two categories:
 
-- a cleaner patch organization (feature flag, config knobs, ablation hooks),
-- a reproducible benchmark script,
-- a deeper discussion of stability (drift arguments) vs. empirical results.
+### Routing distribution / load balance
+
+- `Imb` (expert imbalance): avg over layers of $(\max_e \text{load}_e)/(\text{mean}_e \text{load}_e)$ (lower is better)
+- `Gini`: inequality of expert loads (lower is better)
+- `EPimb` / `EPgini`: the same metrics aggregated per EP rank (GPU-level imbalance)
+
+### Throughput
+
+- `Req/s` and `Tok/s`
+
+### 3.2 Results snapshot (ShareGPT workload)
+
+Below is a snapshot from an alpha sweep on a ShareGPT-like workload (EMA decay = 0.9). Lower is better for imbalance metrics.
+
+| Run | Mode | Imb ↓ | Gini ↓ | EPimb ↓ | EPgini ↓ | Req/s | Tok/s |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| baseline | baseline | 3.832 | 0.0926 | 1.129 | 0.0520 | 5.22 | 2376.1 |
+| alpha=0.001 | price_moe | 3.692 | 0.0903 | 1.126 | 0.0510 | 4.93 | 2241.5 |
+| alpha=0.01 | price_moe | 2.955 | 0.0751 | 1.101 | 0.0412 | 4.98 | 2264.5 |
+| alpha=0.02 | price_moe | 2.559 | 0.0652 | 1.086 | 0.0353 | 4.91 | 2233.3 |
+| alpha=0.05 | price_moe | 1.975 | 0.0457 | 1.060 | 0.0243 | 4.99 | 2271.1 |
+| alpha=0.10 | price_moe | 1.614 | 0.0314 | 1.042 | 0.0166 | 5.01 | 2277.6 |
+
+### 3.3 Quality vs balance (example)
+
+Load balancing is only useful if we don’t destroy quality. In a Qwen3-30B setup, we tracked a simple proxy (PPL) alongside imbalance metrics across $\alpha$.
+
+| $\alpha$ | Imbalance ↓ | Gini ↓ | PPL | PPL Δ% |
+| ---: | ---: | ---: | ---: | ---: |
+| baseline | 4.89 | 0.120 | 8.62 | – |
+| 0.002 | 3.65 | 0.095 | 8.68 | +0.6% |
+| 0.005 | 2.81 | 0.075 | 8.91 | +3.3% |
+| 0.01 | 2.23 | 0.058 | 9.32 | +8.1% |
+| 0.05 | 1.37 | 0.022 | 12.71 | +47% |
+| 0.1 | 1.25 | 0.014 | 16.96 | +97% |
+
+Practical takeaway: there is typically a “sweet spot” at small $\alpha$.
+
+---
+
+## 4. What we learned
+
+1) **Shadow price is a strong signal:** even a simple EMA queue proxy can drastically reduce expert-level inequality.
+
+2) **GPU-level balance matters too:** EP-Gini improves significantly, but EP-imbalance may reduce only modestly depending on the topology and baseline placement.
+
+3) **Throughput isn’t guaranteed:** better balance does not automatically imply higher throughput. Bottlenecks can include dispatch/comm patterns and imperfect queue proxies.
+
+---
+
+## 5. Limitations & next steps
+
+- Current $q_e$ is EMA of routed counts, not measured queue time / execution time.
+- MVP doesn’t enforce a “quality loss ≤ ε” constraint.
+- Only the $\alpha q_e$ term is implemented (no topology/comm penalty yet).
+
+Next steps:
+
+1. Use runtime signals (per-expert time, comm time, critical-path proxies) to define $q_e$.
+2. Add quality-aware conservative gating (e.g., penalize within top-$m$ candidates).
+3. Explore per-layer / per-phase $\alpha$ and adaptive $\alpha(t)$.

@@ -11,8 +11,7 @@ redirect_from:
 
 ## Contact Information
 
-- **Email**: hwucn@connect.ust.hk
-- **Phone**: +86-13268672769
+- **Email**: [hwucn@connect.ust.hk](mailto:hwucn@connect.ust.hk)
 - **GitHub**: [https://github.com/KendrickWU](https://github.com/KendrickWU)
 - **Location**: Hong Kong
 
@@ -23,15 +22,18 @@ Distributed LLM/MoE inference systems; online stochastic control and queueing; t
 ## Education
 
 ### Hong Kong University of Science and Technology (HKUST)
+
 **Ph.D. in Industrial Engineering and Decision Analytics**  
 *Aug 2023 – Jun 2027 (expected)*
 
 ### Nanyang Technological University (NTU)
+
 **M.Eng. in Computer Control and Automation**  
 *Aug 2022 – Jun 2023*  
 GPA: 4.36/5.00
 
 ### Huazhong University of Science and Technology (HUST)
+
 **B.Eng. in Electrical Engineering and Automation**  
 *Sep 2018 – Jun 2022*  
 GPA: 3.81/4.00
@@ -39,32 +41,37 @@ GPA: 3.81/4.00
 ## Publications & Working Papers
 
 ### Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing
-*Submitted to Operations Research (with Sirui Wang, Jiheng Zhang)*
+
+Submitted to *Operations Research* (with Sirui Wang, Jiheng Zhang)
 
 - **Model**: Two demand classes sharing drivers; endogenous pickup times via Cobb–Douglas spatial matching; two-stage customer loss (pre-match abandonment and post-match cancellation)
 - **Theory**: Derived per-class Key Matching Indices (KMI) with decomposition into abandonment reduction, direct opportunity cost, and cross-market externality; optimal thresholds characterized by (ζ₁, ζ₂) = (1, 1)
 - **Algorithm**: Jacobian-based coordinated Newton controller; robust convergence from arbitrary initial thresholds in numerical experiments; quantify welfare–revenue divergence under congestion
 
 ### Airline Cargo Transport Recovery
-*Working Paper*
+
+Working Paper
 
 - Model disrupted cargo as a backlog-clearing problem with stochastic residual bellyhold capacities; allow direct vs. transfer routing with random transfer delay
 - Developed time-threshold segmentation policies that tradeoff waiting cost against transfer time; analyze static vs. dynamic decision gaps
 
 ### PriceMoE: Shadow-Price-Based Dynamic Routing for MoE Serving
-*Working Paper*
+
+Working Paper
 
 - Formulate MoE routing as network utility maximization with capacity constraints; use fluid limits for tractable analysis
 - Interpret queue lengths/dual variables as shadow prices; resulting top-k routing trades off semantic score vs. congestion price
 
 ### Fluid-Affinity: Locality-Aware Token Routing for Distributed MoE Inference via Online Stochastic Control
-*Working Paper*
+
+Working Paper
 
 - Online control for token routing across GPUs with transition (communication) costs; incorporate temporal locality via an affinity reward
 - Derive Lyapunov drift-plus-penalty controller with [O(1/V), O(V)] optimality gap vs. average queue length tradeoff
 
 ### Topology-aware MoE Routing via Two-stage Re-rank
-*Working Paper*
+
+Working Paper
 
 - Two-stage routing with a semantic candidate constraint (top-M) and topology-aware within-candidate re-ranking (communication cost + load guard)
 - Targets multi-node prefill-heavy regimes to reduce cross-node bytes and stabilize tail latency; connects to OR online control viewpoints
@@ -78,23 +85,27 @@ GPA: 3.81/4.00
 ## Research & Project Experience
 
 ### CARTIN Lab, NTU
+
 *Student Assistant — Shuttle bus data visualization system (Sentosa)*  
 *Dec 2022 – Apr 2023*
 
 - Built backend/database for real-time visualization of shuttle bus location and passenger boarding/alighting statistics
 
 ### IoT Distributed Home Monitoring & Security System
+
 *Team Lead*  
 *May 2020 – May 2021*
 
 - Designed end-to-end IoT architecture and implemented prototypes with microcontroller-based sensing, firmware, and hardware assembly
 
 ### Inverted Pendulum Research on Signal and Control Integrated Experiment
-*Sept 2020*
+
+Sept 2020
 
 - Completed one-order inverted pendulum control algorithm based on STM32, and further carried out the inverted pendulum heavy load research, which adopted PI control and had good robustness
 
 ### Intelligent Face Recognition and Face Changing System
+
 *Shinetech Software & HUST Summer Camp*  
 *Aug 2020 – Sept 2020*
 
@@ -102,7 +113,8 @@ GPA: 3.81/4.00
 
 ## Internship Experience
 
-### Guangdong Shangsheng New Energy Technology Co., Ltd.
+### Guangdong Shangsheng New Energy Technology Co., Ltd
+
 *Assistant to Electric Vehicle Charging Station Engineer*  
 *Jul 2020 – Aug 2020*
 

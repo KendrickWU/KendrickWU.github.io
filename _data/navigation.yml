@@ -12,5 +12,8 @@ main:
   - title: "Teaching"
     url: /teaching/
 
+  - title: "Technical Notes"
+    url: /technical-notes/
+
   - title: "Blog"
     url: /year-archive/
