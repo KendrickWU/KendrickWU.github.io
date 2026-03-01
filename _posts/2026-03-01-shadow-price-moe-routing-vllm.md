@@ -42,7 +42,7 @@ In vLLM there is no literal “token waiting queue per expert” exposed at the 
 Let $s_{t,e}$ be the pre-softmax router logits for token $t$. PriceMoE applies a shadow-price correction:
 
 $$
-  ilde{s}_{t,e}(t)=s_{t,e}-\alpha\,q_e(t)
+\\tilde{s}_{t,e}(t)=s_{t,e}-\\alpha\\,q_e(t)
 $$
 
 and then routes by top-$k$ on $\tilde{s}$.

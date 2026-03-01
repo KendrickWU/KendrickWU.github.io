@@ -13,7 +13,7 @@ This page collects a few technical notes and demos that I actively maintain.
 ## PriceMoE / MoE routing in vLLM
 
 - **Shadow Price in MoE Routing: From Queueing Theory to a Minimal vLLM Implementation** (2026-03-01)
-  - Public blog write-up: [Shadow Price in MoE Routing (blog)](/2026/03/01/shadow-price-moe-routing-vllm/)
+  - Public blog write-up: [Shadow Price in MoE Routing (blog)](/2026-03-01-shadow-price-moe-routing-vllm/)
   - Detailed implementation note and experiments: available upon request
 
 ## Quant interview note: Optimal execution in LOB (DP + threshold policy)
