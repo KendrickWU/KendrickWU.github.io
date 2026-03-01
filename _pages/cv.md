@@ -11,8 +11,9 @@ redirect_from:
 
 ## Contact Information
 
-- **Email**: wuhongfan0612@foxmail.com
+- **Email**: hwucn@connect.ust.hk
 - **Phone**: +86-13268672769
+- **GitHub**: [https://github.com/KendrickWU](https://github.com/KendrickWU)
 - **Location**: Hong Kong
 
 ## Research Interests
@@ -38,32 +39,32 @@ GPA: 3.81/4.00
 ## Publications & Working Papers
 
 ### Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing
-*submitted to Operations Research (with Sirui Wang, Jiheng Zhang)*
+*Submitted to Operations Research (with Sirui Wang, Jiheng Zhang)*
 
 - **Model**: Two demand classes sharing drivers; endogenous pickup times via Cobb–Douglas spatial matching; two-stage customer loss (pre-match abandonment and post-match cancellation)
 - **Theory**: Derived per-class Key Matching Indices (KMI) with decomposition into abandonment reduction, direct opportunity cost, and cross-market externality; optimal thresholds characterized by (ζ₁, ζ₂) = (1, 1)
 - **Algorithm**: Jacobian-based coordinated Newton controller; robust convergence from arbitrary initial thresholds in numerical experiments; quantify welfare–revenue divergence under congestion
 
 ### Airline Cargo Transport Recovery
-*working paper*
+*Working Paper*
 
 - Model disrupted cargo as a backlog-clearing problem with stochastic residual bellyhold capacities; allow direct vs. transfer routing with random transfer delay
 - Developed time-threshold segmentation policies that tradeoff waiting cost against transfer time; analyze static vs. dynamic decision gaps
 
 ### PriceMoE: Shadow-Price-Based Dynamic Routing for MoE Serving
-*working paper*
+*Working Paper*
 
 - Formulate MoE routing as network utility maximization with capacity constraints; use fluid limits for tractable analysis
 - Interpret queue lengths/dual variables as shadow prices; resulting top-k routing trades off semantic score vs. congestion price
 
 ### Fluid-Affinity: Locality-Aware Token Routing for Distributed MoE Inference via Online Stochastic Control
-*working paper*
+*Working Paper*
 
 - Online control for token routing across GPUs with transition (communication) costs; incorporate temporal locality via an affinity reward
 - Derive Lyapunov drift-plus-penalty controller with [O(1/V), O(V)] optimality gap vs. average queue length tradeoff
 
 ### Topology-aware MoE Routing via Two-stage Re-rank
-*paper-ready draft*
+*Working Paper (Idea Stage)*
 
 - Two-stage routing with a semantic candidate constraint (top-M) and topology-aware within-candidate re-ranking (communication cost + load guard)
 - Targets multi-node prefill-heavy regimes to reduce cross-node bytes and stabilize tail latency; connects to OR online control viewpoints
@@ -88,16 +89,36 @@ GPA: 3.81/4.00
 
 - Designed end-to-end IoT architecture and implemented prototypes with microcontroller-based sensing, firmware, and hardware assembly
 
+### Inverted Pendulum Research on Signal and Control Integrated Experiment
+*Sept 2020*
+
+- Completed one-order inverted pendulum control algorithm based on STM32, and further carried out the inverted pendulum heavy load research, which adopted PI control and had good robustness
+
+### Intelligent Face Recognition and Face Changing System
+*Shinetech Software & HUST Summer Camp*  
+*Aug 2020 – Sept 2020*
+
+- Responsible for the development of face recognition system and image cropping, which were based on a dilb database of Python
+
+## Internship Experience
+
+### Guangdong Shangsheng New Energy Technology Co., Ltd.
+*Assistant to Electric Vehicle Charging Station Engineer*  
+*Jul 2020 – Aug 2020*
+
+- Familiar with the knowledge of the electric vehicle charging station and participated in problem solving work
+- Tried to develop relevant APP projects to solve the problems of irregularity and dispersion in the current charging APP market, such as the project "The Flash" APP for New Energy Car Charging Service
+
 ## Technical Skills
 
 - **Modeling/OR**: Queueing networks, spatial matching, stochastic control, constrained optimization, fluid limits
 - **Programming**: Python, C/C++, MATLAB, SQL (MySQL)
-- **Systems/Tools**: ARM Keil, PSIM, COMSOL
+- **Systems/Tools**: ARM Keil, PSIM, COMSOL, AI designer
 
 ## Languages
 
 - **Chinese**: Native (PSC Grade 2A)
-- **English**: IELTS 7; CET-6 572
+- **English**: IELTS 7; CET-6 572; CET-4 598
 
 ## Honors & Awards
 
@@ -112,3 +133,6 @@ GPA: 3.81/4.00
 
 - Student assistantship and project delivery in applied mobility analytics (NTU CARTIN Lab)
 - Prior hardware/embedded prototyping experience (STM32/MCU-based control; IoT sensing)
+- Class Cadre in Charge of Finance Issues (Dec 2020 – present)
+- Class Cadre in Charge of Students' Daily Life Affairs (Aug 2018 – present)
+- Member of the Public Relations Department, HUST (Oct 2019 – Dec 2020)

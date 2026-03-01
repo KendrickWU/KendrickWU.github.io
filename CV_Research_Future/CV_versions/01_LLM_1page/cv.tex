@@ -1,0 +1,85 @@
+% !TEX program = xelatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1.25cm]{geometry}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tabularx}
+
+\setmainfont{Times New Roman}
+\setsansfont{Helvetica}
+
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue}
+
+\setlength{\parindent}{0pt}
+\setlist[itemize]{leftmargin=*, topsep=2pt, itemsep=1pt}
+% (titlesec spacing/format removed to avoid hidden-character parse issues)
+\definecolor{cvgray}{HTML}{444444}
+\newcommand{\cvsection}[1]{\vspace{2pt}\noindent\textbf{\large #1}\\[-2pt]\textcolor{cvgray}{\rule{\linewidth}{0.4pt}}\vspace{2pt}}
+
+
+\newcommand{\cvname}[1]{{\huge\textbf{#1}}}
+\newcommand{\cvsubheading}[2]{\textbf{#1} \hfill {#2}\\}
+\newcommand{\cvitem}[2]{\textbf{#1}\hfill \textcolor{cvgray}{#2}\\}
+\newcommand{\cvsmall}{\fontsize{10pt}{12pt}\selectfont}
+
+\begin{document}
+\cvsmall
+
+\begin{tabularx}{\linewidth}{@{}X r@{}}
+\cvname{Wu Hongfan} & \textcolor{cvgray}{LLM Systems / Research Intern CV}\\[-1pt]
+\href{mailto:wuhongfan0612@foxmail.com}{wuhongfan0612@foxmail.com} & +86-13268672769\\
+\end{tabularx}
+
+\vspace{6pt}
+
+\cvsection{Research Interests}
+LLM/MoE inference systems; distributed routing under GPU topology constraints; online stochastic control (Lyapunov/backpressure); queueing-driven scheduling.
+
+\cvsection{Education}
+\cvitem{Hong Kong University of Science and Technology (HKUST)}{Aug 2023 -- Jun 2027 (expected)}
+Ph.D. in Industrial Engineering and Decision Analytics
+
+\cvitem{Nanyang Technological University (NTU)}{Aug 2022 -- Jun 2023}
+M.Eng. in Computer Control and Automation \hfill GPA: 4.36/5.00
+
+\cvitem{Huazhong University of Science and Technology (HUST)}{Sep 2018 -- Jun 2022}
+B.Eng. in Electrical Engineering and Automation \hfill GPA: 3.81/4.00
+
+\cvsection{Research Highlights (LLM Systems)}
+\begin{itemize}
+  \item \textbf{Topology-aware MoE Routing via Two-stage Re-rank} (paper-ready draft). Targets multi-node \emph{prefill-heavy} regimes; constrain action space by keeping semantic top-$M$ unchanged, then re-rank within candidates using topology-aware communication cost + load guard to reduce cross-node bytes and tail latency.
+  \item \textbf{Fluid-Affinity: Locality-Aware Token Routing for Distributed MoE Inference} (working paper). Online stochastic control for token\,$\to$\,GPU routing with transition (communication) costs; derive drift-plus-penalty / backpressure policy with $[O(1/V),O(V)]$ cost--delay tradeoff; adds GPU-affinity reward to exploit temporal locality without destabilizing queues.
+  \item \textbf{PriceMoE: Shadow-Price-Based Dynamic Routing for MoE Serving} (working paper). Formulate MoE routing as network utility maximization; interpret queue length / dual variables as shadow prices; resulting top-$k$ rule trades off semantic score vs. congestion price for stable throughput.
+\end{itemize}
+
+\cvsection{Selected Publication (OR / Market Design)}
+\begin{itemize}
+  \item \textbf{Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing} (submitted), \emph{Operations Research} (with Sirui Wang, Jiheng Zhang). Two-class spatial matching with endogenous pickup times and two-stage customer loss; derive interpretable Key Matching Indices (KMI) with cross-market externality term and a Jacobian-based coordinated controller for optimal thresholds.
+\end{itemize}
+
+\cvsection{Research \& Engineering Experience}
+\cvitem{CARTIN Lab, NTU (Student Assistant)}{Dec 2022 -- Apr 2023}
+Student Assistant --- Shuttle bus data visualization (Sentosa)\\[-3pt]
+\begin{itemize}
+  \item Built backend/database for real-time visualization of shuttle bus location and passenger boarding/alighting statistics.
+\end{itemize}
+
+\cvitem{IoT Distributed Home Monitoring \& Security System (Team Lead)}{May 2020 -- May 2021}
+\begin{itemize}
+  \item Team lead; designed the IoT system architecture and implemented embedded prototypes (firmware + hardware assembly).
+\end{itemize}
+
+\cvsection{Skills}
+	extbf{Programming:} Python, C/C++, MATLAB, SQL (MySQL)\\
+	extbf{Modeling/OR:} queueing, fluid approximations, online control (Lyapunov/backpressure), constrained optimization\\
+	extbf{Systems/Tools:} COMSOL, ARM Keil, PSIM\\
+	extbf{Languages:} Chinese (native); English (IELTS 7; CET-6 572)
+
+\cvsection{Honors}
+Outstanding Graduate (HUST); ICM Honorable Mention; Innovation \/ Study Scholarships; Qiushi Cup Excellence Award (EV charging service app)
+
+\end{document}

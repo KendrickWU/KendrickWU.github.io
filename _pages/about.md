@@ -13,15 +13,15 @@ I am actively seeking **internship opportunities** in large language model compa
 
 ## 🔬 Research Interests
 
-- **Distributed LLM/MoE Inference Systems**: Efficient routing and load balancing for Mixture-of-Experts models across distributed GPUs
-- **Online Stochastic Control & Queueing**: Threshold policies, Lyapunov drift analysis, and fluid approximations
-- **Topology-aware Routing & Communication Optimization**: Reducing cross-node communication in distributed inference
-- **Spatial Matching & Marketplace Design**: Ride-hailing systems with heterogeneous demand and coordinated matching
+- **Distributed LLM/MoE Inference Systems**: Efficient routing and load balancing for Mixture-of-Experts models across distributed GPUs; shadow-price-based dynamic routing (PriceMoE); locality-aware token routing via online stochastic control (Fluid-Affinity); topology-aware routing for cross-node communication optimization
+- **Online Stochastic Control & Queueing**: Threshold policies, Lyapunov drift analysis, and fluid approximations; network utility maximization with capacity constraints
+- **Spatial Matching & Marketplace Design**: Ride-hailing systems with heterogeneous demand and coordinated matching; Key Matching Indices for two-demand-class systems
 
 ## 📧 Contact
 
-- **Email**: wuhongfan0612@foxmail.com
+- **Email**: hwucn@connect.ust.hk
 - **Phone**: +86-13268672769
+- **GitHub**: [https://github.com/KendrickWU](https://github.com/KendrickWU)
 - **Location**: Hong Kong
 
 ---
@@ -49,14 +49,14 @@ I am actively seeking **internship opportunities** in large language model compa
    - Developed time-threshold segmentation policies trading off waiting cost against transfer time
 
 3. **PriceMoE: Shadow-Price-Based Dynamic Routing for MoE Serving** (working paper)
-   - Formulate MoE routing as network utility maximization with capacity constraints
+   - Formulate MoE routing as network utility maximization with capacity constraints; use fluid limits for tractable analysis
    - Interpret queue lengths/dual variables as shadow prices for congestion-aware routing
 
 4. **Fluid-Affinity: Locality-Aware Token Routing for Distributed MoE Inference via Online Stochastic Control** (working paper)
-   - Online control for token routing across GPUs with transition costs
+   - Online control for token routing across GPUs with transition costs; incorporate temporal locality via affinity reward
    - Derived Lyapunov drift-plus-penalty controller with [O(1/V), O(V)] optimality gap
 
-5. **Topology-aware MoE Routing via Two-stage Re-rank** (paper-ready draft)
+5. **Topology-aware MoE Routing via Two-stage Re-rank** (working paper, idea stage)
    - Two-stage routing with semantic candidate constraint and topology-aware re-ranking
    - Targets multi-node prefill-heavy regimes to reduce cross-node bytes
 
@@ -66,7 +66,7 @@ I am actively seeking **internship opportunities** in large language model compa
 
 - **Modeling/OR**: Queueing networks, spatial matching, stochastic control, constrained optimization, fluid limits
 - **Programming**: Python, C/C++, MATLAB, SQL (MySQL)
-- **Systems/Tools**: ARM Keil, PSIM, COMSOL
+- **Systems/Tools**: ARM Keil, PSIM, COMSOL, AI designer
 
 ---
 
@@ -76,7 +76,7 @@ I am actively seeking **internship opportunities** in large language model compa
 - Innovation of Science and Technology Scholarship
 - Study Scholarship
 - Interdisciplinary Contest in Modeling (ICM): Honorable Mention (H Prize)
-- Excellence Award, Qiushi Cup Entrepreneurship Contest
+- Excellence Award, Qiushi Cup Entrepreneurship Contest ("The Flash" EV charging service app)
 - Outstanding Volunteer, Youth Reading Challenges (Forbes World Record, Asia & Pacific Area)
 
 ---
@@ -84,4 +84,4 @@ I am actively seeking **internship opportunities** in large language model compa
 ## 🌐 Languages
 
 - **Chinese**: Native (PSC Grade 2A)
-- **English**: IELTS 7; CET-6 572
+- **English**: IELTS 7; CET-6 572; CET-4 598

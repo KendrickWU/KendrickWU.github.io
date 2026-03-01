@@ -1,0 +1,155 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%  Unified Author Submission Template for INFORMS Journals
+%%  Based on official INFORMS templates (2024-2025)
+%%  Modified by Jiheng Zhang @ UST
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Journal options - uncomment ONE:
+%   mnsc - Management Science
+%   opre - Operations Research
+%   moor - Mathematics of Operations Research
+%   msom - Manufacturing & Service Operations Management
+%   isre - Information Systems Research
+%   mksc - Marketing Science
+%   orsc - Organization Science
+%   trsc - Transportation Science
+%   deca - Decision Analysis
+%   ijoc - INFORMS Journal on Computing
+%   stsy - Stochastic Systems
+%   serv - Service Science
+%
+% Review options:
+%   dblanonrev - Double Anonymous Review (blind)
+%   sglanonrev - Single Anonymous Review (non-blind)
+%
+\documentclass[opre,sglanonrev]{informs4}
+% \documentclass[mnsc,dblanonrev]{informs4}
+% \documentclass[moor,sglanonrev]{informs4}
+
+% Bibliography style (informs2014.bst required in same folder)
+\bibliographystyle{informs2014}
+% Additional packages and macros (supplements what informs4.cls provides)
+\input{preamble.tex}
+% TikZ and plotting (packages, libraries, and custom styles)
+\input{tikz/setting.tex}
+
+% Line spacing (default: 1.5 spacing with 11pt font)
+\OneAndAHalfSpacedXI
+%\OneAndAHalfSpacedXII  % 1.5 spacing with 12pt font
+%\DoubleSpacedXI        % Double spacing with 11pt font
+%\DoubleSpacedXII       % Double spacing with 12pt font
+
+% Equation numbering (uncomment one)
+\EquationsNumberedThrough    % Default: (1), (2), ...
+%\EquationsNumberedBySection % (1.1), (1.2), ...
+
+% Theorem numbering (uncomment one)
+\TheoremsNumberedThrough     % Preferred (Theorem 1, Lemma 1, Theorem 2)
+%\TheoremsNumberedByChapter  % (Theorem 1.1, Lemma 1.1, Theorem 1.2)
+\ECRepeatTheorems
+
+% For revisions, input manuscript number with suffix ".Rx"
+% \MANUSCRIPTNO{OPRE-0001-2024.00}
+
+%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%
+
+% Running heads (optional for submission)
+% \RUNAUTHOR{Zhang}
+% \RUNTITLE{Short Title}
+
+% =============================================================================
+% TITLE OPTIONS
+% =============================================================================
+% The paper's central construct is "Key Matching Indices (KMI)." The word
+% "coordinated" signals the cross-market coupling that distinguishes this
+% work from single-class models.
+%
+% OPTION A (Recommended): Original structure with correct terminology
+%   Pattern: [Topic]: [Adjective] [Construct] for [Application]
+%   Pros: Retains "coordinated" (signals coupling), uses the paper's actual
+%         terminology (KMI), clear domain. 12 words.
+%
+% OPTION B: Shorter variant without "Operations"
+%   Pattern: [Topic]: [Adjective] [Construct] for [Application]
+%   Pros: Same strengths as A, more concise (10 words).
+% =============================================================================
+
+% OPTION A (Recommended):
+\TITLE{Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing}
+
+% OPTION B:
+% \TITLE{Coordinated Key Matching Indices for Ride-Hailing with Heterogeneous Demand}
+
+
+\ARTICLEAUTHORS{%
+\AUTHOR{Hongfan WU, Sirui Wang, Jiheng Zhang}
+\AFF{Department of Industrial Engineering and Decision Analytics, Hong Kong University of Science and Technology\\
+\EMAIL{hwucn@connect.ust.hk};
+\EMAIL{siruiw@ust.hk};
+\EMAIL{jiheng@ust.hk}}
+% Enter all authors
+}
+
+\ABSTRACT{
+% =============================================================================
+% ABSTRACT STRUCTURE: 5-Move OR/OM Format (from Writing Guide)
+% =============================================================================
+% Move 1 [CONTEXT]: Problem setting and why it matters (1-2 sentences)
+% Move 2 [CHALLENGE]: What makes this hard (1-2 sentences)
+% Move 3 [APPROACH]: What we do methodologically (1-2 sentences)
+% Move 4 [RESULTS]: Key findings (2-3 sentences)
+% Move 5 [INSIGHT]: Managerial takeaway (1 sentence)
+% =============================================================================
+%
+% [Move 1 - CONTEXT]: Establishes the problem and its practical importance
+% Note: Heterogeneous classes share the same driver pool because (1) surge pricing differentiates
+% customers within the same service tier, or (2) different service tiers use overlapping driver pools.
+Ride-hailing platforms may serve heterogeneous demand classes, whether differentiated by service tier or dynamic pricing, from a shared pool of drivers.
+Waiting customers may abandon before being matched, and even after matching, lengthy pickups can lead to cancellation.
+% [Move 2 - CHALLENGE]: Identifies what makes this problem difficult
+The challenge is that matching decisions interact across classes: serving one class consumes idle drivers, degrading pickup efficiency for the other.
+This coupling means that the decision of when to match each class cannot be optimized independently.
+% [Move 3 - APPROACH]: States what this paper does methodologically (emphasize extension from single-class)
+% Note: Mention that the optimization applies to both welfare and revenue objectives.
+Building on spatial matching models for single-class systems, we extend the framework to heterogeneous demand and formulate a joint steady-state optimization problem.
+The formulation applies to either welfare or revenue maximization, where each class's matching threshold interacts with the other through the shared driver pool.
+% [Move 4 - RESULTS]: States the key theoretical and algorithmic findings
+% Note: KMI has different forms for welfare vs. revenue, but the unity condition holds for both.
+We derive Key Matching Indices (KMI), one for each class, whose form depends on whether the platform maximizes welfare or revenue.
+Each KMI decomposes into three interpretable terms: abandonment reduction, direct opportunity cost, and a cross-market term that captures how each class's threshold affects the other's service quality.
+Despite this difference, optimal thresholds are characterized by driving both indices to unity simultaneously.
+Based on this characterization, we propose a coordinated control algorithm that uses the Jacobian of the KMI map to adjust thresholds dynamically, with convergence from any initial state.
+% [Move 5 - INSIGHT]: Provides the key managerial takeaways
+The cross-market coupling term is essential: ignoring it leads to suboptimal coordination, while explicitly accounting for it enables the algorithm to outperform static priority rules and decoupled heuristics across a range of operating conditions.
+% [Move 6 - Numerical]: performance is good
+Numerical experiments reveal that the alignment between welfare and revenue objectives is load-dependent: under low load, both can be optimized simultaneously, but under congestion, revenue maximization requires disproportionate rationing of the lower-priority class.
+}%
+
+%\FUNDING{This research was supported by [grant number, funding agency].}
+
+\KEYWORDS{Ride-hailing operations; Spatial matching; Service differentiation; Fluid approximation; Abandonment; Threshold policies}
+
+
+
+%\HISTORY{Received: Month DD, YYYY; Accepted: Month DD, YYYY; Published Online: Month DD, YYYY}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{body.tex}
+
+\bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Electronic Companion (EC) starts here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ECSwitch
+\input{appendix}
+%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%

@@ -2,7 +2,6 @@
 title: "Fluid-Affinity: Locality-Aware Token Routing for Distributed MoE Inference via Online Stochastic Control"
 authors: ["Hongfan Wu"]
 venue: "Working Paper"
-date: 2025-01-01
 ---
 
 Online control for token routing across GPUs with transition (communication) costs; incorporate temporal locality via an affinity reward.

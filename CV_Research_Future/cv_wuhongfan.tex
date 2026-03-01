@@ -1,0 +1,113 @@
+% !TEX program = xelatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1.35cm]{geometry}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{setspace}
+
+% ---- Fonts (macOS-friendly) ----
+\setmainfont{Times New Roman}
+\setsansfont{Helvetica}
+
+% ---- Links ----
+\hypersetup{
+  colorlinks=true,
+  urlcolor=blue,
+  linkcolor=blue
+}
+
+% ---- Spacing ----
+\setlength{\parindent}{0pt}
+\setlist[itemize]{leftmargin=*, topsep=2pt, itemsep=1pt}
+\setlist[enumerate]{leftmargin=*, topsep=2pt, itemsep=1pt}
+\titlespacing*\section{0pt}{6pt}{4pt}
+\titleformat{\section}{\large\bfseries}{}{0pt}{}
+
+% ---- Simple macros ----
+\newcommand{\cvname}[1]{{\LARGE\textbf{#1}}}
+\newcommand{\cventry}[4]{% title, org, location/date, bullets
+  \textbf{#1} \hfill {#3}\\
+  {#2}\\[-4pt]
+  #4
+}
+\newcommand{\cvsubheading}[2]{\textbf{#1} \hfill {#2}\\}
+\newcommand{\cvsmall}{\fontsize{10.2pt}{12pt}\selectfont}
+
+\begin{document}
+\cvsmall
+
+% ===================== Header =====================
+\cvname{Wu Hongfan}\\[2pt]
+\href{mailto:wuhongfan0612@foxmail.com}{wuhongfan0612@foxmail.com} \;|\; +86-13268672769
+
+\vspace{6pt}
+
+% ===================== Research Focus =====================
+\section*{Research Interests}
+Distributed LLM/MoE inference systems; online stochastic control and queueing; topology-aware routing and communication optimization; operations research for ML systems; (quant) marketplace design and matching.
+
+% ===================== Education =====================
+\section*{Education}
+\cvsubheading{Hong Kong University of Science and Technology (HKUST)}{Aug 2023 -- Jun 2027 (expected)}
+Ph.D. in Industrial Engineering and Decision Analytics
+
+\cvsubheading{Nanyang Technological University (NTU)}{Aug 2022 -- Jun 2023}
+M.Eng. in Computer Control and Automation \hfill GPA: 4.36/5.00
+
+\cvsubheading{Huazhong University of Science and Technology (HUST)}{Sep 2018 -- Jun 2022}
+B.Eng. in Electrical Engineering and Automation \hfill GPA: 3.81/4.00
+
+% ===================== Publications & Working Papers =====================
+\section*{Publications \& Working Papers}
+\begin{itemize}
+  \item \textbf{Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing} (submitted), \emph{Operations Research}.\\
+  \emph{(with Sirui Wang, Jiheng Zhang)}. Developed a two-class spatial matching model with endogenous pickup times and two-stage customer loss (pre-match abandonment, post-match cancellation); derived \emph{Key Matching Indices (KMI)} for each class that decompose into (i) abandonment reduction, (ii) opportunity cost of consuming idle drivers, and (iii) cross-market externality term; characterized optimal thresholds by the coupled unity condition $(\zeta_1,\zeta_2)=(1,1)$ and designed a Jacobian-based coordinated Newton controller with global convergence in numerical experiments.
+
+  \item \textbf{Airline Cargo Transport Recovery} (working paper).\\
+  Stochastic modeling of bellyhold cargo recovery under flight disruptions: formulate backlog clearing with random residual capacities and direct-vs-transfer routing options; propose time-threshold segmentation policies to trade off waiting cost and transfer delay; (manuscript in progress).
+
+  \item \textbf{PriceMoE: Shadow-Price-Based Dynamic Routing for MoE Serving} (working paper). \\
+  \emph{Core idea:} formulate routing as network utility maximization with capacity constraints; interpret queue length / dual variables as shadow prices; derive a top-$k$ routing rule that trades off semantic score and congestion price.
+
+  \item \textbf{Fluid-Affinity: Locality-Aware Token Routing for Distributed MoE Inference via Online Stochastic Control} (working paper). \\
+  \emph{Core idea:} model cross-device routing as online constrained optimization with transition (communication) costs; derive a Lyapunov drift-plus-penalty control with $[O(1/V), O(V)]$ optimality-delay tradeoff; integrates ``GPU affinity'' reward with backpressure for stability.
+
+  \item \textbf{Topology-aware MoE Routing via Two-stage Re-rank} (paper-ready draft / working paper). \\
+  \emph{Core idea:} keep semantic candidate set (top-$M$) unchanged; re-rank within candidates with topology-aware communication cost and load guard; targets multi-node prefill-heavy regimes to reduce cross-node bytes and tail latency; connects to OR-style online control.
+\end{itemize}
+
+% ===================== Research Experience =====================
+\section*{Research \& Project Experience}
+\textbf{CARTIN Lab, NTU} \hfill Dec 2022 -- Apr 2023\\
+Student Assistant --- Shuttle bus data visualization system (Sentosa)\\[-2pt]
+\begin{itemize}
+  \item Built backend/database for real-time visualization of shuttle bus location and passenger boarding/alighting statistics.
+\end{itemize}
+
+\textbf{IoT Distributed Home Monitoring \& Security System} \hfill May 2020 -- May 2021\\[-2pt]
+\begin{itemize}
+  \item Team lead; designed end-to-end IoT architecture and implemented prototypes with microcontroller-based sensing, firmware, and hardware assembly.
+\end{itemize}
+
+% ===================== Skills =====================
+\section*{Skills}
+\textbf{Programming:} Python, C/C++, MATLAB, SQL (MySQL)\\
+\textbf{Systems/Tools:} ARM Keil, PSIM, COMSOL\\
+\textbf{Languages:} Chinese (native, PSC Grade 2A); English (IELTS 7; CET-6 572)
+
+% ===================== Honors =====================
+\section*{Honors \& Awards}
+\begin{itemize}
+  \item Outstanding Graduate, HUST
+  \item Innovation of Science and Technology Scholarship; Study Scholarship
+  \item Interdisciplinary Contest in Modeling (ICM): Honorable Mention (H Prize)
+  \item Excellence Award, \emph{Qiushi Cup} Entrepreneurship Contest ("The Flash" EV charging service app)
+  \item Outstanding Volunteer, Youth Reading Challenges (Forbes World Record, Asia \& Pacific Area)
+\end{itemize}
+
+\end{document}
