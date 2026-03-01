@@ -19,17 +19,17 @@ I am actively seeking **internship opportunities** in large language model compa
 
 ## 📧 Contact
 
-- **Email**: hwucn@connect.ust.hk
-- **Phone**: +86-13268672769
+- **Email**: [hwucn@connect.ust.hk](mailto:hwucn@connect.ust.hk)
 - **GitHub**: [https://github.com/KendrickWU](https://github.com/KendrickWU)
 - **Location**: Hong Kong
+
 
 ---
 
 ## 🎓 Education
 
 | Degree | Institution | Period | Details |
-|--------|-------------|--------|---------|
+| ------ | ----------- | ------ | ------- |
 | Ph.D. in Industrial Engineering and Decision Analytics | Hong Kong University of Science and Technology (HKUST) | Aug 2023 – Jun 2027 (expected) | |
 | M.Eng. in Computer Control and Automation | Nanyang Technological University (NTU) | Aug 2022 – Jun 2023 | GPA: 4.36/5.00 |
 | B.Eng. in Electrical Engineering and Automation | Huazhong University of Science and Technology (HUST) | Sep 2018 – Jun 2022 | GPA: 3.81/4.00 |
