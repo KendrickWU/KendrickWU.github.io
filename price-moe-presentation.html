@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceMoE | AI Traffic Control</title>
+    <style>
+        :root {
+            --bg: #f4efe7;
+            --paper: rgba(255, 250, 243, 0.84);
+            --paper-strong: rgba(255, 252, 247, 0.94);
+            --ink: #10181f;
+            --muted: #60707a;
+            --muted-strong: #8ea0aa;
+            --line: rgba(16, 24, 31, 0.1);
+            --accent: #ff7a45;
+            --accent-soft: #ffb07f;
+            --teal: #4fd1c5;
+            --teal-deep: #137a77;
+            --gold: #f3c04f;
+            --night: #071119;
+            --shadow: 0 28px 90px rgba(23, 19, 14, 0.18);
+            --radius-xl: 32px;
+            --radius-lg: 24px;
+            --progress: 0;
+            --max-width: 1220px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Avenir Next", "Segoe UI", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(255, 122, 69, 0.12), transparent 24%),
+                radial-gradient(circle at top right, rgba(79, 209, 197, 0.1), transparent 22%),
+                linear-gradient(180deg, #faf5ee 0%, #f5efe7 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(16, 24, 31, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 24, 31, 0.025) 1px, transparent 1px);
+            background-size: 36px 36px;
+            opacity: 0.7;
+            -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.4), transparent 82%);
+            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.4), transparent 82%);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            transform-origin: left center;
+        }
+
+        .scroll-progress::after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 100%;
+            transform-origin: left center;
+            transform: scaleX(var(--progress));
+            background: linear-gradient(90deg, var(--accent), var(--gold), var(--teal));
+        }
+
+        .site-shell {
+            width: min(var(--max-width), calc(100% - 48px));
+            margin: 0 auto;
+        }
+
+        .topbar {
+            position: fixed;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(calc(var(--max-width) - 40px), calc(100% - 28px));
+            z-index: 90;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: rgba(255, 251, 245, 0.68);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 18px 40px rgba(20, 16, 12, 0.08);
+            -webkit-backdrop-filter: blur(18px);
+            backdrop-filter: blur(18px);
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 0.92rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .brand strong {
+            color: var(--ink);
+        }
+
+        .nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            color: var(--muted);
+            transition: 0.25s ease;
+        }
+
+        .nav a:hover {
+            background: rgba(16, 24, 31, 0.06);
+            color: var(--ink);
+        }
+
+        section {
+            position: relative;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            align-items: center;
+            padding: 112px 0 60px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.85fr);
+            gap: 24px;
+            align-items: center;
+        }
+
+        .eyebrow,
+        .pill,
+        .metric-tag,
+        .floating-chip,
+        .signal-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 999px;
+        }
+
+        .eyebrow {
+            padding: 9px 14px;
+            background: rgba(16, 24, 31, 0.06);
+            color: var(--teal-deep);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.82rem;
+            margin-bottom: 20px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 6px rgba(255, 122, 69, 0.12);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: "Iowan Old Style", Georgia, serif;
+            letter-spacing: -0.03em;
+            line-height: 1.02;
+        }
+
+        h1 {
+            font-size: clamp(3.3rem, 8vw, 7rem);
+            margin-bottom: 18px;
+            max-width: 760px;
+        }
+
+        h2 {
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            margin-bottom: 12px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        h4 {
+            font-size: 1.02rem;
+            margin-bottom: 8px;
+        }
+
+        p,
+        li {
+            color: var(--muted);
+        }
+
+        .lede {
+            font-size: 1.12rem;
+            max-width: 760px;
+            margin-bottom: 22px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .pill {
+            padding: 11px 16px;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid var(--line);
+            color: var(--ink);
+            box-shadow: 0 12px 30px rgba(20, 16, 12, 0.06);
+        }
+
+        .hero-side {
+            min-height: 520px;
+            border-radius: var(--radius-xl);
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255, 122, 69, 0.22), transparent 24%),
+                radial-gradient(circle at 80% 18%, rgba(79, 209, 197, 0.2), transparent 22%),
+                linear-gradient(180deg, #fffaf4, #f5ecdf);
+            border: 1px solid rgba(255, 255, 255, 0.68);
+            box-shadow: var(--shadow);
+        }
+
+        .hero-side::before {
+            content: "";
+            position: absolute;
+            inset: 18px;
+            border-radius: 28px;
+            border: 1px solid rgba(16, 24, 31, 0.08);
+        }
+
+        .hero-orbit {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+        }
+
+        .ring,
+        .core,
+        .floating-chip {
+            position: absolute;
+            border-radius: 999px;
+        }
+
+        .ring {
+            border: 1px solid rgba(16, 24, 31, 0.08);
+        }
+
+        .ring.ring-a {
+            width: 70%;
+            height: 70%;
+            animation: drift 18s linear infinite;
+        }
+
+        .ring.ring-b {
+            width: 48%;
+            height: 48%;
+            animation: drift 14s linear infinite reverse;
+        }
+
+        .core {
+            width: 148px;
+            height: 148px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.3));
+            border: 1px solid rgba(16, 24, 31, 0.08);
+            box-shadow: 0 18px 40px rgba(32, 23, 12, 0.08);
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 18px;
+            color: var(--ink);
+            font-family: "Iowan Old Style", Georgia, serif;
+            font-size: 1.12rem;
+        }
+
+        .floating-chip {
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(16, 24, 31, 0.08);
+            color: var(--ink);
+            box-shadow: 0 10px 28px rgba(20, 16, 12, 0.06);
+            font-size: 0.9rem;
+        }
+
+        .chip-a { top: 18%; left: 14%; animation: float 6s ease-in-out infinite; }
+        .chip-b { top: 22%; right: 10%; animation: float 7s ease-in-out infinite 0.5s; }
+        .chip-c { bottom: 22%; left: 18%; animation: float 8s ease-in-out infinite 1s; }
+        .chip-d { bottom: 16%; right: 16%; animation: float 6.5s ease-in-out infinite 1.5s; }
+
+        .scroll-cue {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .scroll-cue::before {
+            content: "";
+            width: 14px;
+            height: 24px;
+            border-radius: 999px;
+            border: 1px solid rgba(16, 24, 31, 0.18);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+            background:
+                radial-gradient(circle at center 30%, rgba(16, 24, 31, 0.42) 2px, transparent 3px),
+                transparent;
+            animation: nudge 1.9s ease-in-out infinite;
+        }
+
+        .story,
+        .theory,
+        .results,
+        .takeaways,
+        .finale-section {
+            padding: 110px 0;
+        }
+
+        .story-header,
+        .section-header,
+        .finale {
+            width: min(920px, 100%);
+            margin-bottom: 32px;
+        }
+
+        .section-kicker {
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.82rem;
+            margin-bottom: 8px;
+        }
+
+        .story-grid,
+        .bento-grid,
+        .results-grid,
+        .takeaway-grid {
+            display: grid;
+            gap: 18px;
+        }
+
+        .story-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .story-card,
+        .bento-card,
+        .result-card,
+        .takeaway-card {
+            background: var(--paper);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: var(--shadow);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+        }
+
+        .story-card {
+            min-height: 220px;
+        }
+
+        .metric-tag {
+            padding: 7px 10px;
+            margin-bottom: 14px;
+            background: rgba(16, 24, 31, 0.06);
+            color: var(--teal-deep);
+            font-size: 0.8rem;
+        }
+
+        .traffic-lab {
+            background: radial-gradient(circle at top left, rgba(255, 122, 69, 0.12), transparent 26%), var(--night);
+            color: white;
+            min-height: 460vh;
+            margin: 30px 0 0;
+        }
+
+        .traffic-lab > .site-shell {
+            min-height: inherit;
+        }
+
+        .lab-sticky {
+            position: sticky;
+            top: 0;
+            min-height: 100vh;
+            display: grid;
+            align-items: center;
+            padding: 64px 0 34px;
+        }
+
+        .lab-layout {
+            display: grid;
+            grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .lab-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            position: relative;
+            z-index: 2;
+            min-height: 0;
+            max-height: calc(100vh - 110px);
+        }
+
+        .lab-title {
+            max-width: 460px;
+        }
+
+        .lab-title h2 {
+            font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+            line-height: 1.06;
+            margin-bottom: 8px;
+        }
+
+        .lab-title p {
+            font-size: 0.94rem;
+            line-height: 1.4;
+        }
+
+        .lab-title p,
+        .step-copy p,
+        .metric-board p,
+        .scene-caption p,
+        .expert-head small,
+        .queue-note,
+        .lab-status,
+        .result-card.dark p,
+        .result-card.dark .bar-label,
+        .result-card.dark .result-note,
+        .finale p {
+            color: var(--muted-strong);
+        }
+
+        .lab-status {
+            font-size: 0.94rem;
+            margin-top: 6px;
+        }
+
+        .steps {
+            display: grid;
+            gap: 9px;
+            margin-top: 10px;
+            grid-template-rows: repeat(5, minmax(0, 1fr));
+            min-height: 0;
+            flex: 1;
+        }
+
+        .step-copy {
+            padding: 10px 11px 10px 12px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            opacity: 0.42;
+            transform: translateX(0);
+            transition: 0.35s ease;
+            display: grid;
+            align-content: center;
+            gap: 3px;
+        }
+
+        .step-copy.active {
+            opacity: 1;
+            transform: translateX(8px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .step-index {
+            display: inline-flex;
+            width: 22px;
+            height: 22px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--gold);
+            margin-bottom: 2px;
+            font-size: 0.76rem;
+        }
+
+        .step-copy h4 {
+            font-size: 0.9rem;
+            line-height: 1.15;
+            margin-bottom: 0;
+        }
+
+        .step-copy p {
+            font-size: 0.79rem;
+            line-height: 1.25;
+            margin: 0;
+        }
+
+        .stage-ribbon {
+            margin-top: 12px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .ribbon-item {
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            padding: 10px 12px;
+        }
+
+        .ribbon-item strong {
+            display: block;
+            color: white;
+            font-size: 0.86rem;
+            margin-bottom: 2px;
+        }
+
+        .ribbon-item small {
+            color: var(--muted-strong);
+            font-size: 0.76rem;
+            line-height: 1.2;
+        }
+
+        .lab-scene {
+            min-height: 720px;
+            border-radius: 34px;
+            background:
+                radial-gradient(circle at 15% 10%, rgba(255, 122, 69, 0.14), transparent 20%),
+                radial-gradient(circle at 88% 12%, rgba(79, 209, 197, 0.14), transparent 22%),
+                linear-gradient(180deg, rgba(16, 31, 42, 0.98), rgba(10, 20, 29, 0.98));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+            padding: 34px;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .lab-scene::before {
+            content: "";
+            position: absolute;
+            inset: 18px;
+            border-radius: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            pointer-events: none;
+        }
+
+        .lab-scene::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease, background 0.4s ease;
+            background: radial-gradient(circle at 72% 42%, rgba(255, 122, 69, 0.18), transparent 45%);
+        }
+
+        .lab-scene.congested::after {
+            opacity: 1;
+        }
+
+        .lab-scene.recovering::after {
+            opacity: 1;
+            background: radial-gradient(circle at 72% 42%, rgba(79, 209, 197, 0.16), transparent 45%);
+        }
+
+        .metric-board {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .metric-card {
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .metric-card strong {
+            display: block;
+            font-size: 1.36rem;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .system-scene {
+            margin-top: 12px;
+            display: grid;
+            grid-template-columns: 180px minmax(0, 1fr);
+            gap: 20px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .token-stream,
+        .stage-canvas,
+        .router-box,
+        .experts-stack,
+        .scene-caption {
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .token-stream {
+            min-height: 420px;
+            padding: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .token-stream::before {
+            content: "Prompt tokens";
+            position: absolute;
+            top: 16px;
+            left: 18px;
+            color: white;
+            font-size: 0.92rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .token-cloud {
+            position: absolute;
+            inset: 58px 18px 18px;
+        }
+
+        .token-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            box-shadow: 0 0 12px rgba(255, 176, 127, 0.42);
+            animation: driftToken 7s linear infinite;
+        }
+
+        .token-dot.teal {
+            background: linear-gradient(135deg, var(--teal), #8bf4eb);
+            box-shadow: 0 0 12px rgba(79, 209, 197, 0.3);
+            animation-duration: 8.2s;
+        }
+
+        .t1 { top: 10%; left: 18%; }
+        .t2 { top: 18%; left: 44%; }
+        .t3 { top: 20%; left: 68%; }
+        .t4 { top: 30%; left: 22%; }
+        .t5 { top: 35%; left: 52%; }
+        .t6 { top: 44%; left: 16%; }
+        .t7 { top: 46%; left: 74%; }
+        .t8 { top: 54%; left: 38%; }
+        .t9 { top: 60%; left: 60%; }
+        .t10 { top: 70%; left: 24%; }
+        .t11 { top: 76%; left: 48%; }
+        .t12 { top: 82%; left: 70%; }
+
+        .stage-canvas {
+            min-height: 460px;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .route-map {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .route-group {
+            transition: opacity 0.35s ease;
+        }
+
+        .route-path {
+            fill: none;
+            stroke: rgba(79, 209, 197, 0.28);
+            stroke-width: 4;
+            stroke-linecap: round;
+            transition: stroke 0.35s ease, stroke-width 0.35s ease, opacity 0.35s ease;
+        }
+
+        .route-glow {
+            fill: none;
+            stroke: rgba(79, 209, 197, 0.12);
+            stroke-width: 10;
+            stroke-linecap: round;
+            filter: blur(4px);
+            transition: stroke 0.35s ease, opacity 0.35s ease;
+        }
+
+        .route-pulse {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.72);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-dasharray: 18 180;
+            animation: dashFlow 2.3s linear infinite;
+            opacity: 0.88;
+            transition: stroke-dasharray 0.35s ease, opacity 0.35s ease;
+        }
+
+        .router-box {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            width: 130px;
+            min-height: 170px;
+            transform: translateY(-50%);
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .router-core {
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.82), rgba(79, 209, 197, 0.18));
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            display: grid;
+            place-items: center;
+            color: white;
+            text-align: center;
+            font-family: "Iowan Old Style", Georgia, serif;
+            font-size: 0.96rem;
+            box-shadow: 0 0 40px rgba(79, 209, 197, 0.12);
+        }
+
+        .router-glow {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .experts-stack {
+            position: absolute;
+            top: 18px;
+            left: 164px;
+            right: 18px;
+            bottom: 18px;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            overflow: visible;
+            align-items: stretch;
+            z-index: 1;
+        }
+
+        .expert-card {
+            padding: 14px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: grid;
+            align-content: start;
+            gap: 12px;
+            position: relative;
+            overflow: visible;
+            transition: 0.4s ease;
+            z-index: 1;
+            min-width: 0;
+        }
+
+        .expert-card.hotspot {
+            border-color: rgba(255, 122, 69, 0.4);
+            box-shadow: 0 0 0 1px rgba(255, 122, 69, 0.16), inset 0 0 60px rgba(255, 122, 69, 0.08);
+        }
+
+        .expert-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: baseline;
+        }
+
+        .expert-head strong {
+            color: white;
+            font-size: 1rem;
+        }
+
+        .queue-shell {
+            height: 88px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .queue-grid {
+            position: absolute;
+            inset: 10px;
+            display: grid;
+            grid-template-rows: repeat(10, 1fr);
+            gap: 6px;
+            pointer-events: none;
+            opacity: 0.16;
+        }
+
+        .queue-grid span {
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        .queue-fill {
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            height: 30%;
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(255, 176, 127, 0.9), rgba(255, 122, 69, 0.38));
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.08);
+            transition: height 0.55s ease, background 0.4s ease;
+        }
+
+        .expert-b .queue-fill,
+        .expert-c .queue-fill {
+            background: linear-gradient(180deg, rgba(139, 244, 235, 0.82), rgba(79, 209, 197, 0.3));
+        }
+
+        .queue-label {
+            position: absolute;
+            right: 16px;
+            bottom: 16px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        }
+
+        .queue-note {
+            font-size: 0.84rem;
+            min-height: 26px;
+            line-height: 1.45;
+        }
+
+        .scene-caption {
+            margin-top: 24px;
+            padding: 22px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .scene-caption strong {
+            color: white;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1.05rem;
+        }
+
+        .bento-grid {
+            grid-template-columns: 1.3fr 0.9fr 0.9fr;
+            grid-template-areas:
+                "formula meaning engineering"
+                "formula interpretation interpretation";
+        }
+
+        .bento-formula { grid-area: formula; }
+        .bento-meaning { grid-area: meaning; }
+        .bento-engineering { grid-area: engineering; }
+        .bento-interpretation { grid-area: interpretation; }
+
+        .bento-card.large {
+            min-height: 360px;
+            display: grid;
+            align-content: space-between;
+        }
+
+        .formula-box {
+            margin-top: 20px;
+            padding: 26px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(255, 122, 69, 0.08), rgba(79, 209, 197, 0.08));
+            border: 1px solid rgba(16, 24, 31, 0.08);
+        }
+
+        .math {
+            font-family: "SF Mono", "JetBrains Mono", monospace;
+            font-size: clamp(1rem, 2vw, 1.45rem);
+            color: var(--accent);
+            line-height: 1.7;
+        }
+
+        .signal-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .signal-chip {
+            padding: 8px 12px;
+            background: rgba(16, 24, 31, 0.06);
+            border: 1px solid var(--line);
+            color: var(--ink);
+            font-size: 0.88rem;
+        }
+
+        .results-grid {
+            grid-template-columns: 1.15fr 0.85fr;
+        }
+
+        .result-card.dark {
+            background: linear-gradient(180deg, #0c1822, #0a141d);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+        .before-after {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .compare-panel {
+            border-radius: 22px;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .compare-panel strong {
+            display: block;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .bar-stack {
+            display: grid;
+            gap: 14px;
+        }
+
+        .bar-item {
+            display: grid;
+            gap: 6px;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 0.92rem;
+        }
+
+        .bar-track {
+            height: 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+        }
+
+        .bar-fill.teal {
+            background: linear-gradient(90deg, var(--teal-deep), var(--teal));
+        }
+
+        .bar-fill.gold {
+            background: linear-gradient(90deg, #c49218, var(--gold));
+        }
+
+        .w-96 { width: 96%; }
+        .w-86 { width: 86%; }
+        .w-78 { width: 78%; }
+        .w-41 { width: 41%; }
+        .w-34 { width: 34%; }
+        .w-18 { width: 18%; }
+
+        .mini-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .mini-metric {
+            padding: 18px;
+            border-radius: 20px;
+            background: rgba(16, 24, 31, 0.04);
+            border: 1px solid rgba(16, 24, 31, 0.08);
+        }
+
+        .mini-metric strong {
+            display: block;
+            font-size: 1.38rem;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .results-summary {
+            margin-top: 18px;
+        }
+
+        .takeaway-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .takeaway-card {
+            min-height: 220px;
+        }
+
+        .takeaway-card strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.12rem;
+            color: var(--ink);
+        }
+
+        .finale-section {
+            background: radial-gradient(circle at 20% 20%, rgba(255, 122, 69, 0.16), transparent 22%), #071119;
+        }
+
+        .finale {
+            min-height: 72vh;
+            display: grid;
+            align-content: center;
+            color: white;
+        }
+
+        .finale h2 {
+            max-width: 880px;
+            margin-bottom: 18px;
+        }
+
+        .finale .signal-row {
+            margin-top: 24px;
+        }
+
+        .finale .signal-chip {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+        .footer-note {
+            padding-top: 18px;
+            font-size: 0.9rem;
+            color: var(--muted-strong);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(34px) scale(0.98);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .delay-1 { transition-delay: 0.08s; }
+        .delay-2 { transition-delay: 0.16s; }
+        .delay-3 { transition-delay: 0.24s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+
+        @keyframes drift {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.96); opacity: 0.55; }
+            50% { transform: scale(1.04); opacity: 0.9; }
+        }
+
+        @keyframes nudge {
+            0%, 100% { background-position: center 30%, center center; }
+            50% { background-position: center 58%, center center; }
+        }
+
+        @keyframes driftToken {
+            from { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-16px) translateX(4px); }
+            to { transform: translateY(0) translateX(0); }
+        }
+
+        @keyframes runLine {
+            from { left: -20%; }
+            to { left: 120%; }
+        }
+
+        @keyframes dashFlow {
+            from { stroke-dashoffset: 220; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        @media (max-width: 1080px) {
+            .hero-grid,
+            .lab-layout,
+            .results-grid,
+            .story-grid,
+            .takeaway-grid,
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bento-grid {
+                grid-template-areas:
+                    "formula"
+                    "meaning"
+                    "engineering"
+                    "interpretation";
+            }
+
+            .system-scene,
+            .metric-board,
+            .stage-ribbon,
+            .mini-metrics,
+            .before-after {
+                grid-template-columns: 1fr;
+            }
+
+            .stage-canvas {
+                min-height: 920px;
+            }
+
+            .lab-copy {
+                min-height: 0;
+            }
+
+            .router-box {
+                position: relative;
+                left: auto;
+                top: auto;
+                transform: none;
+                width: calc(100% - 36px);
+                min-height: 180px;
+                margin: 18px 18px 0;
+            }
+
+            .experts-stack {
+                position: relative;
+                top: auto;
+                left: auto;
+                right: auto;
+                bottom: auto;
+                margin: 18px;
+                grid-template-columns: 1fr;
+                grid-template-rows: none;
+            }
+
+            .steps {
+                grid-template-rows: none;
+            }
+
+            .route-map {
+                display: none;
+            }
+
+            .lab-scene {
+                min-height: 0;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .site-shell {
+                width: min(var(--max-width), calc(100% - 18px));
+            }
+
+            .topbar {
+                width: calc(100% - 18px);
+                top: 8px;
+                padding: 10px 12px;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 94px;
+            }
+
+            .story-card,
+            .bento-card,
+            .result-card,
+            .takeaway-card,
+            .lab-scene {
+                padding: 22px;
+            }
+
+            h1 {
+                font-size: 3.1rem;
+            }
+
+            h2 {
+                font-size: 2.2rem;
+            }
+
+            .traffic-lab {
+                min-height: 520vh;
+            }
+
+            .step-copy.active {
+                transform: translateX(0);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" aria-hidden="true"></div>
+
+    <header class="topbar">
+        <div class="brand"><strong>PriceMoE</strong> | AI traffic control for mixed audiences</div>
+        <nav class="nav">
+            <a href="#story">Why it matters</a>
+            <a href="#traffic-lab">Watch the hotspot</a>
+            <a href="#theory">How it works</a>
+            <a href="#results">Results</a>
+            <a href="#finale">Punchline</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="site-shell hero-grid">
+            <div class="reveal is-visible">
+                <div class="eyebrow">Research Topic for Class Presentation</div>
+                <h1>AI can get stuck in its own traffic.</h1>
+                <p class="lede">My topic is PriceMoE: a simple queue-aware routing idea for Mixture-of-Experts systems. The big point is easy to remember: stronger AI is not only about bigger models. It is also about smarter internal traffic control.</p>
+                <div class="hero-actions">
+                    <span class="pill">Topic: How Queueing Theory Can Make AI Faster</span>
+                    <span class="pill">Field: AI Systems + Operations Research</span>
+                    <span class="pill">Audience: no technical background needed</span>
+                </div>
+                <div class="scroll-cue">Scroll to watch a hotspot form inside the model</div>
+            </div>
+
+            <div class="hero-side reveal delay-1">
+                <div class="hero-orbit">
+                    <div class="ring ring-a"></div>
+                    <div class="ring ring-b"></div>
+                    <div class="core">PriceMoE<br>keeps AI flow moving</div>
+                    <div class="floating-chip chip-a">Queueing theory</div>
+                    <div class="floating-chip chip-b">MoE routing</div>
+                    <div class="floating-chip chip-c">Less congestion</div>
+                    <div class="floating-chip chip-d">Small systems change</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="story" id="story">
+        <div class="site-shell">
+            <div class="story-header reveal">
+                <div class="section-kicker">Why This Topic Works</div>
+                <h2>One problem. One idea. One memorable takeaway.</h2>
+                <p>This page focuses on the part of the research that classmates can understand fastest: why one overloaded expert can slow down a whole AI system, and how a queue-based price helps prevent that.</p>
+            </div>
+
+            <div class="story-grid">
+                <article class="story-card reveal delay-1">
+                    <span class="metric-tag">1. Everyday analogy</span>
+                    <h3>Think of three supermarket lines.</h3>
+                    <p>If most people choose the same line, the entire store feels slower. The same thing can happen inside an AI model when too many tokens choose the same expert.</p>
+                </article>
+                <article class="story-card reveal delay-2">
+                    <span class="metric-tag">2. Real systems issue</span>
+                    <h3>The bottleneck is often internal.</h3>
+                    <p>Even with strong hardware, inference can slow down when one expert becomes the critical path and the rest of the system waits for it to finish.</p>
+                </article>
+                <article class="story-card reveal delay-3">
+                    <span class="metric-tag">3. Persuasive message</span>
+                    <h3>Math can act like traffic control.</h3>
+                    <p>Instead of blindly sending more tokens to a crowded expert, PriceMoE adds a congestion signal and gently spreads the load.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="traffic-lab" id="traffic-lab" aria-label="PriceMoE hotspot visualization">
+        <div class="site-shell">
+            <div class="lab-sticky">
+                <div class="lab-layout">
+                    <div class="lab-copy reveal is-visible">
+                        <div class="section-kicker">Interactive Visual Story</div>
+                        <div class="lab-title">
+                            <h2>Hotspot experts slow everything down.</h2>
+                            <p>This is the key visual for the presentation. As you scroll, the system moves from normal routing to congestion, then to queue-aware recovery with PriceMoE.</p>
+                            <div class="lab-status" id="lab-status">Stage 1 of 5: the model starts in a mostly balanced state.</div>
+                        </div>
+
+                        <div class="steps">
+                            <article class="step-copy active">
+                                <div class="step-index">1</div>
+                                <h4>Normal routing</h4>
+                                <p>Tokens are spread fairly across experts.</p>
+                            </article>
+                            <article class="step-copy">
+                                <div class="step-index">2</div>
+                                <h4>A hotspot begins</h4>
+                                <p>One expert starts receiving too much traffic.</p>
+                            </article>
+                            <article class="step-copy">
+                                <div class="step-index">3</div>
+                                <h4>The whole batch waits</h4>
+                                <p>The overloaded expert becomes the critical path.</p>
+                            </article>
+                            <article class="step-copy">
+                                <div class="step-index">4</div>
+                                <h4>PriceMoE reacts</h4>
+                                <p>Queue price pushes traffic to less busy experts.</p>
+                            </article>
+                            <article class="step-copy">
+                                <div class="step-index">5</div>
+                                <h4>Flow becomes smoother</h4>
+                                <p>Routing keeps semantic fit while avoiding congestion.</p>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="lab-scene reveal delay-1" data-step="0">
+                        <div class="metric-board">
+                            <article class="metric-card">
+                                <strong id="metric-latency">1.0x</strong>
+                                <p>Batch latency</p>
+                            </article>
+                            <article class="metric-card">
+                                <strong id="metric-throughput">100%</strong>
+                                <p>Effective throughput</p>
+                            </article>
+                            <article class="metric-card">
+                                <strong id="metric-idle">Low</strong>
+                                <p>Idle capacity</p>
+                            </article>
+                            <article class="metric-card">
+                                <strong id="metric-hotspot">None</strong>
+                                <p>Current hotspot</p>
+                            </article>
+                        </div>
+
+                        <div class="stage-ribbon">
+                            <div class="ribbon-item">
+                                <strong>Semantic Fit</strong>
+                                <small>Keep good expert matching.</small>
+                            </div>
+                            <div class="ribbon-item">
+                                <strong>Queue Signal</strong>
+                                <small>Detect live congestion pressure.</small>
+                            </div>
+                            <div class="ribbon-item">
+                                <strong>Final Route</strong>
+                                <small>Choose fit and flow together.</small>
+                            </div>
+                        </div>
+
+                        <div class="system-scene">
+                            <div class="token-stream">
+                                <div class="token-cloud">
+                                    <span class="token-dot t1"></span>
+                                    <span class="token-dot teal t2"></span>
+                                    <span class="token-dot t3"></span>
+                                    <span class="token-dot teal t4"></span>
+                                    <span class="token-dot t5"></span>
+                                    <span class="token-dot t6"></span>
+                                    <span class="token-dot teal t7"></span>
+                                    <span class="token-dot t8"></span>
+                                    <span class="token-dot teal t9"></span>
+                                    <span class="token-dot t10"></span>
+                                    <span class="token-dot teal t11"></span>
+                                    <span class="token-dot t12"></span>
+                                </div>
+                            </div>
+
+                            <div class="stage-canvas">
+                                <svg class="route-map" viewBox="0 0 900 420" preserveAspectRatio="none" aria-hidden="true">
+                                    <g class="route-group" id="route-group-a">
+                                        <path class="route-glow" id="route-glow-a" d="M 190 210 C 290 165, 370 110, 470 84"></path>
+                                        <path class="route-path" id="route-a" d="M 190 210 C 290 165, 370 110, 470 84"></path>
+                                        <path class="route-pulse" d="M 190 210 C 290 165, 370 110, 470 84"></path>
+                                    </g>
+                                    <g class="route-group" id="route-group-b">
+                                        <path class="route-glow" id="route-glow-b" d="M 190 210 C 300 210, 375 210, 470 210"></path>
+                                        <path class="route-path" id="route-b" d="M 190 210 C 300 210, 375 210, 470 210"></path>
+                                        <path class="route-pulse" d="M 190 210 C 300 210, 375 210, 470 210"></path>
+                                    </g>
+                                    <g class="route-group" id="route-group-c">
+                                        <path class="route-glow" id="route-glow-c" d="M 190 210 C 290 255, 370 310, 470 336"></path>
+                                        <path class="route-path" id="route-c" d="M 190 210 C 290 255, 370 310, 470 336"></path>
+                                        <path class="route-pulse" d="M 190 210 C 290 255, 370 310, 470 336"></path>
+                                    </g>
+                                </svg>
+
+                                <div class="router-box">
+                                    <div class="router-glow"></div>
+                                    <div class="router-core">Router</div>
+                                </div>
+
+                                <div class="experts-stack">
+                                    <article class="expert-card expert-a" id="expert-a">
+                                        <div class="expert-head">
+                                            <strong>Expert A</strong>
+                                            <small id="share-a">32%</small>
+                                        </div>
+                                        <div class="queue-shell">
+                                            <div class="queue-grid">
+                                                <span></span><span></span><span></span><span></span><span></span>
+                                                <span></span><span></span><span></span><span></span><span></span>
+                                            </div>
+                                            <div class="queue-fill" id="fill-a"></div>
+                                            <div class="queue-label" id="queue-a">32</div>
+                                        </div>
+                                        <div class="queue-note" id="note-a">Healthy queue length.</div>
+                                    </article>
+
+                                    <article class="expert-card expert-b" id="expert-b">
+                                        <div class="expert-head">
+                                            <strong>Expert B</strong>
+                                            <small id="share-b">28%</small>
+                                        </div>
+                                        <div class="queue-shell">
+                                            <div class="queue-grid">
+                                                <span></span><span></span><span></span><span></span><span></span>
+                                                <span></span><span></span><span></span><span></span><span></span>
+                                            </div>
+                                            <div class="queue-fill" id="fill-b"></div>
+                                            <div class="queue-label" id="queue-b">28</div>
+                                        </div>
+                                        <div class="queue-note" id="note-b">Good utilization.</div>
+                                    </article>
+
+                                    <article class="expert-card expert-c" id="expert-c">
+                                        <div class="expert-head">
+                                            <strong>Expert C</strong>
+                                            <small id="share-c">24%</small>
+                                        </div>
+                                        <div class="queue-shell">
+                                            <div class="queue-grid">
+                                                <span></span><span></span><span></span><span></span><span></span>
+                                                <span></span><span></span><span></span><span></span><span></span>
+                                            </div>
+                                            <div class="queue-fill" id="fill-c"></div>
+                                            <div class="queue-label" id="queue-c">24</div>
+                                        </div>
+                                        <div class="queue-note" id="note-c">Good utilization.</div>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="scene-caption">
+                            <strong id="scene-title">Balanced routing keeps the system calm.</strong>
+                            <p id="scene-copy">At the start, all three experts receive work. No one expert dominates the critical path.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="theory" id="theory">
+        <div class="site-shell">
+            <div class="section-header reveal">
+                <div class="section-kicker">How PriceMoE Works</div>
+                <h2>A simple rule changes the router's behavior.</h2>
+                <p>The router still cares about meaning, but it also sees congestion. That makes the decision more system-aware without turning it into a black box.</p>
+            </div>
+
+            <div class="bento-grid">
+                <article class="bento-card large bento-formula reveal">
+                    <div>
+                        <span class="metric-tag">Core decision rule</span>
+                        <h3>Good meaning score minus congestion price.</h3>
+                        <p>This is the audience-friendly version of the idea. A busy expert becomes slightly less attractive, so traffic starts to spread.</p>
+                    </div>
+                    <div class="formula-box">
+                        <div class="math">new score = semantic score - alpha x queue length</div>
+                        <div class="signal-row">
+                            <span class="signal-chip">semantic fit still matters</span>
+                            <span class="signal-chip">queue is a congestion signal</span>
+                            <span class="signal-chip">alpha controls strength</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bento-card bento-meaning reveal delay-1">
+                    <span class="metric-tag">What it does not do</span>
+                    <h3>It does not ignore model quality.</h3>
+                    <p>PriceMoE does not route tokens randomly. It still uses semantic information. It only discourages sending more traffic into a visible jam.</p>
+                </article>
+
+                <article class="bento-card bento-engineering reveal delay-2">
+                    <span class="metric-tag">Engineering angle</span>
+                    <h3>Small change, real system impact.</h3>
+                    <p>The implementation can stay relatively lightweight. That matters because useful systems ideas should not require rebuilding everything from scratch.</p>
+                </article>
+
+                <article class="bento-card bento-interpretation reveal delay-3">
+                    <span class="metric-tag">Why the math matters</span>
+                    <h3>The queue is interpretable.</h3>
+                    <p>The queue is not an arbitrary feature. It has a clear meaning: it represents congestion pressure. That is why this story is persuasive. The control signal is understandable, explainable, and actionable.</p>
+                    <div class="signal-row">
+                        <span class="signal-chip">not random tuning</span>
+                        <span class="signal-chip">not equal splitting</span>
+                        <span class="signal-chip">traffic-aware routing</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="results" id="results">
+        <div class="site-shell">
+            <div class="section-header reveal">
+                <div class="section-kicker">Results</div>
+                <h2>The gain is not magic speed. The gain is better balance.</h2>
+                <p>That is the right way to explain the outcome to a non-specialist audience. PriceMoE makes the system less uneven, which reduces harmful internal bottlenecks.</p>
+            </div>
+
+            <div class="results-grid">
+                <article class="result-card dark reveal">
+                    <span class="metric-tag">Before vs after</span>
+                    <h3>What the audience should notice immediately</h3>
+                    <p class="result-note">The hotspot shrinks. The work spreads out. The system sacrifices little, but gains much better balance.</p>
+                    <div class="before-after">
+                        <div class="compare-panel">
+                            <strong>Before PriceMoE</strong>
+                            <div class="bar-stack">
+                                <div class="bar-item">
+                                    <div class="bar-label"><span>Expert imbalance</span><span>3.832</span></div>
+                                    <div class="bar-track"><div class="bar-fill w-96"></div></div>
+                                </div>
+                                <div class="bar-item">
+                                    <div class="bar-label"><span>Gini</span><span>0.0926</span></div>
+                                    <div class="bar-track"><div class="bar-fill gold w-78"></div></div>
+                                </div>
+                                <div class="bar-item">
+                                    <div class="bar-label"><span>Hotspot pressure</span><span>High</span></div>
+                                    <div class="bar-track"><div class="bar-fill w-86"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="compare-panel">
+                            <strong>With PriceMoE</strong>
+                            <div class="bar-stack">
+                                <div class="bar-item">
+                                    <div class="bar-label"><span>Expert imbalance</span><span>1.614</span></div>
+                                    <div class="bar-track"><div class="bar-fill teal w-41"></div></div>
+                                </div>
+                                <div class="bar-item">
+                                    <div class="bar-label"><span>Gini</span><span>0.0314</span></div>
+                                    <div class="bar-track"><div class="bar-fill teal w-34"></div></div>
+                                </div>
+                                <div class="bar-item">
+                                    <div class="bar-label"><span>Throughput change</span><span>-4.1%</span></div>
+                                    <div class="bar-track"><div class="bar-fill teal w-18"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="result-card reveal delay-1">
+                    <span class="metric-tag">Punchline metrics</span>
+                    <h3>Three numbers to say out loud</h3>
+                    <div class="mini-metrics">
+                        <div class="mini-metric">
+                            <strong>-57.9%</strong>
+                            <p>Imbalance drops sharply.</p>
+                        </div>
+                        <div class="mini-metric">
+                            <strong>0.0314</strong>
+                            <p>Gini becomes much smaller.</p>
+                        </div>
+                        <div class="mini-metric">
+                            <strong>-4.1%</strong>
+                            <p>Throughput changes only a little.</p>
+                        </div>
+                    </div>
+                    <p class="results-summary">For a classroom audience, this is the clean message: PriceMoE does not claim a miracle. It claims a smarter trade-off between semantic routing and congestion control.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="takeaways">
+        <div class="site-shell">
+            <div class="section-header reveal">
+                <div class="section-kicker">Key Takeaways</div>
+                <h2>What to remember after the presentation</h2>
+            </div>
+
+            <div class="takeaway-grid">
+                <article class="takeaway-card reveal delay-1">
+                    <strong>AI can have internal traffic jams.</strong>
+                    <p>Even if the model is powerful, one overloaded expert can slow down the full inference path.</p>
+                </article>
+                <article class="takeaway-card reveal delay-2">
+                    <strong>Queueing theory gives a simple fix.</strong>
+                    <p>A queue-based price tells the router when an expert is already too crowded.</p>
+                </article>
+                <article class="takeaway-card reveal delay-3">
+                    <strong>The value is understandable control.</strong>
+                    <p>This is a systems design idea with a clear interpretation, not just another mysterious tuning trick.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="finale-section" id="finale">
+        <div class="site-shell finale reveal">
+            <div class="section-kicker">Final Punchline</div>
+            <h2>Better AI is not only about building a bigger brain. It is also about preventing traffic jams inside the brain.</h2>
+            <p>That is why PriceMoE is a strong topic for this presentation. It is concrete, visual, persuasive, and easy for a mixed classroom audience to remember.</p>
+            <div class="signal-row">
+                <span class="signal-chip">one overloaded expert can slow the whole batch</span>
+                <span class="signal-chip">PriceMoE adds a congestion price</span>
+                <span class="signal-chip">smarter routing leads to smoother inference</span>
+            </div>
+            <div class="footer-note">Wu Hongfan | HKUST IEDA | Queueing, optimization, and AI systems</div>
+        </div>
+    </section>
+
+    <script>
+        const root = document.documentElement;
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.18 });
+
+        reveals.forEach((item) => observer.observe(item));
+
+        const lab = document.querySelector('.traffic-lab');
+        const labScene = document.querySelector('.lab-scene');
+        const stageCanvas = document.querySelector('.stage-canvas');
+        const routerCore = document.querySelector('.router-core');
+        const stepCopies = Array.from(document.querySelectorAll('.step-copy'));
+        const fillA = document.getElementById('fill-a');
+        const fillB = document.getElementById('fill-b');
+        const fillC = document.getElementById('fill-c');
+        const queueA = document.getElementById('queue-a');
+        const queueB = document.getElementById('queue-b');
+        const queueC = document.getElementById('queue-c');
+        const shareA = document.getElementById('share-a');
+        const shareB = document.getElementById('share-b');
+        const shareC = document.getElementById('share-c');
+        const noteA = document.getElementById('note-a');
+        const noteB = document.getElementById('note-b');
+        const noteC = document.getElementById('note-c');
+        const expertA = document.getElementById('expert-a');
+        const expertB = document.getElementById('expert-b');
+        const expertC = document.getElementById('expert-c');
+        const metricLatency = document.getElementById('metric-latency');
+        const metricThroughput = document.getElementById('metric-throughput');
+        const metricIdle = document.getElementById('metric-idle');
+        const metricHotspot = document.getElementById('metric-hotspot');
+        const sceneTitle = document.getElementById('scene-title');
+        const sceneCopy = document.getElementById('scene-copy');
+        const labStatus = document.getElementById('lab-status');
+        const routeA = document.getElementById('route-a');
+        const routeB = document.getElementById('route-b');
+        const routeC = document.getElementById('route-c');
+        const routeGlowA = document.getElementById('route-glow-a');
+        const routeGlowB = document.getElementById('route-glow-b');
+        const routeGlowC = document.getElementById('route-glow-c');
+        const routeGroupA = document.getElementById('route-group-a');
+        const routeGroupB = document.getElementById('route-group-b');
+        const routeGroupC = document.getElementById('route-group-c');
+        const routePulseA = document.querySelector('#route-group-a .route-pulse');
+        const routePulseB = document.querySelector('#route-group-b .route-pulse');
+        const routePulseC = document.querySelector('#route-group-c .route-pulse');
+        const routeMap = document.querySelector('.route-map');
+
+        const labStates = [
+            {
+                stage: 'Stage 1 of 5: the model starts in a mostly balanced state.',
+                title: 'Balanced routing keeps the system calm.',
+                copy: 'At the start, all three experts receive work. No one expert dominates the critical path.',
+                queues: [32, 28, 24],
+                shares: ['32%', '28%', '24%'],
+                sharesNumeric: [32, 28, 24],
+                notes: ['Healthy queue length.', 'Good utilization.', 'Good utilization.'],
+                latency: '1.0x',
+                latencyNumeric: 1.0,
+                throughput: '100%',
+                throughputNumeric: 100,
+                idle: 'Low',
+                hotspot: 'None',
+                hot: []
+            },
+            {
+                stage: 'Stage 2 of 5: one expert starts to attract too much traffic.',
+                title: 'Semantic preference can create a hotspot.',
+                copy: 'Expert A begins to collect many more tokens than its neighbors. The system still looks functional, but the imbalance is growing.',
+                queues: [74, 22, 16],
+                shares: ['56%', '24%', '20%'],
+                sharesNumeric: [56, 24, 20],
+                notes: ['Traffic rises too fast.', 'Spare capacity remains.', 'Spare capacity remains.'],
+                latency: '1.3x',
+                latencyNumeric: 1.3,
+                throughput: '86%',
+                throughputNumeric: 86,
+                idle: 'Medium',
+                hotspot: 'Expert A',
+                hot: ['a']
+            },
+            {
+                stage: 'Stage 3 of 5: the hotspot becomes the bottleneck.',
+                title: 'One busy expert makes the whole batch wait.',
+                copy: 'Two experts are still available, but the overloaded one becomes the slowest path. That is how internal congestion lowers inference efficiency.',
+                queues: [96, 20, 14],
+                shares: ['67%', '19%', '14%'],
+                sharesNumeric: [67, 19, 14],
+                notes: ['Critical path is overloaded.', 'Useful hardware is idle.', 'Useful hardware is idle.'],
+                latency: '1.8x',
+                latencyNumeric: 1.8,
+                throughput: '72%',
+                throughputNumeric: 72,
+                idle: 'High',
+                hotspot: 'Expert A bottleneck',
+                hot: ['a']
+            },
+            {
+                stage: 'Stage 4 of 5: PriceMoE starts redirecting traffic.',
+                title: 'PriceMoE adds a congestion signal.',
+                copy: 'A crowded expert receives a higher price, so new tokens shift toward less busy experts that are still good matches.',
+                queues: [64, 42, 34],
+                shares: ['40%', '31%', '29%'],
+                sharesNumeric: [40, 31, 29],
+                notes: ['Pressure is falling.', 'Router sends more work here.', 'Router sends more work here.'],
+                latency: '1.2x',
+                latencyNumeric: 1.2,
+                throughput: '92%',
+                throughputNumeric: 92,
+                idle: 'Low',
+                hotspot: 'Traffic redirected',
+                hot: []
+            },
+            {
+                stage: 'Stage 5 of 5: the system is more balanced again.',
+                title: 'The flow becomes smoother without throwing away semantics.',
+                copy: 'PriceMoE does not choose experts randomly. It keeps semantic quality in mind while preventing one expert from becoming a traffic jam.',
+                queues: [52, 48, 46],
+                shares: ['35%', '33%', '32%'],
+                sharesNumeric: [35, 33, 32],
+                notes: ['Balanced load.', 'Balanced load.', 'Balanced load.'],
+                latency: '1.05x',
+                latencyNumeric: 1.05,
+                throughput: '96%',
+                throughputNumeric: 96,
+                idle: 'Low',
+                hotspot: 'Balanced',
+                hot: []
+            }
+        ];
+
+        let currentStep = -1;
+
+        function lerp(start, end, t) {
+            return start + (end - start) * t;
+        }
+
+        function formatLatency(value) {
+            return value.toFixed(2).replace(/\.00$/, '.0').replace(/(\.\d)0$/, '$1') + 'x';
+        }
+
+        function formatPercent(value) {
+            return Math.round(value) + '%';
+        }
+
+        function lineStrength(share) {
+            return Math.max(0.2, Math.min(1, share / 70));
+        }
+
+        function updateRoute(path, glow, group, pulse, share, isHot, laneIndex) {
+            const strength = lineStrength(share);
+            const strokeWidth = 2 + strength * 6;
+            const strokeOpacity = 0.22 + strength * 0.65;
+            const glowOpacity = 0.1 + strength * 0.4;
+            const strokeColor = isHot ? 'rgba(255, 122, 69, 0.92)' : 'rgba(79, 209, 197, 0.88)';
+            const glowColor = isHot ? 'rgba(255, 122, 69, 0.28)' : 'rgba(79, 209, 197, 0.18)';
+            const pulseDuration = 3.0 - strength * 1.8;
+            const dashHead = Math.round(12 + strength * 18);
+            const dashGap = Math.round(150 - strength * 55);
+
+            path.style.stroke = strokeColor;
+            path.style.strokeWidth = String(strokeWidth);
+            path.style.opacity = String(strokeOpacity);
+            glow.style.stroke = glowColor;
+            glow.style.opacity = String(glowOpacity);
+            group.style.opacity = String(0.45 + strength * 0.55);
+
+            pulse.style.animationDuration = pulseDuration.toFixed(2) + 's';
+            pulse.style.animationDelay = (laneIndex * 0.18).toFixed(2) + 's';
+            pulse.style.strokeDasharray = dashHead + ' ' + dashGap;
+            pulse.style.opacity = String(0.36 + strength * 0.64);
+        }
+
+        function updateRouteGeometry() {
+            if (!stageCanvas || !routerCore || !routeMap) {
+                return;
+            }
+
+            const stageRect = stageCanvas.getBoundingClientRect();
+            const routerRect = routerCore.getBoundingClientRect();
+            const aRect = expertA.getBoundingClientRect();
+            const bRect = expertB.getBoundingClientRect();
+            const cRect = expertC.getBoundingClientRect();
+
+            const width = Math.max(1, stageRect.width);
+            const height = Math.max(1, stageRect.height);
+            routeMap.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+            const startX = (routerRect.left + routerRect.right) / 2 - stageRect.left;
+            const startY = (routerRect.top + routerRect.bottom) / 2 - stageRect.top;
+
+            function buildPath(endRect) {
+                const endX = (endRect.left + endRect.right) / 2 - stageRect.left;
+                const endY = (endRect.top + endRect.bottom) / 2 - stageRect.top;
+                const dx = Math.max(80, endX - startX);
+                const c1x = startX + dx * 0.44;
+                const c1y = startY;
+                const c2x = endX - dx * 0.38;
+                const c2y = endY;
+                return `M ${startX} ${startY} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${endX} ${endY}`;
+            }
+
+            const pathA = buildPath(aRect);
+            const pathB = buildPath(bRect);
+            const pathC = buildPath(cRect);
+
+            routeA.setAttribute('d', pathA);
+            routeGlowA.setAttribute('d', pathA);
+            routePulseA.setAttribute('d', pathA);
+
+            routeB.setAttribute('d', pathB);
+            routeGlowB.setAttribute('d', pathB);
+            routePulseB.setAttribute('d', pathB);
+
+            routeC.setAttribute('d', pathC);
+            routeGlowC.setAttribute('d', pathC);
+            routePulseC.setAttribute('d', pathC);
+        }
+
+        function applyLabState(step, mix = 0) {
+            const baseState = labStates[step];
+            const nextState = labStates[Math.min(step + 1, labStates.length - 1)];
+            const activeStep = mix > 0.5 && step < labStates.length - 1 ? step + 1 : step;
+
+            currentStep = activeStep;
+            labScene.dataset.step = String(activeStep);
+
+            const queueValues = baseState.queues.map((value, index) => lerp(value, nextState.queues[index], mix));
+            const shareValues = baseState.sharesNumeric.map((value, index) => lerp(value, nextState.sharesNumeric[index], mix));
+            const latencyValue = lerp(baseState.latencyNumeric, nextState.latencyNumeric, mix);
+            const throughputValue = lerp(baseState.throughputNumeric, nextState.throughputNumeric, mix);
+
+            fillA.style.height = queueValues[0] + '%';
+            fillB.style.height = queueValues[1] + '%';
+            fillC.style.height = queueValues[2] + '%';
+
+            queueA.textContent = Math.round(queueValues[0]);
+            queueB.textContent = Math.round(queueValues[1]);
+            queueC.textContent = Math.round(queueValues[2]);
+            shareA.textContent = formatPercent(shareValues[0]);
+            shareB.textContent = formatPercent(shareValues[1]);
+            shareC.textContent = formatPercent(shareValues[2]);
+
+            noteA.textContent = activeStep >= 3 ? nextState.notes[0] : baseState.notes[0];
+            noteB.textContent = activeStep >= 3 ? nextState.notes[1] : baseState.notes[1];
+            noteC.textContent = activeStep >= 3 ? nextState.notes[2] : baseState.notes[2];
+
+            metricLatency.textContent = formatLatency(latencyValue);
+            metricThroughput.textContent = formatPercent(throughputValue);
+            metricIdle.textContent = activeStep >= 3 ? nextState.idle : baseState.idle;
+            metricHotspot.textContent = activeStep >= 3 ? nextState.hotspot : baseState.hotspot;
+            sceneTitle.textContent = activeStep >= 3 ? nextState.title : baseState.title;
+            sceneCopy.textContent = activeStep >= 3 ? nextState.copy : baseState.copy;
+            labStatus.textContent = activeStep >= 3 ? nextState.stage : baseState.stage;
+
+            const hotState = activeStep >= 3 ? nextState.hot : baseState.hot;
+            expertA.classList.toggle('hotspot', hotState.includes('a'));
+            expertB.classList.toggle('hotspot', hotState.includes('b'));
+            expertC.classList.toggle('hotspot', hotState.includes('c'));
+
+            labScene.classList.toggle('congested', activeStep === 2);
+            labScene.classList.toggle('recovering', activeStep === 3);
+
+            updateRoute(routeA, routeGlowA, routeGroupA, routePulseA, shareValues[0], hotState.includes('a'), 0);
+            updateRoute(routeB, routeGlowB, routeGroupB, routePulseB, shareValues[1], hotState.includes('b'), 1);
+            updateRoute(routeC, routeGlowC, routeGroupC, routePulseC, shareValues[2], hotState.includes('c'), 2);
+
+            stepCopies.forEach((card, index) => {
+                card.classList.toggle('active', index === activeStep);
+            });
+        }
+
+        function handleScroll() {
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+            root.style.setProperty('--progress', progress.toFixed(4));
+
+            if (lab) {
+                const start = lab.offsetTop;
+                const end = start + lab.offsetHeight - window.innerHeight;
+                const local = Math.min(Math.max((window.scrollY - start) / Math.max(end - start, 1), 0), 1);
+                const scaled = local * (labStates.length - 1);
+                const baseIndex = Math.min(labStates.length - 1, Math.floor(scaled));
+                const mix = Math.min(1, scaled - baseIndex);
+                applyLabState(baseIndex, mix);
+                updateRouteGeometry();
+            }
+        }
+
+        applyLabState(0, 0);
+        updateRouteGeometry();
+        handleScroll();
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', () => {
+            updateRouteGeometry();
+            handleScroll();
+        });
+    </script>
+</body>
+</html>
