@@ -34,6 +34,7 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
         }
 
         body {
@@ -123,6 +124,38 @@
             color: var(--ink);
         }
 
+        .deck-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .deck-caption {
+            font-size: 0.84rem;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .slide-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(16, 24, 31, 0.12);
+            transition: 0.25s ease;
+        }
+
+        .slide-dot.active {
+            width: 26px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+        }
+
         .nav {
             display: flex;
             gap: 10px;
@@ -144,6 +177,12 @@
 
         section {
             position: relative;
+        }
+
+        .slide {
+            min-height: 100vh;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
 
         .hero {
@@ -410,38 +449,36 @@
         .traffic-lab {
             background: radial-gradient(circle at top left, rgba(255, 122, 69, 0.12), transparent 26%), var(--night);
             color: white;
-            min-height: 460vh;
-            margin: 30px 0 0;
-        }
-
-        .traffic-lab > .site-shell {
-            min-height: inherit;
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            align-items: center;
         }
 
         .lab-sticky {
-            position: sticky;
-            top: 0;
-            min-height: 100vh;
+            position: relative;
+            top: auto;
             display: grid;
             align-items: center;
-            padding: 64px 0 34px;
+            padding: 110px 0 48px;
         }
 
         .lab-layout {
             display: grid;
-            grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
+            grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
             gap: 24px;
-            align-items: stretch;
+            align-items: center;
         }
 
         .lab-copy {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 20px;
             position: relative;
             z-index: 2;
             min-height: 0;
-            max-height: calc(100vh - 110px);
+            max-height: none;
+            justify-content: center;
         }
 
         .lab-title {
@@ -474,8 +511,81 @@
         }
 
         .lab-status {
+            display: inline-flex;
+            width: fit-content;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.84rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-top: 12px;
+        }
+
+        .stage-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .stage-button {
+            appearance: none;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted-strong);
+            padding: 10px 14px;
+            border-radius: 999px;
+            font: inherit;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .stage-button:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .stage-button.active {
+            background: rgba(255, 122, 69, 0.16);
+            border-color: rgba(255, 122, 69, 0.36);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .focus-card {
+            padding: 18px 20px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+        }
+
+        .focus-card strong {
+            display: block;
+            color: white;
+            font-size: 1.12rem;
+            margin-bottom: 8px;
+        }
+
+        .focus-card p {
             font-size: 0.94rem;
-            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .focus-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .focus-legend span {
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.78rem;
+            color: var(--muted-strong);
         }
 
         .steps {
@@ -606,7 +716,7 @@
 
         .metric-board {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 12px;
             position: relative;
             z-index: 2;
@@ -627,7 +737,7 @@
         }
 
         .system-scene {
-            margin-top: 12px;
+            margin-top: 18px;
             display: grid;
             grid-template-columns: 180px minmax(0, 1fr);
             gap: 20px;
@@ -1068,28 +1178,72 @@
 
         .finale-section {
             background: radial-gradient(circle at 20% 20%, rgba(255, 122, 69, 0.16), transparent 22%), #071119;
+            padding: 0;
         }
 
-        .finale {
-            min-height: 72vh;
+        .finale-grid {
+            min-height: 100vh;
             display: grid;
-            align-content: center;
+            grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+            gap: 24px;
+            align-items: center;
+            padding: 110px 0 48px;
             color: white;
         }
 
-        .finale h2 {
+        .finale-copy {
+            display: grid;
+            align-content: center;
+            gap: 0;
+        }
+
+        .finale-copy h2 {
             max-width: 880px;
             margin-bottom: 18px;
         }
 
-        .finale .signal-row {
+        .closing-formula {
             margin-top: 24px;
+            display: inline-flex;
+            width: fit-content;
+            padding: 12px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: white;
+            font-family: "SF Mono", "JetBrains Mono", monospace;
+            font-size: 0.9rem;
         }
 
-        .finale .signal-chip {
+        .final-metrics {
+            display: grid;
+            gap: 14px;
+        }
+
+        .final-card,
+        .final-summary {
+            border-radius: 24px;
             background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 22px;
+        }
+
+        .final-card strong {
+            display: block;
             color: white;
+            font-size: 2rem;
+            margin-bottom: 6px;
+            font-family: "Iowan Old Style", Georgia, serif;
+        }
+
+        .final-card p {
+            color: var(--muted-strong);
+        }
+
+        .final-summary {
+            color: white;
+            font-size: 1rem;
+            line-height: 1.5;
         }
 
         .footer-note {
@@ -1155,7 +1309,8 @@
             .results-grid,
             .story-grid,
             .takeaway-grid,
-            .bento-grid {
+            .bento-grid,
+            .finale-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1253,11 +1408,15 @@
             }
 
             .traffic-lab {
-                min-height: 520vh;
+                min-height: 100vh;
             }
 
             .step-copy.active {
                 transform: translateX(0);
+            }
+
+            .deck-caption {
+                display: none;
             }
         }
 
@@ -1274,28 +1433,29 @@
     <div class="scroll-progress" aria-hidden="true"></div>
 
     <header class="topbar">
-        <div class="brand"><strong>PriceMoE</strong> | AI traffic control for mixed audiences</div>
-        <nav class="nav">
-            <a href="#story">Why it matters</a>
-            <a href="#traffic-lab">Watch the hotspot</a>
-            <a href="#theory">How it works</a>
-            <a href="#results">Results</a>
-            <a href="#finale">Punchline</a>
-        </nav>
+        <div class="brand"><strong>PriceMoE</strong> | 3-slide Presentation</div>
+        <div class="deck-meta" aria-label="Slide progress">
+            <span class="deck-caption">Slide <span id="slide-index">1</span> / 3</span>
+            <div class="slide-dots" aria-hidden="true">
+                <span class="slide-dot active"></span>
+                <span class="slide-dot"></span>
+                <span class="slide-dot"></span>
+            </div>
+        </div>
     </header>
 
-    <section class="hero">
+    <section class="hero slide" data-slide="1">
         <div class="site-shell hero-grid">
             <div class="reveal is-visible">
-                <div class="eyebrow">Research Topic for Class Presentation</div>
-                <h1>AI can get stuck in its own traffic.</h1>
-                <p class="lede">My topic is PriceMoE: a simple queue-aware routing idea for Mixture-of-Experts systems. The big point is easy to remember: stronger AI is not only about bigger models. It is also about smarter internal traffic control.</p>
+                <div class="eyebrow">Persuasive Classroom Talk</div>
+                <h1>How can queueing theory make AI faster?</h1>
+                <p class="lede">My claim is simple: in Mixture-of-Experts models, one crowded expert can slow everyone down. PriceMoE reduces that traffic jam with queue-aware routing.</p>
                 <div class="hero-actions">
-                    <span class="pill">Topic: How Queueing Theory Can Make AI Faster</span>
-                    <span class="pill">Field: AI Systems + Operations Research</span>
-                    <span class="pill">Audience: no technical background needed</span>
+                    <span class="pill">Problem: hidden bottleneck</span>
+                    <span class="pill">Idea: add a congestion price</span>
+                    <span class="pill">Why it matters: smoother inference</span>
                 </div>
-                <div class="scroll-cue">Scroll to watch a hotspot form inside the model</div>
+                <div class="scroll-cue">Three slides: problem, one visual proof, clear conclusion</div>
             </div>
 
             <div class="hero-side reveal delay-1">
@@ -1303,85 +1463,44 @@
                     <div class="ring ring-a"></div>
                     <div class="ring ring-b"></div>
                     <div class="core">PriceMoE<br>keeps AI flow moving</div>
-                    <div class="floating-chip chip-a">Queueing theory</div>
-                    <div class="floating-chip chip-b">MoE routing</div>
-                    <div class="floating-chip chip-c">Less congestion</div>
+                    <div class="floating-chip chip-a">Queue-aware routing</div>
+                    <div class="floating-chip chip-b">One expert can bottleneck</div>
+                    <div class="floating-chip chip-c">Better load balance</div>
                     <div class="floating-chip chip-d">Small systems change</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="story" id="story">
-        <div class="site-shell">
-            <div class="story-header reveal">
-                <div class="section-kicker">Why This Topic Works</div>
-                <h2>One problem. One idea. One memorable takeaway.</h2>
-                <p>This page focuses on the part of the research that classmates can understand fastest: why one overloaded expert can slow down a whole AI system, and how a queue-based price helps prevent that.</p>
-            </div>
-
-            <div class="story-grid">
-                <article class="story-card reveal delay-1">
-                    <span class="metric-tag">1. Everyday analogy</span>
-                    <h3>Think of three supermarket lines.</h3>
-                    <p>If most people choose the same line, the entire store feels slower. The same thing can happen inside an AI model when too many tokens choose the same expert.</p>
-                </article>
-                <article class="story-card reveal delay-2">
-                    <span class="metric-tag">2. Real systems issue</span>
-                    <h3>The bottleneck is often internal.</h3>
-                    <p>Even with strong hardware, inference can slow down when one expert becomes the critical path and the rest of the system waits for it to finish.</p>
-                </article>
-                <article class="story-card reveal delay-3">
-                    <span class="metric-tag">3. Persuasive message</span>
-                    <h3>Math can act like traffic control.</h3>
-                    <p>Instead of blindly sending more tokens to a crowded expert, PriceMoE adds a congestion signal and gently spreads the load.</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <section class="traffic-lab" id="traffic-lab" aria-label="PriceMoE hotspot visualization">
+    <section class="traffic-lab slide" id="traffic-lab" aria-label="PriceMoE hotspot visualization" data-slide="2">
         <div class="site-shell">
             <div class="lab-sticky">
                 <div class="lab-layout">
                     <div class="lab-copy reveal is-visible">
-                        <div class="section-kicker">Interactive Visual Story</div>
+                        <div class="section-kicker">Slide 2</div>
                         <div class="lab-title">
-                            <h2>Hotspot experts slow everything down.</h2>
-                            <p>This is the key visual for the presentation. As you scroll, the system moves from normal routing to congestion, then to queue-aware recovery with PriceMoE.</p>
-                            <div class="lab-status" id="lab-status">Stage 1 of 5: the model starts in a mostly balanced state.</div>
+                            <h2>One simple visual shows the whole argument.</h2>
+                            <p>When one expert gets crowded, the whole batch slows down. PriceMoE reacts by sending new traffic toward less busy experts.</p>
+                            <div class="lab-status" id="lab-status">Balanced state</div>
                         </div>
 
-                        <div class="steps">
-                            <article class="step-copy active">
-                                <div class="step-index">1</div>
-                                <h4>Normal routing</h4>
-                                <p>Tokens are spread fairly across experts.</p>
-                            </article>
-                            <article class="step-copy">
-                                <div class="step-index">2</div>
-                                <h4>A hotspot begins</h4>
-                                <p>One expert starts receiving too much traffic.</p>
-                            </article>
-                            <article class="step-copy">
-                                <div class="step-index">3</div>
-                                <h4>The whole batch waits</h4>
-                                <p>The overloaded expert becomes the critical path.</p>
-                            </article>
-                            <article class="step-copy">
-                                <div class="step-index">4</div>
-                                <h4>PriceMoE reacts</h4>
-                                <p>Queue price pushes traffic to less busy experts.</p>
-                            </article>
-                            <article class="step-copy">
-                                <div class="step-index">5</div>
-                                <h4>Flow becomes smoother</h4>
-                                <p>Routing keeps semantic fit while avoiding congestion.</p>
-                            </article>
+                        <div class="stage-selector" aria-label="Routing stages">
+                            <button class="stage-button active" type="button" data-stage="0" aria-pressed="true">Balanced</button>
+                            <button class="stage-button" type="button" data-stage="1" aria-pressed="false">Hotspot</button>
+                            <button class="stage-button" type="button" data-stage="2" aria-pressed="false">PriceMoE</button>
                         </div>
+
+                        <article class="focus-card">
+                            <strong id="lab-stage-title">Balanced routing keeps the system calm.</strong>
+                            <p id="lab-stage-copy">Tokens are spread across experts, so no single queue dominates the critical path.</p>
+                            <div class="focus-legend">
+                                <span>Orange = congestion</span>
+                                <span>Teal = spare capacity</span>
+                            </div>
+                        </article>
                     </div>
 
-                    <div class="lab-scene reveal delay-1" data-step="0">
+                    <div class="lab-scene reveal delay-1" data-stage="0">
                         <div class="metric-board">
                             <article class="metric-card">
                                 <strong id="metric-latency">1.0x</strong>
@@ -1389,31 +1508,12 @@
                             </article>
                             <article class="metric-card">
                                 <strong id="metric-throughput">100%</strong>
-                                <p>Effective throughput</p>
+                                <p>Effective flow</p>
                             </article>
                             <article class="metric-card">
-                                <strong id="metric-idle">Low</strong>
-                                <p>Idle capacity</p>
+                                <strong id="metric-hotspot">No hotspot</strong>
+                                <p>What to notice</p>
                             </article>
-                            <article class="metric-card">
-                                <strong id="metric-hotspot">None</strong>
-                                <p>Current hotspot</p>
-                            </article>
-                        </div>
-
-                        <div class="stage-ribbon">
-                            <div class="ribbon-item">
-                                <strong>Semantic Fit</strong>
-                                <small>Keep good expert matching.</small>
-                            </div>
-                            <div class="ribbon-item">
-                                <strong>Queue Signal</strong>
-                                <small>Detect live congestion pressure.</small>
-                            </div>
-                            <div class="ribbon-item">
-                                <strong>Final Route</strong>
-                                <small>Choose fit and flow together.</small>
-                            </div>
                         </div>
 
                         <div class="system-scene">
@@ -1509,178 +1609,40 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="scene-caption">
-                            <strong id="scene-title">Balanced routing keeps the system calm.</strong>
-                            <p id="scene-copy">At the start, all three experts receive work. No one expert dominates the critical path.</p>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="theory" id="theory">
-        <div class="site-shell">
-            <div class="section-header reveal">
-                <div class="section-kicker">How PriceMoE Works</div>
-                <h2>A simple rule changes the router's behavior.</h2>
-                <p>The router still cares about meaning, but it also sees congestion. That makes the decision more system-aware without turning it into a black box.</p>
+    <section class="finale-section slide" id="finale" data-slide="3">
+        <div class="site-shell finale-grid reveal">
+            <div class="finale-copy">
+                <div class="section-kicker">Slide 3</div>
+                <h2>Better AI is not only a bigger brain. It is smoother traffic inside the brain.</h2>
+                <p>That is the persuasive takeaway. PriceMoE is easy to explain, visually memorable, and useful because it balances semantic fit with congestion control.</p>
+                <div class="closing-formula">routing score = meaning fit - congestion price</div>
+                <div class="footer-note">Wu Hongfan | HKUST IEDA | Queueing, optimization, and AI systems</div>
             </div>
 
-            <div class="bento-grid">
-                <article class="bento-card large bento-formula reveal">
-                    <div>
-                        <span class="metric-tag">Core decision rule</span>
-                        <h3>Good meaning score minus congestion price.</h3>
-                        <p>This is the audience-friendly version of the idea. A busy expert becomes slightly less attractive, so traffic starts to spread.</p>
-                    </div>
-                    <div class="formula-box">
-                        <div class="math">new score = semantic score - alpha x queue length</div>
-                        <div class="signal-row">
-                            <span class="signal-chip">semantic fit still matters</span>
-                            <span class="signal-chip">queue is a congestion signal</span>
-                            <span class="signal-chip">alpha controls strength</span>
-                        </div>
-                    </div>
+            <div class="final-metrics">
+                <article class="final-card">
+                    <span class="metric-tag">Balance</span>
+                    <strong>-57.9%</strong>
+                    <p>Expert imbalance drops sharply.</p>
                 </article>
-
-                <article class="bento-card bento-meaning reveal delay-1">
-                    <span class="metric-tag">What it does not do</span>
-                    <h3>It does not ignore model quality.</h3>
-                    <p>PriceMoE does not route tokens randomly. It still uses semantic information. It only discourages sending more traffic into a visible jam.</p>
+                <article class="final-card">
+                    <span class="metric-tag">Fairness</span>
+                    <strong>0.0314</strong>
+                    <p>Gini becomes much smaller.</p>
                 </article>
-
-                <article class="bento-card bento-engineering reveal delay-2">
-                    <span class="metric-tag">Engineering angle</span>
-                    <h3>Small change, real system impact.</h3>
-                    <p>The implementation can stay relatively lightweight. That matters because useful systems ideas should not require rebuilding everything from scratch.</p>
+                <article class="final-card">
+                    <span class="metric-tag">Trade-off</span>
+                    <strong>-4.1%</strong>
+                    <p>Only a small throughput change.</p>
                 </article>
-
-                <article class="bento-card bento-interpretation reveal delay-3">
-                    <span class="metric-tag">Why the math matters</span>
-                    <h3>The queue is interpretable.</h3>
-                    <p>The queue is not an arbitrary feature. It has a clear meaning: it represents congestion pressure. That is why this story is persuasive. The control signal is understandable, explainable, and actionable.</p>
-                    <div class="signal-row">
-                        <span class="signal-chip">not random tuning</span>
-                        <span class="signal-chip">not equal splitting</span>
-                        <span class="signal-chip">traffic-aware routing</span>
-                    </div>
-                </article>
+                <div class="final-summary">Small routing change. Much better balance. That is the whole persuasive case for PriceMoE.</div>
             </div>
-        </div>
-    </section>
-
-    <section class="results" id="results">
-        <div class="site-shell">
-            <div class="section-header reveal">
-                <div class="section-kicker">Results</div>
-                <h2>The gain is not magic speed. The gain is better balance.</h2>
-                <p>That is the right way to explain the outcome to a non-specialist audience. PriceMoE makes the system less uneven, which reduces harmful internal bottlenecks.</p>
-            </div>
-
-            <div class="results-grid">
-                <article class="result-card dark reveal">
-                    <span class="metric-tag">Before vs after</span>
-                    <h3>What the audience should notice immediately</h3>
-                    <p class="result-note">The hotspot shrinks. The work spreads out. The system sacrifices little, but gains much better balance.</p>
-                    <div class="before-after">
-                        <div class="compare-panel">
-                            <strong>Before PriceMoE</strong>
-                            <div class="bar-stack">
-                                <div class="bar-item">
-                                    <div class="bar-label"><span>Expert imbalance</span><span>3.832</span></div>
-                                    <div class="bar-track"><div class="bar-fill w-96"></div></div>
-                                </div>
-                                <div class="bar-item">
-                                    <div class="bar-label"><span>Gini</span><span>0.0926</span></div>
-                                    <div class="bar-track"><div class="bar-fill gold w-78"></div></div>
-                                </div>
-                                <div class="bar-item">
-                                    <div class="bar-label"><span>Hotspot pressure</span><span>High</span></div>
-                                    <div class="bar-track"><div class="bar-fill w-86"></div></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="compare-panel">
-                            <strong>With PriceMoE</strong>
-                            <div class="bar-stack">
-                                <div class="bar-item">
-                                    <div class="bar-label"><span>Expert imbalance</span><span>1.614</span></div>
-                                    <div class="bar-track"><div class="bar-fill teal w-41"></div></div>
-                                </div>
-                                <div class="bar-item">
-                                    <div class="bar-label"><span>Gini</span><span>0.0314</span></div>
-                                    <div class="bar-track"><div class="bar-fill teal w-34"></div></div>
-                                </div>
-                                <div class="bar-item">
-                                    <div class="bar-label"><span>Throughput change</span><span>-4.1%</span></div>
-                                    <div class="bar-track"><div class="bar-fill teal w-18"></div></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="result-card reveal delay-1">
-                    <span class="metric-tag">Punchline metrics</span>
-                    <h3>Three numbers to say out loud</h3>
-                    <div class="mini-metrics">
-                        <div class="mini-metric">
-                            <strong>-57.9%</strong>
-                            <p>Imbalance drops sharply.</p>
-                        </div>
-                        <div class="mini-metric">
-                            <strong>0.0314</strong>
-                            <p>Gini becomes much smaller.</p>
-                        </div>
-                        <div class="mini-metric">
-                            <strong>-4.1%</strong>
-                            <p>Throughput changes only a little.</p>
-                        </div>
-                    </div>
-                    <p class="results-summary">For a classroom audience, this is the clean message: PriceMoE does not claim a miracle. It claims a smarter trade-off between semantic routing and congestion control.</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <section class="takeaways">
-        <div class="site-shell">
-            <div class="section-header reveal">
-                <div class="section-kicker">Key Takeaways</div>
-                <h2>What to remember after the presentation</h2>
-            </div>
-
-            <div class="takeaway-grid">
-                <article class="takeaway-card reveal delay-1">
-                    <strong>AI can have internal traffic jams.</strong>
-                    <p>Even if the model is powerful, one overloaded expert can slow down the full inference path.</p>
-                </article>
-                <article class="takeaway-card reveal delay-2">
-                    <strong>Queueing theory gives a simple fix.</strong>
-                    <p>A queue-based price tells the router when an expert is already too crowded.</p>
-                </article>
-                <article class="takeaway-card reveal delay-3">
-                    <strong>The value is understandable control.</strong>
-                    <p>This is a systems design idea with a clear interpretation, not just another mysterious tuning trick.</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <section class="finale-section" id="finale">
-        <div class="site-shell finale reveal">
-            <div class="section-kicker">Final Punchline</div>
-            <h2>Better AI is not only about building a bigger brain. It is also about preventing traffic jams inside the brain.</h2>
-            <p>That is why PriceMoE is a strong topic for this presentation. It is concrete, visual, persuasive, and easy for a mixed classroom audience to remember.</p>
-            <div class="signal-row">
-                <span class="signal-chip">one overloaded expert can slow the whole batch</span>
-                <span class="signal-chip">PriceMoE adds a congestion price</span>
-                <span class="signal-chip">smarter routing leads to smoother inference</span>
-            </div>
-            <div class="footer-note">Wu Hongfan | HKUST IEDA | Queueing, optimization, and AI systems</div>
         </div>
     </section>
 
@@ -1697,11 +1659,14 @@
 
         reveals.forEach((item) => observer.observe(item));
 
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const slideIndex = document.getElementById('slide-index');
+    const slideDots = Array.from(document.querySelectorAll('.slide-dot'));
         const lab = document.querySelector('.traffic-lab');
         const labScene = document.querySelector('.lab-scene');
         const stageCanvas = document.querySelector('.stage-canvas');
         const routerCore = document.querySelector('.router-core');
-        const stepCopies = Array.from(document.querySelectorAll('.step-copy'));
+    const stageButtons = Array.from(document.querySelectorAll('.stage-button'));
         const fillA = document.getElementById('fill-a');
         const fillB = document.getElementById('fill-b');
         const fillC = document.getElementById('fill-c');
@@ -1719,11 +1684,10 @@
         const expertC = document.getElementById('expert-c');
         const metricLatency = document.getElementById('metric-latency');
         const metricThroughput = document.getElementById('metric-throughput');
-        const metricIdle = document.getElementById('metric-idle');
         const metricHotspot = document.getElementById('metric-hotspot');
-        const sceneTitle = document.getElementById('scene-title');
-        const sceneCopy = document.getElementById('scene-copy');
         const labStatus = document.getElementById('lab-status');
+        const labStageTitle = document.getElementById('lab-stage-title');
+        const labStageCopy = document.getElementById('lab-stage-copy');
         const routeA = document.getElementById('route-a');
         const routeB = document.getElementById('route-b');
         const routeC = document.getElementById('route-c');
@@ -1740,92 +1704,45 @@
 
         const labStates = [
             {
-                stage: 'Stage 1 of 5: the model starts in a mostly balanced state.',
+                status: 'Balanced state',
                 title: 'Balanced routing keeps the system calm.',
-                copy: 'At the start, all three experts receive work. No one expert dominates the critical path.',
+                copy: 'Tokens are spread across experts, so no single queue dominates the critical path.',
                 queues: [32, 28, 24],
-                shares: ['32%', '28%', '24%'],
                 sharesNumeric: [32, 28, 24],
                 notes: ['Healthy queue length.', 'Good utilization.', 'Good utilization.'],
-                latency: '1.0x',
                 latencyNumeric: 1.0,
-                throughput: '100%',
                 throughputNumeric: 100,
-                idle: 'Low',
-                hotspot: 'None',
+                hotspot: 'No hotspot',
                 hot: []
             },
             {
-                stage: 'Stage 2 of 5: one expert starts to attract too much traffic.',
-                title: 'Semantic preference can create a hotspot.',
-                copy: 'Expert A begins to collect many more tokens than its neighbors. The system still looks functional, but the imbalance is growing.',
-                queues: [74, 22, 16],
-                shares: ['56%', '24%', '20%'],
-                sharesNumeric: [56, 24, 20],
-                notes: ['Traffic rises too fast.', 'Spare capacity remains.', 'Spare capacity remains.'],
-                latency: '1.3x',
-                latencyNumeric: 1.3,
-                throughput: '86%',
-                throughputNumeric: 86,
-                idle: 'Medium',
-                hotspot: 'Expert A',
-                hot: ['a']
-            },
-            {
-                stage: 'Stage 3 of 5: the hotspot becomes the bottleneck.',
-                title: 'One busy expert makes the whole batch wait.',
-                copy: 'Two experts are still available, but the overloaded one becomes the slowest path. That is how internal congestion lowers inference efficiency.',
+                status: 'Hotspot state',
+                title: 'One busy expert slows the whole batch.',
+                copy: 'Expert A keeps receiving more tokens, so the system waits on that one overloaded path.',
                 queues: [96, 20, 14],
-                shares: ['67%', '19%', '14%'],
                 sharesNumeric: [67, 19, 14],
                 notes: ['Critical path is overloaded.', 'Useful hardware is idle.', 'Useful hardware is idle.'],
-                latency: '1.8x',
                 latencyNumeric: 1.8,
-                throughput: '72%',
                 throughputNumeric: 72,
-                idle: 'High',
                 hotspot: 'Expert A bottleneck',
                 hot: ['a']
             },
             {
-                stage: 'Stage 4 of 5: PriceMoE starts redirecting traffic.',
-                title: 'PriceMoE adds a congestion signal.',
-                copy: 'A crowded expert receives a higher price, so new tokens shift toward less busy experts that are still good matches.',
-                queues: [64, 42, 34],
-                shares: ['40%', '31%', '29%'],
-                sharesNumeric: [40, 31, 29],
-                notes: ['Pressure is falling.', 'Router sends more work here.', 'Router sends more work here.'],
-                latency: '1.2x',
-                latencyNumeric: 1.2,
-                throughput: '92%',
-                throughputNumeric: 92,
-                idle: 'Low',
-                hotspot: 'Traffic redirected',
-                hot: []
-            },
-            {
-                stage: 'Stage 5 of 5: the system is more balanced again.',
-                title: 'The flow becomes smoother without throwing away semantics.',
-                copy: 'PriceMoE does not choose experts randomly. It keeps semantic quality in mind while preventing one expert from becoming a traffic jam.',
+                status: 'PriceMoE state',
+                title: 'PriceMoE redirects traffic before the jam grows.',
+                copy: 'The router subtracts a queue price, so new tokens move toward less busy experts without ignoring semantic fit.',
                 queues: [52, 48, 46],
-                shares: ['35%', '33%', '32%'],
                 sharesNumeric: [35, 33, 32],
                 notes: ['Balanced load.', 'Balanced load.', 'Balanced load.'],
-                latency: '1.05x',
                 latencyNumeric: 1.05,
-                throughput: '96%',
                 throughputNumeric: 96,
-                idle: 'Low',
-                hotspot: 'Balanced',
+                hotspot: 'Flow redistributed',
                 hot: []
             }
         ];
 
-        let currentStep = -1;
-
-        function lerp(start, end, t) {
-            return start + (end - start) * t;
-        }
+        let currentStage = 0;
+        let labTimer = null;
 
         function formatLatency(value) {
             return value.toFixed(2).replace(/\.00$/, '.0').replace(/(\.\d)0$/, '$1') + 'x';
@@ -1909,84 +1826,115 @@
             routePulseC.setAttribute('d', pathC);
         }
 
-        function applyLabState(step, mix = 0) {
-            const baseState = labStates[step];
-            const nextState = labStates[Math.min(step + 1, labStates.length - 1)];
-            const activeStep = mix > 0.5 && step < labStates.length - 1 ? step + 1 : step;
+        function applyLabState(index) {
+            const state = labStates[index];
+            currentStage = index;
+            labScene.dataset.stage = String(index);
 
-            currentStep = activeStep;
-            labScene.dataset.step = String(activeStep);
+            fillA.style.height = state.queues[0] + '%';
+            fillB.style.height = state.queues[1] + '%';
+            fillC.style.height = state.queues[2] + '%';
 
-            const queueValues = baseState.queues.map((value, index) => lerp(value, nextState.queues[index], mix));
-            const shareValues = baseState.sharesNumeric.map((value, index) => lerp(value, nextState.sharesNumeric[index], mix));
-            const latencyValue = lerp(baseState.latencyNumeric, nextState.latencyNumeric, mix);
-            const throughputValue = lerp(baseState.throughputNumeric, nextState.throughputNumeric, mix);
+            queueA.textContent = Math.round(state.queues[0]);
+            queueB.textContent = Math.round(state.queues[1]);
+            queueC.textContent = Math.round(state.queues[2]);
+            shareA.textContent = formatPercent(state.sharesNumeric[0]);
+            shareB.textContent = formatPercent(state.sharesNumeric[1]);
+            shareC.textContent = formatPercent(state.sharesNumeric[2]);
 
-            fillA.style.height = queueValues[0] + '%';
-            fillB.style.height = queueValues[1] + '%';
-            fillC.style.height = queueValues[2] + '%';
+            noteA.textContent = state.notes[0];
+            noteB.textContent = state.notes[1];
+            noteC.textContent = state.notes[2];
 
-            queueA.textContent = Math.round(queueValues[0]);
-            queueB.textContent = Math.round(queueValues[1]);
-            queueC.textContent = Math.round(queueValues[2]);
-            shareA.textContent = formatPercent(shareValues[0]);
-            shareB.textContent = formatPercent(shareValues[1]);
-            shareC.textContent = formatPercent(shareValues[2]);
+            metricLatency.textContent = formatLatency(state.latencyNumeric);
+            metricThroughput.textContent = formatPercent(state.throughputNumeric);
+            metricHotspot.textContent = state.hotspot;
+            labStatus.textContent = state.status;
+            labStageTitle.textContent = state.title;
+            labStageCopy.textContent = state.copy;
 
-            noteA.textContent = activeStep >= 3 ? nextState.notes[0] : baseState.notes[0];
-            noteB.textContent = activeStep >= 3 ? nextState.notes[1] : baseState.notes[1];
-            noteC.textContent = activeStep >= 3 ? nextState.notes[2] : baseState.notes[2];
-
-            metricLatency.textContent = formatLatency(latencyValue);
-            metricThroughput.textContent = formatPercent(throughputValue);
-            metricIdle.textContent = activeStep >= 3 ? nextState.idle : baseState.idle;
-            metricHotspot.textContent = activeStep >= 3 ? nextState.hotspot : baseState.hotspot;
-            sceneTitle.textContent = activeStep >= 3 ? nextState.title : baseState.title;
-            sceneCopy.textContent = activeStep >= 3 ? nextState.copy : baseState.copy;
-            labStatus.textContent = activeStep >= 3 ? nextState.stage : baseState.stage;
-
-            const hotState = activeStep >= 3 ? nextState.hot : baseState.hot;
+            const hotState = state.hot;
             expertA.classList.toggle('hotspot', hotState.includes('a'));
             expertB.classList.toggle('hotspot', hotState.includes('b'));
             expertC.classList.toggle('hotspot', hotState.includes('c'));
 
-            labScene.classList.toggle('congested', activeStep === 2);
-            labScene.classList.toggle('recovering', activeStep === 3);
+            labScene.classList.toggle('congested', index === 1);
+            labScene.classList.toggle('recovering', index === 2);
 
-            updateRoute(routeA, routeGlowA, routeGroupA, routePulseA, shareValues[0], hotState.includes('a'), 0);
-            updateRoute(routeB, routeGlowB, routeGroupB, routePulseB, shareValues[1], hotState.includes('b'), 1);
-            updateRoute(routeC, routeGlowC, routeGroupC, routePulseC, shareValues[2], hotState.includes('c'), 2);
+            updateRoute(routeA, routeGlowA, routeGroupA, routePulseA, state.sharesNumeric[0], hotState.includes('a'), 0);
+            updateRoute(routeB, routeGlowB, routeGroupB, routePulseB, state.sharesNumeric[1], hotState.includes('b'), 1);
+            updateRoute(routeC, routeGlowC, routeGroupC, routePulseC, state.sharesNumeric[2], hotState.includes('c'), 2);
 
-            stepCopies.forEach((card, index) => {
-                card.classList.toggle('active', index === activeStep);
+            stageButtons.forEach((button, buttonIndex) => {
+                const isActive = buttonIndex === index;
+                button.classList.toggle('active', isActive);
+                button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
             });
+
+            updateRouteGeometry();
         }
 
         function handleScroll() {
             const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
             const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
             root.style.setProperty('--progress', progress.toFixed(4));
+        }
 
-            if (lab) {
-                const start = lab.offsetTop;
-                const end = start + lab.offsetHeight - window.innerHeight;
-                const local = Math.min(Math.max((window.scrollY - start) / Math.max(end - start, 1), 0), 1);
-                const scaled = local * (labStates.length - 1);
-                const baseIndex = Math.min(labStates.length - 1, Math.floor(scaled));
-                const mix = Math.min(1, scaled - baseIndex);
-                applyLabState(baseIndex, mix);
-                updateRouteGeometry();
+        function startLabCycle() {
+            stopLabCycle();
+            labTimer = window.setInterval(() => {
+                applyLabState((currentStage + 1) % labStates.length);
+            }, 3200);
+        }
+
+        function stopLabCycle() {
+            if (labTimer) {
+                window.clearInterval(labTimer);
+                labTimer = null;
             }
         }
 
-        applyLabState(0, 0);
+        stageButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                applyLabState(index);
+                startLabCycle();
+            });
+        });
+
+        const slideObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const index = Number(entry.target.dataset.slide) - 1;
+                    slideIndex.textContent = String(index + 1);
+                    slideDots.forEach((dot, dotIndex) => {
+                        dot.classList.toggle('active', dotIndex === index);
+                    });
+                }
+            });
+        }, { threshold: 0.6 });
+
+        slides.forEach((slide) => slideObserver.observe(slide));
+
+        const labObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    startLabCycle();
+                } else {
+                    stopLabCycle();
+                }
+            });
+        }, { threshold: 0.55 });
+
+        if (lab) {
+            labObserver.observe(lab);
+        }
+
+        applyLabState(0);
         updateRouteGeometry();
         handleScroll();
         window.addEventListener('scroll', handleScroll, { passive: true });
-        window.addEventListener('resize', () => {
-            updateRouteGeometry();
-            handleScroll();
-        });
+        window.addEventListener('resize', updateRouteGeometry);
+        window.addEventListener('load', updateRouteGeometry);
     </script>
 </body>
 </html>
