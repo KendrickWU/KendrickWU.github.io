@@ -1,0 +1,172 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[margin=2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.7em}
+
+\definecolor{TitleBlue}{HTML}{0D617C}
+
+\title{Ultra-Short English Memorization Script\\[4pt]
+\large Cross-Dataset Retinal Vessel Segmentation with Lightweight Retinal-Specific Priors}
+\author{COMP5423 Final Project}
+\date{April 21, 2026}
+
+\begin{document}
+
+\maketitle
+
+This document is a short English-only speaking script for the 12-slide presentation.
+
+Each slide keeps only 3 to 5 short sentences, so it is easier to memorize quickly.
+
+\newpage
+
+\section*{Slide 1: Title and Main Claim}
+
+Good morning everyone.
+
+This paper studies retinal vessel segmentation, which means detecting blood vessels in images of the eye.
+
+Cross-dataset means we train on one dataset and test on another.
+
+The main message is simple: better preprocessing helps more than a larger model.
+
+\newpage
+
+\section*{Slide 2: Why Same-Dataset Scores Are Not Enough}
+
+This paper matters because medical images from different cameras do not look the same.
+
+This difference is called domain shift.
+
+Thin vessels are hard to detect because they are small and low in contrast.
+
+So a model that works on one dataset may fail on another.
+
+\newpage
+
+\section*{Slide 3: Strict Bidirectional Setup}
+
+The paper uses two public datasets: STARE and HRF.
+
+It tests both directions: train on STARE and test on HRF, and train on HRF and test on STARE.
+
+This is called bidirectional transfer.
+
+The setup is strict because there is no target-domain fine-tuning.
+
+\newpage
+
+\section*{Slide 4: Method and Four Recipes}
+
+The backbone is a standard U-Net, which is a common segmentation network.
+
+The paper compares simple recipes instead of changing the network.
+
+The key preprocessing uses the green channel and histogram equalization to improve contrast.
+
+The full version also adds balanced loss, stronger augmentation, AdamW, and threshold search.
+
+\newpage
+
+\section*{Slide 5: Main Results}
+
+The main result is clear.
+
+From STARE to HRF, Green+Equalize raises Dice from 0.2109 to 0.5789.
+
+From HRF to STARE, Full improved is best at 0.5430, but only slightly above Green+Equalize.
+
+So preprocessing creates most of the gain.
+
+\newpage
+
+\section*{Slide 6: What Each Component Does}
+
+Now we ask what each component really does.
+
+Preprocessing gives the strongest and most consistent improvement.
+
+Balanced loss helps with class imbalance, but it is weaker on the hardest cases.
+
+Full improved is useful, but its extra gain is smaller than the jump from preprocessing.
+
+\newpage
+
+\section*{Slide 7: Training Dynamics and Transport Gap}
+
+The training curves show that fast learning is not the same as better transfer.
+
+In one direction, Full improved rises faster at first, but Green+Equalize finishes higher.
+
+The paper also measures transport gap, which is the difference between source validation and target test performance.
+
+A smaller gap means model selection is more stable, and Full improved is better on that point.
+
+\newpage
+
+\section*{Slide 8: Robustness Beyond the Average}
+
+Average scores do not tell the full story.
+
+The paper ranks images from hard to easy and looks at the bottom quartile, which means the hardest 25 percent.
+
+Balanced only looks good in the middle, but it still fails badly on some hard images.
+
+Preprocessing-heavy methods recover hard cases more reliably.
+
+\newpage
+
+\section*{Slide 9: Qualitative Case One}
+
+This page shows qualitative results, which means visual examples instead of only numbers.
+
+On image 12\_h, Green+Equalize restores many side branches that the baseline misses.
+
+The mask also stays relatively clean.
+
+This supports the idea that preprocessing already does most of the important work.
+
+\newpage
+
+\section*{Slide 10: Qualitative Case Two}
+
+The image im0324 is a strong rescue case.
+
+The baseline almost fails, but preprocessing brings back much more of the vessel tree.
+
+The image im0077 is a counterexample, which means a case that shows a limit.
+
+There, Balanced only looks cleaner, while stronger methods can over-segment.
+
+\newpage
+
+\section*{Slide 11: Limits and Boundaries}
+
+The paper is useful, but it has clear limits.
+
+It uses only two datasets, and not all training budgets are perfectly matched.
+
+All images are resized to 256 by 256, which can hurt very thin vessels.
+
+So the claim is careful: in this small setting, retinal priors matter more than a fancier model.
+
+\newpage
+
+\section*{Slide 12: Final Takeaways}
+
+I will end with four takeaways.
+
+First, retinal-specific preprocessing is the main reason performance improves.
+
+Second, balanced loss helps, but it is not the main driver.
+
+Third, real generalization needs more than one mean Dice score.
+
+Before choosing a larger backbone, we should first align the input distribution.
+
+\end{document}

@@ -1,0 +1,588 @@
+\documentclass[12pt,a4paper]{ctexart}
+
+\usepackage[margin=1.9cm]{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!45!black,
+  urlcolor=blue!45!black
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+
+\definecolor{TitleBlue}{HTML}{0D617C}
+\definecolor{AccentGreen}{HTML}{5B8E1A}
+\newcommand{\EnglishScriptHeading}{\textbf{\color{AccentGreen}英文简洁讲稿（可直接背诵）}}
+
+\title{新版 HTML PPT 详细演讲稿（含简洁英文版）\\[4pt]
+\large Cross-Dataset Retinal Vessel Segmentation with Lightweight Retinal-Specific Priors}
+\author{COMP5423 Final Project 演讲辅助稿}
+\date{2026年4月21日}
+
+\begin{document}
+
+\maketitle
+
+{\large\color{TitleBlue}文档定位}
+
+这份文档是给你在正式汇报时直接使用的逐页讲稿。它和新版 HTML 演示文稿的 12 页内容一一对应，目标不是只帮你“念一遍”，而是帮你把每一页讲得清楚、顺、稳，尤其适合面对完全没有基础的听众。
+
+你可以把这份文档这样用：
+
+\begin{itemize}[leftmargin=1.6em]
+  \item 如果你时间紧，可以直接背每一页新增的“英文简洁讲稿（可直接背诵）”。
+  \item 如果你想先把内容吃透，再组织自己的英文表达，可以先看中文“可以直接朗读的讲稿”。
+  \item 如果你想讲得更自然，可以先看“这一页要让听众听懂什么”，再用自己的话说出来。
+  \item 如果老师中途打断提问，可以参考“补充说明”和“过渡句”。
+\end{itemize}
+
+{\large\color{AccentGreen}英文讲稿使用原则}
+
+这一版新增的英文讲稿遵循三个原则：第一，句子尽量短，避免太多从句，方便你快速背诵；第二，专业名词在第一次出现时，尽量顺手解释一句，让第一次听这场报告的老师和同学也能跟上；第三，后面重复出现的术语一般不再长解释，这样现场说起来更自然。
+
+{\large\color{TitleBlue}建议总时长}
+
+建议把这份 PPT 讲成 11 到 14 分钟。下面是一份比较稳妥的分配方式。
+
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{1.4cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{2.6cm}}
+\toprule
+页码 & 页面主题 & 建议时长 \\
+\midrule
+1 & 标题与核心结论 & 50 秒 \\
+2 & 为什么同数据集高分不够 & 60 秒 \\
+3 & 严格双向迁移实验设置 & 60 秒 \\
+4 & 方法与四种 recipe & 75 秒 \\
+5 & 主结果读法 & 80 秒 \\
+6 & 各组件到底贡献了什么 & 80 秒 \\
+7 & 训练动态与 transport gap & 75 秒 \\
+8 & 平均分之外的鲁棒性 & 80 秒 \\
+9 & 定性案例一：STARE 到 HRF & 70 秒 \\
+10 & 定性案例二：HRF 到 STARE & 85 秒 \\
+11 & 局限、未解决问题、可信边界 & 60 秒 \\
+12 & 最终总结与落点 & 50 秒 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section*{第 1 页：标题页与核心结论}
+
+\textbf{这一页要让听众听懂什么}
+
+这篇论文最重要的发现不是“更大的模型更强”，而是“更合适的视网膜预处理更关键”。从开场就要把这个中心思想立起来。
+
+\textbf{可以直接朗读的讲稿}
+
+大家好，今天我要汇报的论文题目是\\
+Cross-Dataset Retinal Vessel Segmentation with Lightweight Retinal-Specific Priors。
+
+如果只用一句话概括这篇论文，我会说：当训练数据和测试数据来自不同眼底数据集时，真正带来大部分提升的，不是更大的网络，而是更符合视网膜图像特点的预处理。
+
+这篇论文故意把骨干网络固定成一个普通的 U-Net，然后去问一个很实际的问题：在跨数据集测试的时候，最值得做的低成本改进到底是什么。
+
+右边这几个数字非常重要。第一，在 STARE 到 HRF 这个方向上，最好的 Dice 不是来自最复杂的完整 recipe，而是来自 Green+Equalize，也就是绿色通道加直方图均衡化，Dice 到了 0.5789。第二，在 HRF 到 STARE 这个方向上，Full improved 虽然是最高分 0.5430，但它只比 Green+Equalize 的 0.5398 高一点点。
+
+所以开场我想先把结论放在前面：这篇论文最重要的发现是 preprocessing，也就是预处理，解释了大部分跨数据集提升。
+
+\EnglishScriptHeading
+
+Good morning everyone. Today I will present a paper called Cross-Dataset Retinal Vessel Segmentation with Lightweight Retinal-Specific Priors.
+
+Retinal vessel segmentation means asking a model to mark blood vessels in a retinal image. A retinal image is a photo of the back of the eye. Cross-dataset means we train on one dataset and test on another. Retinal-specific priors means simple design choices based on how retinal images usually look.
+
+My main message is simple. When training data and test data come from different datasets, the biggest gain does not come from a larger model. It mostly comes from better preprocessing. Preprocessing means simple image cleanup before the image enters the network.
+
+The paper keeps the backbone fixed to a standard U-Net. A backbone is the main network. Then it asks a practical question: what low-cost change helps most under cross-dataset testing?
+
+The answer is clear. Better retinal preprocessing explains most of the improvement.
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+先指标题，再指右边三个大数字卡片。尤其要停在“Preprocessing”这一张卡片上，让听众记住整场报告的主线。
+
+\textbf{补充说明}
+
+如果老师问“为什么一开始就先讲结论”，你可以回答：因为这篇论文的价值就在于它不是比模型花样，而是用严格实验把主因找出来了，所以先给结论有助于后面所有结果的理解。
+
+\textbf{过渡句}
+
+接下来我先解释一下，为什么这件事重要，也就是为什么一个在自己数据集上看起来不错的模型，换一个数据集之后会立刻掉得很厉害。
+
+\section*{第 2 页：为什么同数据集高分不够}
+
+\textbf{这一页要让听众听懂什么}
+
+要让听众理解 domain shift，也就是域偏移。你要把它讲成一个非常直观的现象：图像风格变了，模型就不适应了。
+
+\textbf{可以直接朗读的讲稿}
+
+这一页是在回答“为什么这篇论文值得做”。
+
+很多时候，一个模型在训练集同分布的数据上可以表现很好，但这不代表它真的可靠。因为眼底图像来自不同相机、不同拍摄条件、不同分辨率、不同对比度设置。虽然它们看起来都叫 fundus image，也就是眼底图像，但它们其实不完全是同一种输入分布。
+
+这里最脆弱的对象就是血管，尤其是细小分支。因为血管本身就细、长、低对比，而且会分叉。只要图像亮度、对比度或者背景纹理稍微变一点，模型就可能把细血管漏掉，或者把背景误判成血管。
+
+所以这篇论文并不是在解决一个“把平均分再刷高一点”的问题，而是在解决一个更现实的问题：如果医院 A 的相机和医院 B 的相机不一样，一个简单的 U-Net 还能不能继续工作。
+
+也正因为这个问题很现实，所以论文没有一开始就上复杂的域适应方法，而是先问：在这么小的数据条件下，到底什么轻量策略最值得优先做。
+
+\EnglishScriptHeading
+
+This page explains why the paper matters.
+
+A fundus image is a retina photo, but not all fundus images look the same. Different cameras, lighting, resolution, and contrast can change the image a lot. When image style changes, the model often struggles. This is called domain shift. Domain shift means the training images and the test images follow different visual patterns.
+
+This problem is especially serious for thin vessels. They are narrow, low-contrast, and easy to miss. A small change in brightness or texture can make the model lose fine branches or mistake background for vessels.
+
+So the paper is not only trying to raise the average score. It asks a practical question: if two hospitals use different cameras, can a simple U-Net still work?
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+先指左边的大句子，再依次指右边两张小卡片“Thin Structures”和“Tiny Source Data”，最后再指下方三张总结卡片，让听众看到“不同相机、不同对比度、同一个核心问题”的逻辑闭环。
+
+\textbf{补充说明}
+
+如果听众完全不懂 domain shift，你可以打个比方：就像一个学生一直做同一种字体、同一种纸张上的题，突然换成另一套排版风格的试卷，虽然题目本质一样，但他会一开始不适应。模型也是一样。
+
+\textbf{过渡句}
+
+那论文是怎么把这个问题测得足够严格、足够干净的？这就进入下一页的实验设置。
+
+\section*{第 3 页：严格双向迁移实验设置}
+
+\textbf{这一页要让听众听懂什么}
+
+要让听众明白这个实验为什么“可信”。核心点是：双向迁移，而且没有目标域微调。
+
+\textbf{可以直接朗读的讲稿}
+
+这篇论文用了两个公开眼底血管数据集，一个叫 STARE，一个叫 HRF。
+
+STARE 比较小，一共 20 张图，分辨率大约是 700 乘 605。HRF 更大一些，有 45 张图，而且是高分辨率，达到 3504 乘 2336。它们的图像风格、清晰度、背景纹理和细节量都不一样，所以非常适合拿来做跨数据集测试。
+
+论文的实验方式是双向的。第一种方向是在 STARE 上训练，在 HRF 上测试。第二种方向是在 HRF 上训练，在 STARE 上测试。这样做的好处是，你不会因为只看一个方向，就误以为某个方法对所有迁移都一样有效。
+
+更关键的是，这个设置很严格。论文明确不做目标域微调，不做伪标签，不做 test-time adaptation，也就是测试时自适应。这样一来，最后分数的变化就主要来自方法本身，而不是额外的目标域技巧。
+
+所以这一页你可以把它理解成：作者先把实验规则订得很干净，然后再来比较方法。这样后面的结论才站得住。
+
+\EnglishScriptHeading
+
+This page explains why the experiment is reliable.
+
+The paper uses two public retinal vessel datasets: STARE and HRF. They are different in size, resolution, and visual style, so they are useful for cross-dataset testing.
+
+The experiment is bidirectional. Bidirectional means both directions are tested. We train on STARE and test on HRF, and we also train on HRF and test on STARE.
+
+The setup is also strict. The authors do not fine-tune on the target domain. Fine-tuning means training a bit more on target data. They also do not use pseudo labels or test-time adaptation. Test-time adaptation means changing the model during testing.
+
+So the score differences mainly come from the method itself, not from extra target-domain tricks.
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+先指左右两边的数据集卡片，再指中间两条 Train on A, Test on B 的箭头。讲“no target finetuning”时，指下方那几条 pill。
+
+\textbf{补充说明}
+
+如果老师问“为什么双向迁移重要”，你可以回答：因为 STARE 比 HRF 小、噪声更重，而 HRF 分辨率更高，两种方向代表的难点不一样。双向迁移能看出方法是否只在某一个方向有效。
+
+\textbf{过渡句}
+
+实验设置清楚之后，下一步就看作者到底改了什么。这里很重要的一点是，作者没有换 backbone，而是只改 recipe。
+
+\section*{第 4 页：方法与四种 recipe}
+
+\textbf{这一页要让听众听懂什么}
+
+固定 U-Net，只比较轻量组件，这是整篇论文的设计哲学。听众必须听明白“控制变量”这件事。
+
+\textbf{可以直接朗读的讲稿}
+
+这一页展示的是论文的方法框架。
+
+作者做了一个很克制的选择：不换更复杂的网络结构，始终使用标准 U-Net。也就是说，这篇论文不是在比“谁的模型更花哨”，而是在比“哪种轻量设计最值得优先加进去”。
+
+从流程上看，首先输入是一张眼底图像。最原始的 baseline 直接用 RGB 图像。然后论文加入视网膜特定预处理，也就是两个动作：第一，只取绿色通道并复制成三通道输入；第二，做全局直方图均衡化。作者这么做是因为血管通常在绿色通道里最清楚，而直方图均衡化可以减轻不同相机之间的对比度差异。
+
+损失函数方面，baseline 使用 Dice 加 BCE。后面有一个 balanced only 的版本，会把 BCE 换成类别平衡版 BCE，用来缓解血管像素远少于背景像素的问题。
+
+最完整的版本叫 Full improved，它把预处理、balanced loss、更强数据增强、AdamW 优化器，以及验证集阈值搜索都加了进去。
+
+所以这一页真正要传达的是：作者在一个固定 backbone 上，系统地比较了四种 recipe，从而把“到底什么有用”这个问题拆得更清楚。
+
+\EnglishScriptHeading
+
+This page shows the method.
+
+The authors keep the backbone fixed to a standard U-Net. U-Net is a common medical image segmentation network. Segmentation means giving a label to each pixel.
+
+So the paper is not about a fancier architecture. It is about a better recipe. Here, recipe means the practical combination of preprocessing, loss, augmentation, and optimization.
+
+The baseline uses the original RGB image. Then the paper adds retinal-specific preprocessing in two steps. First, it keeps only the green channel, because vessels are usually clearer there. Second, it applies histogram equalization. That means adjusting contrast so structures are easier to see.
+
+The loss function is the training target. The baseline uses Dice plus BCE. BCE means binary cross-entropy, a common two-class loss. Another version uses balanced BCE, because vessel pixels are much fewer than background pixels.
+
+The Full improved version adds preprocessing, balanced loss, stronger augmentation, AdamW, and threshold search on the validation set. The validation set is the held-out data used to choose settings before final testing.
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+先从上面 1 到 5 的流程框按顺序讲，再看下面四张 variant 卡片。讲到 balanced loss 时，建议明确指出它只在 HRF 到 STARE 方向上做了单独实验。
+
+\textbf{补充说明}
+
+如果听众问“为什么绿色通道会更好”，你可以直接说：因为血管和背景在绿色通道里的对比最明显，模型更容易看见血管轮廓。
+
+\textbf{过渡句}
+
+方法讲清楚之后，我们就来看最关键的一页，也就是这些 recipe 最后到底带来了什么变化。
+
+\section*{第 5 页：主结果怎么读}
+
+\textbf{这一页要让听众听懂什么}
+
+这页不只是报分数，而是要让听众知道“最大的提升在哪里发生”。
+
+\textbf{可以直接朗读的讲稿}
+
+这一页是整篇论文最核心的结果页。
+
+先看 STARE 到 HRF。baseline 的 Dice 只有 0.2109，这说明如果直接拿一个普通 U-Net 用原始输入去做跨数据集迁移，它会失败得很明显。然后 Green+Equalize 直接把 Dice 拉到 0.5789，提升了 0.3680，这是全篇最强的一次改进。而且非常重要的是，这个分数甚至比 Full improved 还高。
+
+再看 HRF 到 STARE。baseline 是 0.4016。Balanced only 提升到 0.5101，说明类别不平衡确实是个问题。Green+Equalize 到了 0.5398。Full improved 最后是 0.5430，虽然是最高分，但它领先得非常有限。
+
+所以这页的正确读法不是“Full improved 全面统治”，而是“真正把分数拉起来的第一推动力，是预处理”。完整 recipe 当然也有帮助，但它更多是在调 sensitivity、calibration 和 operating point，而不是在从根本上改变问题。
+
+如果你要用一句话总结这页，我建议这样讲：在这篇论文里，最大的性能跃升发生在加入 retinal-specific preprocessing 之后，而不是在所有额外技巧全部堆上去之后。
+
+\EnglishScriptHeading
+
+This is the main results page.
+
+First look at STARE to HRF. The baseline Dice is only 0.2109. Dice is an overlap score between the prediction and the ground truth, so higher is better. After Green+Equalize, Dice jumps to 0.5789. That is a huge improvement. It is even higher than Full improved in this direction.
+
+Now look at HRF to STARE. The baseline is 0.4016. Balanced only rises to 0.5101, so class imbalance is real. Class imbalance means one class has far fewer pixels than the other. Green+Equalize reaches 0.5398. Full improved is 0.5430, which is the best score, but only slightly better.
+
+So the right reading is not "Full improved wins everything." The bigger message is that preprocessing creates the main jump.
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+先指左侧柱状图中的 STARE 到 HRF 组，再指 HRF 到 STARE 组。然后看右边两张大数字卡。最后回到右下角的 Interpretation 卡片，读出关键结论。
+
+\textbf{补充说明}
+
+如果老师追问“为什么你说 preprocessing 是主因”，你就直接用两个事实回答：一是 STARE 到 HRF 的最好结果就是 preprocessing-only；二是 HRF 到 STARE 里 Full improved 相比 Green+Equalize 的额外增益非常小。
+
+\textbf{过渡句}
+
+接下来我不只想说谁高谁低，我还想拆开看一下，每一个组件到底分别做了什么。
+
+\section*{第 6 页：各组件到底贡献了什么}
+
+\textbf{这一页要让听众听懂什么}
+
+听众需要知道 preprocessing、balanced loss、full recipe 各自改变的是哪一类问题，同时也要知道论文的结论为什么是“谨慎而可信”的。
+
+\textbf{可以直接朗读的讲稿}
+
+这一页是从“排名”切换到“解释”。
+
+第一，preprocessing 的作用最明显。它在 STARE 到 HRF 上直接比 baseline 多了 0.3680 Dice，而且拿到这个方向上最好的最终结果。到了 HRF 到 STARE，它也带来 0.1381 的 Dice 提升，而且有最高的验证集 Dice，说明它确实抓住了更稳定、更普遍的视觉信息。
+
+第二，balanced loss 不是没用。它把 HRF 到 STARE 从 0.4016 拉到 0.5101，说明类别不平衡的确是问题。但如果我们继续看 harder cases，也就是困难样本，它并没有像 preprocessing 那样真正把最难的样本救回来。它更像是把一些本来就不太难的样本做得更好。
+
+第三，full recipe 的价值主要体现在两个方面。一个是它在 HRF 到 STARE 上给出了全场最高 Dice。另一个是它的 transport gap 更小，也就是源域验证集上看起来好的模型，更容易真正迁移到目标域测试集上。
+
+但这一页还有一个非常重要的学术态度，就是下面这句 caveat，也就是保留说明。baseline 用的是最早的 8 epoch MVP 预算，而后面的 ablation 大多是 12 epoch。也就是说，论文没有把自己包装成一个毫无条件的绝对排行榜。它更像是在说：在这个课程规模系统里，retinal-specific priors 解释了主要增益。这种说法是谨慎的，所以也是可信的。
+
+\EnglishScriptHeading
+
+This page breaks the result into parts.
+
+First, preprocessing gives the strongest and most consistent improvement. In STARE to HRF, it adds 0.3680 Dice over the baseline. In HRF to STARE, it also gives a clear gain and the best validation Dice.
+
+Second, balanced loss is useful, but its role is smaller. It improves HRF to STARE from 0.4016 to 0.5101. But it does not recover the hardest cases as well as preprocessing does.
+
+Third, Full improved has two main advantages. It gives the best Dice in HRF to STARE, and it reduces the transport gap. Transport gap means the difference between the best source-domain validation Dice and the final target-domain test Dice.
+
+There is also one caveat. A caveat is an important warning. The baseline used an earlier 8-epoch budget, while most later ablations used 12 epochs. So the paper is making a careful trend claim, not a perfect final leaderboard claim.
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+依次指三张 component 卡片。最后一定要停在下面的 note card 上，把 baseline 训练预算不同这件事点出来，这会让整场报告显得更严谨。
+
+\textbf{补充说明}
+
+如果老师问“既然 budget 不同，为什么还可以比较”，你可以回答：论文没有把这当成绝对 final leaderboard，而是用它说明组件趋势，尤其是 preprocessing 的主导作用，这一点在两个方向上都很一致。
+
+\textbf{过渡句}
+
+除了最后的分数之外，论文还关心另一个问题：这些方法在训练过程中是怎么变化的，它们在源域验证集和目标域测试集之间到底稳不稳定。
+
+\section*{第 7 页：训练动态与 transport gap}
+
+\textbf{这一页要让听众听懂什么}
+
+要让听众知道“收敛更快”和“真正迁移更好”不是一回事。transport gap 是这页的亮点。
+
+\textbf{可以直接朗读的讲稿}
+
+这一页有两个层次。第一个层次是训练曲线，第二个层次是 validation-to-test transport gap。
+
+先看训练曲线。STARE 到 HRF 这个方向上，Full improved 在前期上升更快，说明更强的 recipe 的确能更早把验证集分数拉起来。但到了后期，Green+Equalize 反而继续上升，并且最后超过了 Full improved。这说明“更快提升”不等于“最后更干净、更稳”。
+
+到了 HRF 到 STARE，几乎所有 stronger variants 都比 baseline 收敛快得多，这说明 baseline 并没有充分利用输入中的有用信息。
+
+再看右边的 transport gap。这个量的意思是：源域验证集上最好的 Dice，和最后目标域测试集 Dice 之间差多少。差得越小，说明你在源域上选出来的模型，越容易真的迁移到目标域。
+
+这里 Full improved 在两个方向上都是更小的 gap。比如 STARE 到 HRF，Full improved 的 gap 是 0.0032，而 Green+Equalize 是 0.0183。HRF 到 STARE 里，Full improved 也是 stronger variants 里面 gap 最小的。
+
+所以这页真正要表达的是：Full improved 不一定在每个方向都给出最好最终目标分数，但它在 source-side selection，也就是源域侧模型选择上更稳定。这是一个很实用的发现。
+
+\EnglishScriptHeading
+
+This page looks at training dynamics and transport gap.
+
+First, the curves show how fast each method improves during training. In STARE to HRF, Full improved rises faster at the beginning. But later, Green+Equalize keeps improving and finally goes higher. So faster convergence does not always mean better final transfer. Convergence means training becomes stable.
+
+Now look at the transport gap on the right. Again, a smaller gap means the model selected on source data is more likely to work on target data.
+
+Here, Full improved has a smaller gap in both directions. So even when it is not the best final scorer on every task, it is more stable for model selection.
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+先用手在左边曲线上划出“Full improved 先快，Green+Equalize 后超”的走势。然后再转向右边 transport gap 的数字说明，告诉听众“快”和“稳”是两个不同维度。
+
+\textbf{补充说明}
+
+如果老师问“transport gap 为什么重要”，你可以回答：因为现实里我们通常只能在源域验证集上调模型，但真正关心的是目标域测试表现，所以这个 gap 反映了验证分数能不能真实搬运到外部数据上。
+
+\textbf{过渡句}
+
+不过，平均分和训练曲线还不够。论文接着问：到底是哪些图片真正被救回来了，哪些方法只是在容易样本上拿分。
+
+\section*{第 8 页：平均分之外的鲁棒性}
+
+\textbf{这一页要让听众听懂什么}
+
+这页要把“平均值可能骗人”讲透。核心关键词是 per-image ranking、bottom quartile、hard-case recovery。
+
+\textbf{可以直接朗读的讲稿}
+
+这一页是我非常建议认真讲的一页，因为它说明这篇论文不只看平均分。
+
+左边这张图把每一张测试图像的 Dice 按从难到易排序。这样做的好处是，我们能看到一个方法到底是在最困难的样本上帮了忙，还是只是把本来就不难的样本进一步做高。
+
+在 STARE 到 HRF 上，Green+Equalize 不只是平均分更高，它的中位数 Dice 也更高，是 0.5715，而 Full improved 是 0.5359。更重要的是，它的 bottom quartile，也就是最难四分之一样本的平均表现也更好，达到 0.5271。这说明它的优势很广泛，不是靠少数幸运样本撑起来的。
+
+在 HRF 到 STARE 上，Balanced only 有一个很有意思的现象。它的 median Dice 其实是最高的，达到 0.6109，看起来好像很强。但如果继续往下看，最差样本 im0324 只有 0.0566，bottom quartile 只有 0.1621，说明它在困难样本上掉得非常厉害。
+
+相反，Full improved 把 bottom quartile 提高到了 0.4083，Green+Equalize 也有 0.3878。所以这页最终要告诉听众的是：balanced loss 更像是在帮容易样本调 operating point，而 preprocessing 才是把 hardest cases 真正救回来的一部分。
+
+\EnglishScriptHeading
+
+This page goes beyond the average score.
+
+The authors rank each test image from hard to easy. This is called per-image ranking. It helps us see whether a method really helps difficult images, or only raises scores on easy ones.
+
+In STARE to HRF, Green+Equalize has a better median Dice and a better bottom quartile. Bottom quartile means the average result on the hardest 25 percent of images. So its gain is broad, not based on just a few lucky cases.
+
+In HRF to STARE, Balanced only has the best median Dice. But its worst case, im0324, is only 0.0566, and its bottom quartile is only 0.1621. So it still fails badly on hard cases.
+
+Full improved and Green+Equalize are much better on those hard cases. That is why preprocessing matters more for hard-case recovery.
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+先指左边 ranking 曲线的 lower tail，再读右边几张卡片里的 median 和 bottom quartile 数字。讲 im0324 的时候，要明确读出 0.0566 这个最差案例分数。
+
+\textbf{补充说明}
+
+如果老师问“为什么不只报 mean Dice”，你可以回答：因为当目标是外部泛化时，最难的样本往往决定系统是不是能真正部署。平均分高，不代表 hardest cases 被解决了。
+
+\textbf{过渡句}
+
+数字之外，论文还给了具体图像案例。这样我们就能从视觉上看到，模型到底是在恢复血管，还是在制造额外噪声。
+
+\section*{第 9 页：定性案例一，STARE 到 HRF}
+
+\textbf{这一页要让听众听懂什么}
+
+同一个方向里，要同时看到“好样本上的改进”和“难样本上的代价”。
+
+\textbf{可以直接朗读的讲稿}
+
+这一页展示的是 STARE 到 HRF 的两个案例。
+
+上面这个 12\_h 是一个相对比较强的样本。你会看到 baseline 其实已经能分出主干血管，但很多侧枝和更细的结构没有出来。Green+Equalize 一上来就把这些支路补回来了，而且整体 mask 比较干净。Full improved 当然也不错，但从这个例子看，预处理本身已经做了大部分关键工作。
+
+下面这个 01\_dr 是更难的样本。这里可以看到一个很典型的现象：Full improved 让召回更高，也就是它愿意把更多可能是血管的区域点亮出来。但代价是，它在边缘和背景不确定区域也产生了额外激活。这个视觉现象，正好对应前面表格里的 specificity 下降。
+
+所以这页要传达的是，STARE 到 HRF 这个方向上，preprocessing-only 之所以有说服力，不只是因为平均分高，也是因为它在视觉上已经恢复了大量有效结构，而 full recipe 再往前推时，开始带来更多噪声。
+
+\EnglishScriptHeading
+
+This page shows qualitative results. Qualitative means visual examples, not only numbers.
+
+On the top example, 12\_h, the baseline already finds the main vessels, but it misses many side branches. Green+Equalize brings back those branches and still keeps the mask clean. Full improved is also good, but this example shows that preprocessing already does most of the important work.
+
+On the bottom example, 01\_dr, Full improved gives higher recall. Recall means it finds more true vessel pixels. But it also adds more activation in uncertain background areas. That matches the drop in specificity we saw earlier. Specificity means avoiding false positives in background regions.
+
+So in STARE to HRF, preprocessing-only looks strong not just in the table, but also in the image.
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+先在 12\_h 那一行用手横着比较三张图，再在 01\_dr 那一行重复同样的动作。重点不是把每个小 panel 都讲完，而是突出“恢复支路”和“外围噪声”这两个视觉点。
+
+\textbf{补充说明}
+
+如果老师问“为什么 qualitative 重要”，你可以回答：因为 Dice 告诉我们重叠程度，但它不能直接告诉我们错误长什么样，而部署时错误形态往往和分数同样重要。
+
+\textbf{过渡句}
+
+接下来这一页更关键，因为它同时展示了论文里最有说服力的 rescue case，以及一个非常诚实的 counterexample。
+
+\section*{第 10 页：定性案例二，HRF 到 STARE}
+
+\textbf{这一页要让听众听懂什么}
+
+这页要让听众真正理解论文的“强处和边界”。im0324 是强证据，im0077 是反例证据。
+
+\textbf{可以直接朗读的讲稿}
+
+这一页是我认为全篇最有解释力的一页。
+
+先看上面的 im0324。这个样本在 baseline 下几乎可以说接近失败，balanced only 也没有真正把问题救回来。但是一旦加入 preprocessing，不管是 Green+Equalize 还是 Full improved，血管树都明显恢复了很多。这就是为什么论文说 preprocessing 才是 hard-case recovery 的核心来源。
+
+再看下面的 im0077。这个案例很有意思，因为它不是在证明 Full improved 最强，而是在告诉我们：最好的平均模型，不一定是每一张图上最干净的模型。你会看到 balanced only 在这个相对容易的样本上，边界更干净，额外激活更少；而更激进的 recipe 反而在主血管周围产生了更多不必要的响应。
+
+这就是论文最可贵的地方。它没有简单地说“我们的方法无条件最好”，而是诚实地展示：有些策略更适合救困难样本，有些策略在容易样本上更干净。你必须结合目标场景来决定要更高 sensitivity，还是更稳的 specificity。
+
+如果你要把这页总结成一句话，那就是：preprocessing 让困难样本真正起死回生，但 full recipe 的更高敏感性也可能带来 over-segmentation。
+
+\EnglishScriptHeading
+
+This page is one of the strongest parts of the paper.
+
+First look at im0324. The baseline almost fails on this image. Balanced only still cannot recover it well. But once preprocessing is added, both Green+Equalize and Full improved recover much more of the vessel tree. This is strong evidence that preprocessing is the main source of hard-case recovery.
+
+Now look at im0077. This is a useful counterexample. A counterexample is a case that shows a method is not always best in every way. On this easier image, Balanced only looks cleaner, with fewer unnecessary activations. The more aggressive recipe gives higher sensitivity, but also more over-segmentation. Sensitivity means the model is more willing to mark vessel pixels. Over-segmentation means it marks too many pixels.
+
+So the lesson is not that one model is always best. Different recipes help different goals.
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+先讲 im0324，按 Baseline、Balanced、Green+Equalize、Full improved 的顺序比较。然后再讲 im0077，明确指出 balanced only 更干净这个反例。
+
+\textbf{补充说明}
+
+如果老师问“那到底该选哪一个模型”，你可以回答：如果最关心 hardest cases 的恢复能力，预处理重的版本更值得选；如果更在意某些容易样本上的干净边界，就要考虑 balanced only 或更保守的 operating point。
+
+\textbf{过渡句}
+
+不过，到这里论文并没有把自己包装成一个已经解决所有问题的系统。下一页就是它的限制和还没解决掉的地方。
+
+\section*{第 11 页：局限、未解决问题、可信边界}
+
+\textbf{这一页要让听众听懂什么}
+
+要让听众知道这篇论文“很克制”。一个好的汇报，不是把论文说成无所不能，而是讲清楚它到底证明到了哪里。
+
+\textbf{可以直接朗读的讲稿}
+
+这一页是论文的边界说明，也是它可信的重要原因。
+
+先看左边两个附加案例。im0255 是一个稳定成功的例子，也就是说在这个样本上，更依赖 preprocessing 的方法都能把主血管树恢复得比较好，而且 Full improved 的整体重叠最好。这个案例告诉我们，强方法在一些样本上确实稳定有效。
+
+但下面的 im0004 说明，问题并没有完全解决。虽然 preprocessing 比 baseline 覆盖得更多，但很多细小、低对比度的分支还是漏掉了。也就是说，剩余误差并不是均匀分布在所有图像上，而是集中在一小批 hardest target images 上。
+
+右边是论文明确承认的限制。第一，只用了两个数据集。第二，最早 baseline 的训练预算和后面 ablation 不完全一致。第三，还没有引入第三个 benchmark，比如 CHASE\_DB1。第四，所有输入都 resize 到 256 乘 256，所以对特别细的血管不够友好。
+
+也正因为这些限制都被明确说出来了，所以论文最后的 claim 很收敛，但也更可信。它不是说“我们解决了所有跨域视网膜血管分割问题”，而是说：在这个课程规模系统里，retinal priors 比更复杂的架构野心更重要。
+
+\EnglishScriptHeading
+
+This page explains the limits of the paper.
+
+On the left, im0255 is a stable success case. The preprocessing-heavy methods recover the main vessel tree well, and Full improved has the best overall overlap.
+
+But im0004 shows the remaining problem. Even with preprocessing, many thin and low-contrast vessels are still missed. So the remaining error is concentrated on the hardest target images.
+
+The paper also states four limitations clearly. It only uses two datasets. The training budget is not fully matched between the earliest baseline and later ablations. It does not include a third benchmark such as CHASE\_DB1. And all inputs are resized to 256 by 256, which is not ideal for very thin vessels.
+
+So the claim is narrow, but believable. In this small-scale setting, retinal priors matter more than a more ambitious architecture.
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+先简短提 im0255 和 im0004 的含义，再重点指右边 limitations 列表。最后回到右下角的 quote panel，把“narrow but useful claim”这一句讲出来。
+
+\textbf{补充说明}
+
+如果老师问“这些限制会不会削弱论文价值”，你可以回答：不会，因为论文本来就不是要证明一个绝对通用的新 SOTA，而是要找出在小规模跨数据集条件下最值得优先做的组件。
+
+\textbf{过渡句}
+
+最后一页，我会把整篇论文真正值得记住的内容收成四点，并用一句最简单的话落地。
+
+\section*{第 12 页：最终总结与落点}
+
+\textbf{这一页要让听众听懂什么}
+
+把整篇论文压缩成可以带走的四个信息点。最后一句话要非常清晰。
+
+\textbf{可以直接朗读的讲稿}
+
+最后我用四点总结这篇论文。
+
+第一，最有效的改进来源是 retinal-specific preprocessing，也就是绿色通道提取加直方图均衡化。它解释了两个迁移方向中大部分性能提升。
+
+第二，balanced loss 是有帮助的，尤其在 HRF 到 STARE 上能明显提升分数，但它不是主要驱动因素，而且在 hardest cases 上不如 preprocessing-heavy 的版本稳。
+
+第三，Full improved 的价值主要体现在更高 sensitivity 和更小 transport gap，也就是它让源域验证结果更容易搬运到目标域测试结果上，但这往往伴随着更多 false positives。
+
+第四，如果目标是真正的外部泛化，那么只报一个 mean Dice 是不够的。你还需要 per-image metrics、qualitative examples，以及对 failure cases 的诚实讨论。
+
+如果让我用一句最简单的话结束这场汇报，我会说：在小数据、跨数据集的视网膜血管分割里，先把输入分布对齐，往往比急着换更大的 backbone 更重要。
+
+谢谢大家，我的汇报到这里结束。
+
+\EnglishScriptHeading
+
+Let me end with four takeaways.
+
+First, retinal-specific preprocessing is the strongest source of improvement. It explains most of the gain in both transfer directions.
+
+Second, balanced loss is useful, especially from HRF to STARE, but it is not the main driver, and it is less stable on the hardest cases.
+
+Third, Full improved is mainly valuable because it gives higher sensitivity and a smaller transport gap. That makes source-side model selection more reliable, although it can also create more false positives.
+
+Fourth, if we care about real external generalization, one mean Dice score is not enough. External generalization means the model still works on new data from outside the training distribution. We also need per-image metrics, qualitative examples, and honest discussion of failure cases.
+
+So I will end with one simple sentence: in small-data cross-dataset retinal vessel segmentation, aligning the input distribution is often more important than rushing to a larger backbone.
+
+\textbf{你在屏幕上应该指给听众看的地方}
+
+按四张 takeaway 卡片从左到右讲，再回到左下角的大句子“Before you reach for a larger model, first align the retinal input distribution.” 这就是最好的收尾句。
+
+\textbf{补充说明}
+
+如果结束后老师问“这篇论文最有价值的点是什么”，你就直接答：它用一个非常可复现、非常克制的设置证明了输入级 retinal priors 的价值，这比单纯堆模型更有方法论意义。
+
+\textbf{最后提醒}
+
+真正上台时，不需要把这份稿子逐字逐句全部背下来。更好的做法是记住每一页只有一个任务：
+
+\begin{itemize}[leftmargin=1.6em]
+  \item 前 4 页建立问题和实验规则。
+  \item 中间 4 页讲清楚结果、解释和 hard-case analysis。
+  \item 后 4 页展示定性证据、局限性和最后结论。
+\end{itemize}
+
+只要这个骨架稳住，你整场报告就会非常清晰。
+
+\end{document}

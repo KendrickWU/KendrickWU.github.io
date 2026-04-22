@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cross-Dataset Retinal Vessel Segmentation</title>
+  <style>
+    :root {
+      --bg: #020305;
+      --panel: rgba(255, 255, 255, 0.08);
+      --panel-strong: rgba(255, 255, 255, 0.12);
+      --text: #f5f7fb;
+      --muted: rgba(245, 247, 251, 0.72);
+      --line: rgba(255, 255, 255, 0.14);
+      --teal: #66e0d2;
+      --orange: #ff8b66;
+      --violet: #bea5ff;
+      --blue: #8fb8ff;
+      --lime: #d7f56d;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(65, 121, 255, 0.24), transparent 26%),
+        radial-gradient(circle at 85% 15%, rgba(102, 224, 210, 0.16), transparent 28%),
+        radial-gradient(circle at 50% 85%, rgba(255, 139, 102, 0.18), transparent 32%),
+        linear-gradient(180deg, #05070b 0%, #020305 100%);
+      color: var(--text);
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      border-radius: 50%;
+      filter: blur(70px);
+      pointer-events: none;
+      opacity: 0.45;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 260px;
+      height: 260px;
+      right: 8%;
+      top: 10%;
+      background: rgba(215, 245, 109, 0.16);
+    }
+
+    body::after {
+      width: 340px;
+      height: 340px;
+      left: 4%;
+      bottom: 10%;
+      background: rgba(190, 165, 255, 0.13);
+    }
+
+    .hud {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px 0;
+      pointer-events: none;
+    }
+
+    .hud .label,
+    .hud .hint,
+    .dot-nav {
+      pointer-events: auto;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(7, 10, 15, 0.6);
+      backdrop-filter: blur(14px);
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .progress-shell {
+      position: fixed;
+      top: 82px;
+      left: 28px;
+      right: 28px;
+      z-index: 10;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--teal), var(--lime));
+      transition: width 0.4s ease;
+    }
+
+    .hint {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(7, 10, 15, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(14px);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .deck {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 1;
+    }
+
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      padding: 118px 72px 64px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 28px;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border-radius: 38px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      color: var(--lime);
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    ul {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(48px, 7vw, 94px);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+      max-width: 1100px;
+    }
+
+    h2 {
+      font-size: clamp(34px, 4.4vw, 64px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      max-width: 960px;
+    }
+
+    h3 {
+      font-size: 24px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .lead {
+      max-width: 920px;
+      font-size: clamp(18px, 2vw, 28px);
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .sublead {
+      max-width: 700px;
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .hero-grid,
+    .two-col,
+    .three-col,
+    .metrics-row,
+    .cases-grid,
+    .pipeline,
+    .recipes {
+      display: grid;
+      gap: 22px;
+    }
+
+    .hero-grid {
+      grid-template-columns: 1.6fr 1fr;
+      align-items: end;
+    }
+
+    .two-col {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: center;
+    }
+
+    .three-col {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .metrics-row {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .recipes {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .panel,
+    .stat,
+    .case-card,
+    .recipe-card,
+    .dataset-card,
+    .takeaway-card {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .panel {
+      padding: 26px;
+    }
+
+    .stat {
+      min-height: 178px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat .value {
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      font-weight: 700;
+    }
+
+    .stat .caption {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .dataset-card,
+    .recipe-card,
+    .takeaway-card {
+      padding: 24px;
+    }
+
+    .dataset-card .name,
+    .recipe-card .name,
+    .takeaway-card .name {
+      font-size: 22px;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .dataset-card .meta,
+    .recipe-card .meta,
+    .takeaway-card .meta,
+    .panel .meta {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .arrow-band {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .arrow {
+      font-size: 40px;
+      color: var(--teal);
+    }
+
+    .mini-label {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      max-width: 760px;
+    }
+
+    .chart-panel {
+      padding: 18px;
+      min-height: 0;
+    }
+
+    .chart-panel img,
+    .case-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .pipeline {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      align-items: stretch;
+    }
+
+    .step {
+      padding: 22px;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .step .index {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .step strong {
+      font-size: 20px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .step span {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .cases-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .case-card {
+      padding: 18px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .case-copy {
+      display: grid;
+      gap: 10px;
+    }
+
+    .case-copy p {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    ul.clean {
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 880px;
+    }
+
+    ul.clean li + li {
+      margin-top: 8px;
+    }
+
+    .takeaways {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .footer-note {
+      position: absolute;
+      right: 72px;
+      bottom: 40px;
+      color: rgba(255,255,255,0.42);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .dot-nav {
+      position: fixed;
+      right: 26px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      display: grid;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.22);
+      border: 0;
+      cursor: pointer;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .dot.active {
+      transform: scale(1.35);
+      background: var(--lime);
+    }
+
+    .notes {
+      position: fixed;
+      left: 28px;
+      bottom: 28px;
+      z-index: 10;
+      max-width: 420px;
+      padding: 16px 18px;
+      background: rgba(7, 10, 15, 0.72);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 20px;
+      color: var(--muted);
+      backdrop-filter: blur(16px);
+      font-size: 14px;
+      line-height: 1.65;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .notes.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .notes strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    @media (max-width: 1180px) {
+      .slide {
+        padding: 110px 36px 48px;
+      }
+
+      .hero-grid,
+      .two-col,
+      .three-col,
+      .metrics-row,
+      .recipes,
+      .pipeline,
+      .cases-grid,
+      .takeaways {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-note {
+        right: 36px;
+        bottom: 24px;
+      }
+
+      .dot-nav {
+        right: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hud">
+    <div class="label" id="slideLabel">Slide 1 / 9</div>
+    <div class="hint">Arrow Keys / Space / Mouse Wheel • F = Fullscreen • N = Notes</div>
+  </div>
+  <div class="progress-shell"><div class="progress-bar" id="progressBar"></div></div>
+
+  <div class="dot-nav" id="dotNav"></div>
+  <div class="notes" id="notesBox"></div>
+
+  <main class="deck" id="deck">
+    <section class="slide" data-notes="Open with the big idea: this paper keeps the model simple on purpose and shows that retinal-specific preprocessing matters more than a heavier recipe under domain shift.">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">COMP5423 Final Project</div>
+          <h1>Cross-Dataset Retinal Vessel Segmentation</h1>
+          <p class="lead">A keynote-style summary of the paper: under small-data domain shift, the biggest gain does not come from a larger model. It comes from using the right retinal priors.</p>
+          <div class="pill-row" style="margin-top: 24px;">
+            <div class="pill">U-Net backbone kept fixed</div>
+            <div class="pill">Train on one dataset, test on another</div>
+            <div class="pill">Focus on reproducible lightweight changes</div>
+          </div>
+        </div>
+        <div class="metrics-row" style="grid-template-columns: 1fr;">
+          <div class="stat">
+            <div class="caption">Best STARE → HRF Dice</div>
+            <div class="value">0.5789</div>
+            <div class="meta">Green-channel extraction + histogram equalization.</div>
+          </div>
+          <div class="stat">
+            <div class="caption">Best HRF → STARE Dice</div>
+            <div class="value">0.5430</div>
+            <div class="meta">Full improved recipe, but only narrowly ahead of preprocessing-only.</div>
+          </div>
+          <div class="stat">
+            <div class="caption">Strongest message</div>
+            <div class="value">Preprocessing</div>
+            <div class="meta">It explains most of the cross-dataset gain in both directions.</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-note">Retinal Vessel Presentation Package</div>
+    </section>
+
+    <section class="slide" data-notes="Explain the problem in plain language: vessel segmentation is clinically useful, but models often break when camera style changes. That is the entire motivation for the paper.">
+      <div class="eyebrow">Problem</div>
+      <h2 class="section-title">Why this paper matters</h2>
+      <div class="two-col">
+        <div class="panel">
+          <div class="mini-label">Core challenge</div>
+          <p class="lead" style="font-size: 28px; max-width: none;">
+            Retinal vessels are thin, low-contrast structures. Models can look strong on the training dataset and still fail once the camera, illumination, crop geometry, and contrast profile change.
+          </p>
+          <ul class="clean" style="margin-top: 20px;">
+            <li>Segmentation quality matters because vessel morphology supports downstream ophthalmic analysis.</li>
+            <li>The deployment setting is strict: no target-domain finetuning, no pseudo-labeling, no adaptation tricks.</li>
+            <li>The paper asks a practical question: what low-cost changes actually transfer across datasets?</li>
+          </ul>
+        </div>
+        <div class="three-col">
+          <div class="takeaway-card">
+            <div class="name">Thin Structures</div>
+            <div class="meta">Small branches are easy to miss, and false positives appear quickly when recall is pushed too far.</div>
+          </div>
+          <div class="takeaway-card">
+            <div class="name">Tiny Data</div>
+            <div class="meta">The source dataset has only 16 or 36 training images after split, so overfitting is a real risk.</div>
+          </div>
+          <div class="takeaway-card">
+            <div class="name">Domain Shift</div>
+            <div class="meta">STARE and HRF differ in resolution, image appearance, and background characteristics.</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-note">Motivation: Generalization before novelty</div>
+    </section>
+
+    <section class="slide" data-notes="State the experimental protocol carefully. This slide is important because it makes the evaluation strict and credible.">
+      <div class="eyebrow">Setup</div>
+      <h2 class="section-title">A strict two-way transfer test</h2>
+      <div class="three-col">
+        <div class="dataset-card">
+          <div class="mini-label">Source / Target A</div>
+          <div class="name">STARE</div>
+          <div class="meta">20 annotated fundus images.<br />Approx. 700 × 605 resolution.<br />Split as 16 train / 4 validation when it is the source domain.</div>
+        </div>
+        <div class="panel" style="display:flex; align-items:center; justify-content:center; min-height: 250px;">
+          <div>
+            <div class="arrow-band"><span>Train on STARE</span> <span class="arrow">→</span> <span>Test on HRF</span></div>
+            <div class="arrow-band"><span>Train on HRF</span> <span class="arrow">→</span> <span>Test on STARE</span></div>
+            <p class="sublead" style="text-align:center; max-width:none; margin-top: 10px;">No target finetuning. No test-time adaptation. That makes the cross-dataset result easy to interpret.</p>
+          </div>
+        </div>
+        <div class="dataset-card">
+          <div class="mini-label">Source / Target B</div>
+          <div class="name">HRF</div>
+          <div class="meta">45 high-resolution fundus images.<br />3504 × 2336 pixels.<br />Split as 36 train / 9 validation when it is the source domain.</div>
+        </div>
+      </div>
+      <div class="pill-row">
+        <div class="pill">Metrics: Dice, IoU, sensitivity, specificity, accuracy</div>
+        <div class="pill">Artifacts: per-image CSV logs, qualitative exports, threshold search records</div>
+      </div>
+      <div class="footer-note">Bidirectional transfer exposes asymmetry</div>
+    </section>
+
+    <section class="slide" data-notes="Walk from baseline to full recipe. Keep the audience focused on the fact that the backbone stays fixed and only low-cost components change.">
+      <div class="eyebrow">Method</div>
+      <h2 class="section-title">Keep the backbone fixed. Change the recipe.</h2>
+      <div class="pipeline">
+        <div class="step">
+          <div class="index">Step 1</div>
+          <strong>Input Fundus Image</strong>
+          <span>Start from the retinal image. The baseline uses the raw RGB image.</span>
+        </div>
+        <div class="step">
+          <div class="index">Step 2</div>
+          <strong>Retinal-Specific Preprocessing</strong>
+          <span>Green-channel extraction boosts vessel visibility. Histogram equalization normalizes contrast across cameras.</span>
+        </div>
+        <div class="step">
+          <div class="index">Step 3</div>
+          <strong>Plain U-Net</strong>
+          <span>No heavier encoder. No transformer. The model stays intentionally simple.</span>
+        </div>
+        <div class="step">
+          <div class="index">Step 4</div>
+          <strong>Dice + BCE Objective</strong>
+          <span>Optional class-balanced BCE reduces background bias when positive vessel pixels are rare.</span>
+        </div>
+        <div class="step">
+          <div class="index">Step 5</div>
+          <strong>Threshold Selection</strong>
+          <span>The improved recipe also searches the best validation threshold before testing on the target set.</span>
+        </div>
+      </div>
+      <div class="recipes">
+        <div class="recipe-card">
+          <div class="name">Baseline</div>
+          <div class="meta">U-Net + Dice + BCE.<br />8 epochs.<br />Adam optimizer.</div>
+        </div>
+        <div class="recipe-card">
+          <div class="name">Green+Equalize</div>
+          <div class="meta">Adds green-channel replication and global histogram equalization.<br />12 epochs.</div>
+        </div>
+        <div class="recipe-card">
+          <div class="name">Balanced Only</div>
+          <div class="meta">Replaces plain BCE with class-balanced BCE.<br />Only evaluated for HRF → STARE.</div>
+        </div>
+        <div class="recipe-card">
+          <div class="name">Full Improved</div>
+          <div class="meta">Preprocessing + balanced loss + stronger augmentation + AdamW + threshold search.</div>
+        </div>
+      </div>
+      <div class="footer-note">Simple model, carefully designed ablations</div>
+    </section>
+
+    <section class="slide" data-notes="This is the result slide. Say the numbers clearly and then state the conclusion: preprocessing is the main driver.">
+      <div class="eyebrow">Results</div>
+      <h2 class="section-title">One chart captures the paper</h2>
+      <div class="two-col">
+        <div class="chart-panel panel">
+          <img src="assets/analysis/test_metric_bars.png" alt="Cross-dataset Dice and IoU bar charts" />
+        </div>
+        <div class="panel">
+          <div class="mini-label">Read the result correctly</div>
+          <ul class="clean">
+            <li><strong>STARE → HRF:</strong> baseline Dice is 0.2109, while Green+Equalize jumps to 0.5789. That is the biggest improvement in the whole paper.</li>
+            <li><strong>HRF → STARE:</strong> baseline Dice is 0.4016. Balanced loss improves it to 0.5101, but Green+Equalize reaches 0.5398 and the full recipe only slightly improves further to 0.5430.</li>
+            <li><strong>Main interpretation:</strong> the extra recipe components matter less than retinal-specific preprocessing.</li>
+          </ul>
+          <div class="pill-row" style="margin-top: 22px;">
+            <div class="pill">+0.3680 Dice on STARE → HRF</div>
+            <div class="pill">+0.1414 Dice on HRF → STARE</div>
+            <div class="pill">Full recipe trades specificity for sensitivity</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-note">Preprocessing dominates both transfer directions</div>
+    </section>
+
+    <section class="slide" data-notes="Use this slide to explain why the best final result is not always the most stable result, and why convergence behavior matters under small data.">
+      <div class="eyebrow">Dynamics</div>
+      <h2 class="section-title">Training gets better faster, but not always cleaner</h2>
+      <div class="two-col">
+        <div class="chart-panel panel">
+          <img src="assets/analysis/training_dynamics.png" alt="Validation Dice over training epochs" />
+        </div>
+        <div class="panel">
+          <div class="mini-label">What the curves say</div>
+          <ul class="clean">
+            <li>On STARE → HRF, the full recipe improves early, but Green+Equalize keeps rising and eventually overtakes it.</li>
+            <li>On HRF → STARE, all stronger variants beat the baseline quickly, which confirms that the baseline underuses the available signal.</li>
+            <li>This supports a subtle point: more aggressive optimization can increase recall early, but it may also create noisier masks.</li>
+          </ul>
+          <div class="pill-row" style="margin-top: 22px;">
+            <div class="pill">Best validation Dice: 0.7064 for HRF → STARE Green+Equalize</div>
+            <div class="pill">Transport gap still exists under domain shift</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-note">Fast convergence is useful, but calibration still matters</div>
+    </section>
+
+    <section class="slide" data-notes="Now switch from averages to robustness. Explain that median and lower-tail behavior matter because some models only help the easy cases.">
+      <div class="eyebrow">Robustness</div>
+      <h2 class="section-title">Average Dice is not the whole story</h2>
+      <div class="two-col">
+        <div class="chart-panel panel">
+          <img src="assets/analysis/per_image_rankings.png" alt="Per-image Dice ranking curves" />
+        </div>
+        <div class="panel">
+          <div class="mini-label">Per-image interpretation</div>
+          <ul class="clean">
+            <li>On STARE → HRF, Green+Equalize dominates the full recipe almost everywhere and also has a better median Dice.</li>
+            <li>On HRF → STARE, balanced loss has some strong easy-case results, but its lower tail is much worse. Hard samples collapse badly.</li>
+            <li>That is why the paper argues for per-image logging and qualitative review, not just a single average score.</li>
+          </ul>
+          <div class="pill-row" style="margin-top: 22px;">
+            <div class="pill">STARE → HRF median Dice: 0.5715 vs 0.5359</div>
+            <div class="pill">Balanced loss worst case: im0324 Dice 0.0566</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-note">Robustness on hard cases changes the conclusion</div>
+    </section>
+
+    <section class="slide" data-notes="Use the rescue case first, then the counterexample. This helps the audience understand both the strength and the limitation of the full recipe.">
+      <div class="eyebrow">Qualitative Cases</div>
+      <h2 class="section-title">What the model improvement looks like</h2>
+      <div class="cases-grid">
+        <div class="case-card">
+          <img src="assets/qualitative/im0324_green_equalize.png" alt="Green and equalize qualitative result for im0324" />
+          <div class="case-copy">
+            <h3>Case im0324: hard sample recovery</h3>
+            <p>This case is one of the paper's clearest rescue examples. The preprocessing-heavy variants recover much more of the vessel tree than the baseline, which explains why preprocessing drives the lower-tail improvement.</p>
+          </div>
+        </div>
+        <div class="case-card">
+          <img src="assets/qualitative/im0077_full_improved.png" alt="Full improved qualitative result for im0077" />
+          <div class="case-copy">
+            <h3>Case im0077: aggressive recipe can over-segment</h3>
+            <p>Some easier samples do not need the most aggressive operating point. The paper explicitly notes that higher sensitivity can create extra activations around main vessels.</p>
+          </div>
+        </div>
+      </div>
+      <div class="pill-row">
+        <div class="pill">Each composite image shows input, ground truth, probability map, and binary prediction</div>
+        <div class="pill">Best average model is not uniformly best image by image</div>
+      </div>
+      <div class="footer-note">Qualitative analysis keeps the story honest</div>
+    </section>
+
+    <section class="slide" data-notes="Finish with the three core takeaways, then mention the limitations and what the audience should remember if they only keep one message.">
+      <div class="eyebrow">Conclusion</div>
+      <h2 class="section-title">What you should remember</h2>
+      <div class="takeaways">
+        <div class="takeaway-card">
+          <div class="name">1. Preprocessing is the main result</div>
+          <div class="meta">Green-channel extraction plus histogram equalization explains most of the gain in both transfer directions.</div>
+        </div>
+        <div class="takeaway-card">
+          <div class="name">2. Balanced loss helps, but selectively</div>
+          <div class="meta">It improves HRF → STARE, yet it is not the main reason the model generalizes better.</div>
+        </div>
+        <div class="takeaway-card">
+          <div class="name">3. Bigger is not always better</div>
+          <div class="meta">For this small-data project, acquisition mismatch matters more than architectural novelty.</div>
+        </div>
+        <div class="takeaway-card">
+          <div class="name">4. Report the hard cases</div>
+          <div class="meta">Per-image metrics and qualitative exports are essential when external generalization is the actual goal.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="mini-label">Limitations noted by the paper</div>
+        <ul class="clean">
+          <li>Only two datasets are used, and the benchmark is intentionally small.</li>
+          <li>The original baseline keeps a shorter MVP training budget than later ablations.</li>
+          <li>The claim is therefore narrow and careful: retinal-specific priors dominate the gains in this course-scale system.</li>
+        </ul>
+      </div>
+      <div class="footer-note">Thank you • Questions?</div>
+    </section>
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const deck = document.getElementById('deck');
+    const progressBar = document.getElementById('progressBar');
+    const slideLabel = document.getElementById('slideLabel');
+    const dotNav = document.getElementById('dotNav');
+    const notesBox = document.getElementById('notesBox');
+    let index = 0;
+    let notesVisible = false;
+    let wheelLock = false;
+
+    function updateDeck() {
+      deck.style.transform = `translateY(-${index * 100}vh)`;
+      progressBar.style.width = `${((index + 1) / slides.length) * 100}%`;
+      slideLabel.textContent = `Slide ${index + 1} / ${slides.length}`;
+      document.querySelectorAll('.dot').forEach((dot, dotIndex) => {
+        dot.classList.toggle('active', dotIndex === index);
+      });
+      const notes = slides[index].dataset.notes || '';
+      notesBox.innerHTML = `<strong>Presenter cue</strong>${notes}`;
+      notesBox.classList.toggle('visible', notesVisible);
+    }
+
+    function goTo(nextIndex) {
+      index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+      updateDeck();
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+    }
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'dot';
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      dot.addEventListener('click', () => goTo(i));
+      dotNav.appendChild(dot);
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(event.key)) {
+        event.preventDefault();
+        goTo(index + 1);
+      }
+      if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(event.key)) {
+        event.preventDefault();
+        goTo(index - 1);
+      }
+      if (event.key.toLowerCase() === 'f') {
+        toggleFullscreen();
+      }
+      if (event.key.toLowerCase() === 'n') {
+        notesVisible = !notesVisible;
+        notesBox.classList.toggle('visible', notesVisible);
+      }
+      if (event.key === 'Home') {
+        goTo(0);
+      }
+      if (event.key === 'End') {
+        goTo(slides.length - 1);
+      }
+    });
+
+    window.addEventListener('wheel', (event) => {
+      if (wheelLock) return;
+      wheelLock = true;
+      setTimeout(() => { wheelLock = false; }, 550);
+      if (event.deltaY > 0) {
+        goTo(index + 1);
+      } else if (event.deltaY < 0) {
+        goTo(index - 1);
+      }
+    }, { passive: true });
+
+    updateDeck();
+  </script>
+</body>
+</html>
