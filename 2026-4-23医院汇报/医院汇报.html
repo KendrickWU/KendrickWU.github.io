@@ -1,0 +1,2217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026-04-24 阶段汇报</title>
+  <style>
+    :root {
+      --stone: #d7ccb8;
+      --paper: #fffaf3;
+      --ink: #14202b;
+      --ink-soft: #5e6974;
+      --ink-faint: #7b8793;
+      --accent: #0b8d87;
+      --accent-2: #1ea4b8;
+      --accent-3: #d76842;
+      --good: #1f7d5d;
+      --warn: #b98332;
+      --bad: #c84c4c;
+      --dark: #101924;
+      --dark-2: #162432;
+      --card: rgba(255, 255, 255, 0.78);
+      --card-strong: rgba(255, 255, 255, 0.92);
+      --line: rgba(20, 32, 43, 0.09);
+      --dark-card: rgba(255, 255, 255, 0.18);
+      --shadow-xl: 0 22px 50px rgba(20, 32, 43, 0.10);
+      --shadow-lg: 0 14px 34px rgba(20, 32, 43, 0.08);
+      --shadow-md: 0 8px 20px rgba(20, 32, 43, 0.06);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --pad-x: 78px;
+      --pad-y: 48px;
+      --transition: 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      color: var(--ink);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(30, 164, 184, 0.12), transparent 22%),
+        radial-gradient(circle at 0% 100%, rgba(215, 104, 66, 0.08), transparent 24%),
+        linear-gradient(180deg, #f6f2eb 0%, #f2eee7 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(20, 32, 43, 0.015) 1px, transparent 1px),
+        linear-gradient(rgba(20, 32, 43, 0.015) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      opacity: 0.32;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.34), transparent 28%),
+        radial-gradient(circle at 82% 16%, rgba(135, 235, 227, 0.10), transparent 22%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(20, 32, 43, 0.04));
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    .deck {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      isolation: isolate;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 330px;
+      padding: var(--pad-y) var(--pad-x) calc(var(--pad-y) + 36px);
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(30px) scale(0.985);
+      transition: opacity 360ms ease, transform var(--transition);
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      background:
+        radial-gradient(circle at 100% 0%, rgba(30, 164, 184, 0.08), transparent 18%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0.22));
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
+      z-index: 2;
+    }
+
+    .slide.dark {
+      color: #eef8fa;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(61, 220, 211, 0.18), transparent 24%),
+        radial-gradient(circle at 100% 100%, rgba(215, 104, 66, 0.14), transparent 22%),
+        linear-gradient(135deg, #0f1822 0%, #152230 55%, #1b2e3f 100%);
+    }
+
+    .slide.sand {
+      background:
+        radial-gradient(circle at 100% 0%, rgba(215, 104, 66, 0.10), transparent 20%),
+        linear-gradient(180deg, #faf6ef 0%, #f2ebe0 100%);
+    }
+
+    .slide.glass {
+      background:
+        radial-gradient(circle at 0% 0%, rgba(30, 164, 184, 0.10), transparent 22%),
+        linear-gradient(180deg, #f8fbfc 0%, #edf4f5 100%);
+    }
+
+    .slide.graphite {
+      color: #eef8fa;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(61, 220, 211, 0.14), transparent 22%),
+        linear-gradient(135deg, #121d28 0%, #162331 58%, #213245 100%);
+    }
+
+    .topbar {
+      display: none;
+    }
+
+    .brand,
+    .hint,
+    .chip,
+    .status-pill,
+    .tiny-pill,
+    .kicker {
+      letter-spacing: 0.04em;
+      font-weight: 650;
+    }
+
+    .brand {
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    .hint,
+    .mono-note {
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+
+    .dark .brand,
+    .dark .hint,
+    .dark .mono-note,
+    .graphite .brand,
+    .graphite .hint,
+    .graphite .mono-note {
+      color: rgba(238, 248, 250, 0.74);
+    }
+
+    .eyebrow {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+
+    .dark .eyebrow,
+    .graphite .eyebrow {
+      color: #87ebe3;
+    }
+
+    .title {
+      margin: 0;
+      font-family: "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif SC", serif;
+      font-size: clamp(38px, 5.5vw, 74px);
+      line-height: 1.04;
+      letter-spacing: -0.025em;
+      font-weight: 700;
+      max-width: 16ch;
+      text-wrap: balance;
+    }
+
+    .title.wide {
+      max-width: 18ch;
+    }
+
+    .subtitle,
+    .lead,
+    .small-copy,
+    .body-copy {
+      margin: 0;
+      max-width: 46ch;
+    }
+
+    .subtitle {
+      font-size: clamp(20px, 1.95vw, 25px);
+      line-height: 1.68;
+      color: var(--ink-soft);
+    }
+
+    .body-copy,
+    .small-copy {
+      font-size: 16.5px;
+      line-height: 1.72;
+      color: var(--ink-soft);
+    }
+
+    .lead {
+      font-size: clamp(22px, 2.6vw, 34px);
+      line-height: 1.3;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+    }
+
+    .dark .subtitle,
+    .dark .small-copy,
+    .dark .body-copy,
+    .graphite .subtitle,
+    .graphite .small-copy,
+    .graphite .body-copy {
+      color: rgba(238, 248, 250, 0.78);
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+      flex: 1;
+      max-width: 980px;
+      padding-top: 22px;
+    }
+
+    .hero .subtitle {
+      max-width: 52ch;
+    }
+
+    .cover-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .cover-meta-item {
+      min-width: 180px;
+      padding: 14px 16px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(14px) saturate(120%);
+      -webkit-backdrop-filter: blur(14px) saturate(120%);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
+    }
+
+    .cover-meta-item span {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: rgba(238, 248, 250, 0.74);
+      text-transform: uppercase;
+    }
+
+    .cover-meta-item strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: #f5fcfd;
+      font-weight: 680;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .chip {
+      padding: 11px 15px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      background: rgba(11, 141, 135, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(11, 141, 135, 0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .dark .chip,
+    .graphite .chip {
+      background: rgba(135, 235, 227, 0.12);
+      color: #9cf0eb;
+      border-color: rgba(135, 235, 227, 0.18);
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .stage-grid,
+    .question-grid,
+    .survey-grid,
+    .closing-grid,
+    .caution-grid,
+    .duo-images,
+    .result-grid {
+      display: grid;
+      gap: 22px;
+      min-height: 0;
+    }
+
+    .grid-2,
+    .duo-images,
+    .result-grid {
+      grid-template-columns: 1.02fr 0.98fr;
+      align-items: stretch;
+      flex: 1;
+    }
+
+    .grid-2.equal {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .grid-3,
+    .question-grid,
+    .survey-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-4,
+    .stage-grid,
+    .closing-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 0;
+    }
+
+    .card,
+    .metric,
+    .stage-card,
+    .question-card,
+    .survey-card,
+    .closing-card,
+    .caution-card,
+    .figure-card,
+    .mini-card,
+    .logic-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 20px 20px 18px;
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
+    }
+
+    .card.strong,
+    .metric,
+    .stage-card strong,
+    .closing-card {
+      background: var(--card-strong);
+    }
+
+    .dark .card,
+    .dark .metric,
+    .dark .stage-card,
+    .dark .question-card,
+    .dark .survey-card,
+    .dark .closing-card,
+    .dark .caution-card,
+    .dark .figure-card,
+    .dark .mini-card,
+    .dark .logic-card,
+    .graphite .card,
+    .graphite .metric,
+    .graphite .stage-card,
+    .graphite .question-card,
+    .graphite .survey-card,
+    .graphite .closing-card,
+    .graphite .caution-card,
+    .graphite .figure-card,
+    .graphite .mini-card,
+    .graphite .logic-card {
+      background: var(--dark-card);
+      border-color: rgba(255, 255, 255, 0.10);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.18);
+    }
+
+    .card h3,
+    .metric h3,
+    .stage-card h3,
+    .question-card h3,
+    .survey-card h3,
+    .closing-card h3,
+    .caution-card h3,
+    .figure-card h3,
+    .mini-card h3,
+    .logic-card h3,
+    .compare-header h3 {
+      margin: 0 0 10px;
+      font-size: 23px;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+
+    .card p,
+    .metric p,
+    .stage-card p,
+    .question-card p,
+    .survey-card p,
+    .closing-card p,
+    .caution-card p,
+    .figure-card p,
+    .mini-card p,
+    .logic-card p,
+    .compare-table p,
+    .compare-table div,
+    .rank-list li,
+    .bullet-list li,
+    .plain-list li {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.68;
+      color: inherit;
+      opacity: 0.92;
+    }
+
+    .metric .kicker,
+    .stage-card .kicker,
+    .question-card .kicker,
+    .survey-card .kicker,
+    .closing-card .kicker,
+    .caution-card .kicker,
+    .mini-card .kicker,
+    .logic-card .kicker {
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .dark .kicker,
+    .graphite .kicker {
+      color: #98eee8;
+    }
+
+    .metric-number {
+      display: block;
+      margin: 6px 0 8px;
+      font-size: 42px;
+      line-height: 1;
+      font-weight: 760;
+      letter-spacing: -0.05em;
+    }
+
+    .status-pill,
+    .tiny-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      font-size: 11px;
+      padding: 8px 10px;
+      border: 1px solid transparent;
+    }
+
+    .status-done {
+      color: var(--good);
+      background: rgba(31, 125, 93, 0.12);
+      border-color: rgba(31, 125, 93, 0.18);
+    }
+
+    .status-next {
+      color: var(--warn);
+      background: rgba(194, 124, 38, 0.12);
+      border-color: rgba(194, 124, 38, 0.18);
+    }
+
+    .status-watch {
+      color: var(--accent);
+      background: rgba(11, 141, 135, 0.12);
+      border-color: rgba(11, 141, 135, 0.18);
+    }
+
+    .callout {
+      padding: 17px 22px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(11, 141, 135, 0.12), rgba(30, 164, 184, 0.08));
+      border: 1px solid rgba(11, 141, 135, 0.14);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .callout p {
+      margin: 0;
+      font-size: 16.5px;
+      line-height: 1.66;
+      font-weight: 600;
+    }
+
+    .dark .callout,
+    .graphite .callout {
+      background: rgba(135, 235, 227, 0.10);
+      border-color: rgba(135, 235, 227, 0.16);
+      box-shadow: none;
+    }
+
+    .image-frame {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(20, 32, 43, 0.08);
+      box-shadow: var(--shadow-lg);
+      min-height: 0;
+      flex: 1;
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      padding: 16px 18px 8px;
+    }
+
+    .image-caption {
+      padding: 0 18px 15px;
+      font-size: 12.5px;
+      line-height: 1.55;
+      font-weight: 650;
+      color: var(--ink-faint);
+    }
+
+    .projection-compact {
+      gap: 18px;
+    }
+
+    .projection-compact .title {
+      font-size: clamp(32px, 4.2vw, 58px);
+      max-width: 20ch;
+    }
+
+    .projection-compact .stack {
+      gap: 14px;
+    }
+
+    .projection-compact .card,
+    .projection-compact .metric,
+    .projection-compact .stage-card,
+    .projection-compact .question-card,
+    .projection-compact .survey-card,
+    .projection-compact .closing-card,
+    .projection-compact .caution-card,
+    .projection-compact .figure-card,
+    .projection-compact .mini-card,
+    .projection-compact .logic-card {
+      padding: 18px 18px 16px;
+      border-radius: 20px;
+    }
+
+    .projection-compact .card h3,
+    .projection-compact .metric h3,
+    .projection-compact .stage-card h3,
+    .projection-compact .question-card h3,
+    .projection-compact .survey-card h3,
+    .projection-compact .closing-card h3,
+    .projection-compact .caution-card h3,
+    .projection-compact .figure-card h3,
+    .projection-compact .mini-card h3,
+    .projection-compact .logic-card h3,
+    .projection-compact .compare-header h3 {
+      font-size: 21px;
+      margin-bottom: 8px;
+    }
+
+    .projection-compact .card p,
+    .projection-compact .metric p,
+    .projection-compact .stage-card p,
+    .projection-compact .question-card p,
+    .projection-compact .survey-card p,
+    .projection-compact .closing-card p,
+    .projection-compact .caution-card p,
+    .projection-compact .figure-card p,
+    .projection-compact .mini-card p,
+    .projection-compact .logic-card p,
+    .projection-compact .compare-table p,
+    .projection-compact .compare-table div,
+    .projection-compact .rank-list li,
+    .projection-compact .bullet-list li,
+    .projection-compact .plain-list li {
+      font-size: 14.6px;
+      line-height: 1.6;
+    }
+
+    .projection-compact .callout {
+      padding: 14px 18px;
+    }
+
+    .projection-compact .callout p {
+      font-size: 15px;
+      line-height: 1.58;
+    }
+
+    .projection-compact .image-frame img {
+      padding: 12px 14px 8px;
+    }
+
+    .projection-compact .image-caption {
+      font-size: 12px;
+    }
+
+    .summary-reveal-grid {
+      gap: 16px;
+      min-height: 188px;
+      align-items: stretch;
+    }
+
+    .fragment-step[hidden] {
+      display: none !important;
+    }
+
+    .fragment-step {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 220ms ease, transform 320ms ease;
+    }
+
+    .fragment-step.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .insight-card {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(251, 253, 254, 0.98), rgba(240, 244, 246, 0.96)) !important;
+      border: 1px solid rgba(20, 32, 43, 0.10) !important;
+      box-shadow: var(--shadow-md) !important;
+      color: var(--ink);
+    }
+
+    .insight-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+    }
+
+    .graphite .insight-card .kicker,
+    .dark .insight-card .kicker,
+    .insight-card .kicker {
+      color: var(--ink-soft);
+    }
+
+    .insight-card h3 {
+      color: var(--ink);
+    }
+
+    .insight-card p {
+      color: var(--ink-soft);
+      opacity: 1;
+    }
+
+    .insight-card-neutral::before {
+      background: linear-gradient(90deg, #4b91b8, #82c1d9);
+    }
+
+    .insight-card-positive::before {
+      background: linear-gradient(90deg, #0b8d87, #62b99d);
+    }
+
+    .insight-card-caution::before {
+      background: linear-gradient(90deg, #d76842, #f0a266);
+    }
+
+    .final-goal-callout {
+      background: linear-gradient(135deg, rgba(215, 104, 66, 0.13), rgba(11, 141, 135, 0.08));
+      border-color: rgba(215, 104, 66, 0.18);
+      box-shadow: var(--shadow-md);
+    }
+
+    .final-goal-callout p {
+      font-size: 17px;
+      line-height: 1.7;
+      font-weight: 700;
+    }
+
+    .dark .image-frame .image-caption,
+    .graphite .image-frame .image-caption {
+      color: var(--ink-faint);
+    }
+
+    .bullet-list,
+    .plain-list,
+    .rank-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bullet-list li,
+    .rank-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .bullet-list li::before,
+    .rank-list li::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+      margin-top: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    }
+
+    .logic-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .logic-card {
+      position: relative;
+      padding-top: 20px;
+    }
+
+    .logic-card:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 26px;
+      font-weight: 700;
+      color: rgba(11, 141, 135, 0.56);
+    }
+
+    .compare-shell {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .compare-header {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 18px;
+    }
+
+    .compare-table {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr 0.8fr 0.8fr 1fr;
+      gap: 1px;
+      padding: 1px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.10);
+      overflow: hidden;
+    }
+
+    .compare-table > div {
+      background: rgba(255, 255, 255, 0.88);
+      padding: 14px 16px;
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+    }
+
+    .compare-table .head {
+      background: rgba(11, 141, 135, 0.14);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+
+    .compare-table .winner-s1 {
+      background: rgba(215, 104, 66, 0.16);
+      font-weight: 700;
+      color: #a34927;
+    }
+
+    .compare-table .winner-s2 {
+      background: rgba(11, 141, 135, 0.16);
+      font-weight: 700;
+      color: #0d6e69;
+    }
+
+    .reference-table {
+      display: grid;
+      grid-template-columns: 0.78fr 0.86fr 0.72fr 0.72fr 1.35fr;
+      gap: 1px;
+      padding: 1px;
+      border-radius: 22px;
+      background: rgba(20, 32, 43, 0.08);
+      overflow: hidden;
+    }
+
+    .reference-table > div {
+      background: rgba(255, 255, 255, 0.92);
+      padding: 11px 12px;
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      line-height: 1.48;
+      color: var(--ink);
+    }
+
+    .reference-table .head {
+      background: rgba(11, 141, 135, 0.14);
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .reference-table .scheme-s1 {
+      background: rgba(215, 104, 66, 0.10);
+      font-weight: 700;
+    }
+
+    .reference-table .scheme-s2 {
+      background: rgba(11, 141, 135, 0.10);
+      font-weight: 700;
+    }
+
+    .graphite .compare-table,
+    .dark .compare-table {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .graphite .compare-table > div,
+    .dark .compare-table > div {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .graphite .compare-table .head,
+    .dark .compare-table .head {
+      background: rgba(135, 235, 227, 0.14);
+    }
+
+    .graphite .compare-table .winner-s1,
+    .dark .compare-table .winner-s1 {
+      background: rgba(215, 104, 66, 0.18);
+      color: #ffd1bf;
+    }
+
+    .graphite .compare-table .winner-s2,
+    .dark .compare-table .winner-s2 {
+      background: rgba(11, 141, 135, 0.18);
+      color: #baf8f2;
+    }
+
+    .mapping-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .mapping-card {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(20, 32, 43, 0.08);
+    }
+
+    .mapping-card strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .formula-band {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .formula-chip {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(20, 32, 43, 0.08);
+      font-size: 14px;
+      line-height: 1.4;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .plot-grid-3,
+    .analysis-grid-3,
+    .focus-grid,
+    .factor-grid {
+      display: grid;
+      gap: 16px;
+      min-height: 0;
+    }
+
+    .plot-grid-3,
+    .analysis-grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .focus-grid {
+      grid-template-columns: 1.04fr 0.96fr;
+      align-items: stretch;
+      flex: 1;
+    }
+
+    .chart-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 0;
+    }
+
+    .factor-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .figure-card.tight {
+      padding: 16px 16px 14px;
+    }
+
+    .figure-card.tight .image-frame {
+      min-height: 0;
+      flex: 1;
+    }
+
+    .figure-card.tight .image-caption {
+      padding: 0 14px 12px;
+    }
+
+    .strategy-banner {
+      padding: 18px 22px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(248, 251, 252, 0.96), rgba(227, 242, 241, 0.94));
+      border: 1px solid rgba(11, 141, 135, 0.18);
+      box-shadow: var(--shadow-md);
+    }
+
+    .strategy-banner p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.72;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .strategy-banner strong {
+      color: var(--accent);
+    }
+
+    .trend-explorer {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 18px 18px 16px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(20, 32, 43, 0.08);
+      box-shadow: var(--shadow-lg);
+      min-height: 0;
+    }
+
+    .explorer-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .explorer-header h3 {
+      margin: 6px 0 0;
+      font-size: 22px;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .explorer-header p {
+      margin: 8px 0 0;
+      font-size: 14px;
+      line-height: 1.58;
+      color: var(--ink-soft);
+    }
+
+    .trend-readout {
+      min-width: 168px;
+      padding: 12px 14px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(11, 141, 135, 0.12), rgba(30, 164, 184, 0.10));
+      border: 1px solid rgba(11, 141, 135, 0.12);
+      text-align: right;
+    }
+
+    .trend-readout span,
+    .trend-readout small {
+      display: block;
+    }
+
+    .trend-readout span {
+      font-size: 12px;
+      color: var(--ink-soft);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .trend-readout strong {
+      display: block;
+      margin: 6px 0 4px;
+      font-size: 40px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      color: var(--accent);
+    }
+
+    .trend-readout small {
+      font-size: 11px;
+      line-height: 1.4;
+      color: var(--ink-faint);
+    }
+
+    .explorer-stage {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 16px;
+      align-items: stretch;
+      min-height: 0;
+      flex: 1;
+    }
+
+    .control-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .control-card {
+      padding: 14px 15px;
+      border-radius: 18px;
+      background: rgba(20, 32, 43, 0.03);
+      border: 1px solid rgba(20, 32, 43, 0.08);
+    }
+
+    .control-card label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--ink-soft);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .control-card select {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(20, 32, 43, 0.12);
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+    }
+
+    .control-card p {
+      margin: 8px 0 0;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--ink-faint);
+    }
+
+    .trend-note {
+      padding: 14px 15px;
+      border-radius: 18px;
+      background: rgba(11, 141, 135, 0.06);
+      border: 1px solid rgba(11, 141, 135, 0.10);
+      font-size: 13px;
+      line-height: 1.62;
+      color: var(--ink-soft);
+    }
+
+    .trend-note strong {
+      color: var(--ink);
+    }
+
+    .trend-chart-shell {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+      padding: 10px 12px 12px;
+      border-radius: 22px;
+      background: rgba(248, 250, 251, 0.96);
+      border: 1px solid rgba(20, 32, 43, 0.08);
+    }
+
+    .trend-chart-shell svg {
+      width: 100%;
+      height: 100%;
+      min-height: 330px;
+      display: block;
+    }
+
+    .chart-disclaimer {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--ink-faint);
+    }
+
+    .dark .formula-chip,
+    .graphite .formula-chip {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: #eef8fa;
+    }
+
+    .footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 26px 18px;
+      background: linear-gradient(180deg, rgba(244, 241, 234, 0.04), rgba(255, 250, 243, 0.94));
+      backdrop-filter: blur(10px);
+      z-index: 8;
+      border-top: 1px solid rgba(20, 32, 43, 0.06);
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 320px;
+    }
+
+    .page-label {
+      font-size: 14px;
+      color: var(--ink-soft);
+      font-weight: 700;
+    }
+
+    .progress-shell {
+      width: min(440px, 42vw);
+      height: 6px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(20, 32, 43, 0.08);
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 320ms ease;
+    }
+
+    .footer-right {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(20, 32, 43, 0.88);
+      color: #fff;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-btn:hover {
+      background: rgba(11, 141, 135, 0.94);
+    }
+
+    @page {
+      size: 13.333in 7.5in;
+      margin: 0;
+    }
+
+    @media (max-width: 1200px) {
+      :root {
+        --pad-x: 44px;
+        --pad-y: 42px;
+      }
+
+      .title {
+        max-width: 17ch;
+      }
+
+      .grid-4,
+      .stage-grid,
+      .closing-grid,
+      .mapping-grid,
+      .logic-strip,
+      .question-grid,
+      .survey-grid,
+      .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .compare-header,
+      .grid-2,
+      .duo-images,
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .plot-grid-3,
+      .analysis-grid-3,
+      .factor-grid,
+      .focus-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .explorer-stage,
+      .control-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .explorer-header {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 760px) {
+      html,
+      body {
+        overflow: auto;
+      }
+
+      .deck {
+        height: auto;
+      }
+
+      .slide {
+        position: relative;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+        min-height: 100vh;
+        padding-bottom: 84px;
+      }
+
+      .footer {
+        position: sticky;
+      }
+
+      .footer-left {
+        min-width: 0;
+      }
+
+      .progress-shell {
+        width: 52vw;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .grid-4,
+      .stage-grid,
+      .closing-grid,
+      .mapping-grid,
+      .logic-strip,
+      .question-grid,
+      .survey-grid,
+      .grid-3,
+      .grid-2,
+      .duo-images,
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .plot-grid-3,
+      .analysis-grid-3,
+      .factor-grid,
+      .focus-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .explorer-stage,
+      .control-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .explorer-header {
+        flex-direction: column;
+      }
+
+      .compare-table {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media print {
+      html,
+      body {
+        overflow: visible;
+        width: auto;
+        height: auto;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      body {
+        background: var(--paper);
+      }
+
+      .deck {
+        height: auto;
+      }
+
+      .slide {
+        position: relative !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: none !important;
+        min-height: 7.5in;
+        height: 7.5in;
+        page-break-after: always;
+        break-after: page;
+      }
+
+      .slide:last-of-type {
+        page-break-after: auto;
+        break-after: auto;
+      }
+
+      .footer {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <section class="slide dark active" data-title="封面">
+      <div class="topbar">
+        <div class="brand">2026年4月24日 阶段汇报</div>
+        <div class="hint">方向键 / 空格 / 点击左右半屏翻页</div>
+      </div>
+      <div class="hero">
+        <div class="eyebrow">门诊初诊与复诊接诊顺序阶段性工作汇报</div>
+        <h1 class="title">初诊与复诊插入顺序优化研究</h1>
+        <p class="subtitle">本次汇报主要说明研究背景、当前阶段进展、现有仿真结论，以及下一步拟与医院共同推进的工作内容。</p>
+        <div class="cover-meta" aria-label="汇报人信息">
+          <div class="cover-meta-item">
+            <span>Presenter</span>
+            <strong>Shenyu Liu</strong>
+          </div>
+          <div class="cover-meta-item">
+            <span>Date</span>
+            <strong>2026-4-24</strong>
+          </div>
+        </div>
+        <div class="chip-row">
+          <div class="chip">研究背景</div>
+          <div class="chip">阶段进展</div>
+          <div class="chip">仿真结论</div>
+          <div class="chip">后续计划</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide sand" data-title="汇报内容">
+      <div class="topbar">
+        <div class="brand">先把这次汇报的边界说清楚</div>
+        <div class="mono-note">今天主要回答三类问题</div>
+      </div>
+      <div class="stack" style="justify-content:center; flex:1;">
+        <div class="eyebrow">汇报内容</div>
+        <h2 class="title wide">汇报主要内容</h2>
+        <div class="grid-3">
+          <div class="metric">
+            <span class="kicker">第一部分</span>
+            <h3>研究在解决什么问题</h3>
+            <p>说明为什么首诊与复诊的接诊顺序值得单独研究，以及这项研究对应的门诊管理问题是什么。</p>
+          </div>
+          <div class="metric">
+            <span class="kicker">第二部分</span>
+            <h3>目前已经做到了哪一步</h3>
+            <p>概述已完成的数据观察、仿真建模和阶段性结果，说明目前已经得到了哪些可以解释的结论。</p>
+          </div>
+          <div class="metric">
+            <span class="kicker">第三部分</span>
+            <h3>下一步还需要医院补什么</h3>
+            <p>明确后续最需要医院协助确认的数据、管理目标和成本权重，为继续推进医院版本做准备。</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>着重体现目前已经形成的认识和后续门诊管理可能带来的价值</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide glass" data-title="研究背景">
+      <div class="topbar">
+        <div class="brand">门诊现场</div>
+        <div class="mono-note">门诊压力不是平均分布的</div>
+      </div>
+      <div class="grid-2">
+        <div class="stack" style="justify-content:center;">
+          <div class="eyebrow">研究背景</div>
+          <h2 class="title wide">门诊运行中真实存在的接诊顺序问题</h2>
+          <ul class="bullet-list">
+            <li>不同科室、不同时间段的患者量并不均匀，门诊运行天然存在峰谷差异。</li>
+            <li>部分患者初诊后还需要检查检验和再次就诊，因此今天的初诊会影响后续复诊压力。</li>
+            <li>门诊管理中真正紧张的是同一位医生有限的服务时间，而不是单纯的初诊数量问题。</li>
+          </ul>
+          <div class="callout">
+            <p>如果只看当天初诊人数，容易低估真实工作量；门诊实际承受的压力还包括前几天初诊后再次回诊的患者。</p>
+          </div>
+        </div>
+        <div class="stack">
+          <div class="image-frame">
+            <img src="assets/clinic_flow.png" alt="各科室患者流量" />
+            <div class="image-caption">不同科室患者量差异明显，说明门诊本身不是均匀运行的系统。</div>
+          </div>
+          <div class="image-frame">
+            <img src="assets/overall_wait_by_slot.png" alt="各预约时段平均候诊时间" />
+            <div class="image-caption">候诊时间在部分时段明显抬升，说明接诊安排与回流时点都会被患者实际体验放大。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide sand" data-title="阶段进展">
+      <div class="topbar">
+        <div class="brand">阶段性进展</div>
+        <div class="mono-note">先明确目前完成了什么、还差什么</div>
+      </div>
+      <div class="stack" style="flex:1; justify-content:center;">
+        <div class="eyebrow">阶段进展</div>
+        <h2 class="title wide">目前已完成的工作</h2>
+        <div class="stage-grid">
+          <div class="stage-card">
+            <span class="kicker">阶段一</span>
+            <div class="status-pill status-done">已完成</div>
+            <h3>门诊现象观察</h3>
+            <p>已从现有数据中识别患者量分布、候诊高峰和时段差异，为后续研究提供现实问题基础。</p>
+          </div>
+          <div class="stage-card">
+            <span class="kicker">阶段二</span>
+            <div class="status-pill status-done">已完成</div>
+            <h3>机制模型搭建</h3>
+            <p>已完成单医生门诊、首诊触发复诊、不同插入顺序设置以及两种次日复诊安排方式的核心仿真框架。</p>
+          </div>
+          <div class="stage-card">
+            <span class="kicker">阶段三</span>
+            <div class="status-pill status-done">已完成</div>
+            <h3>基准与敏感性结果</h3>
+            <p>已比较不同患者量、不同等待侧重点和不同复诊回流窗口下的结果，形成第一版规律性判断。</p>
+          </div>
+          <div class="stage-card">
+            <span class="kicker">阶段四</span>
+            <div class="status-pill status-next">待合作</div>
+            <h3>医院版本校准</h3>
+            <p>下一步需将通用参数替换为医院真实数据，重点包括高峰量、回流规律和成本权重。</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>到目前为止，仿真已经能解释一些门诊现象，但要把它真正变成可执行的管理规则，还需要结合医院和科室的真实数据继续校准。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide glass" data-title="研究范围与关键假设">
+      <div class="topbar">
+        <div class="brand">研究边界</div>
+        <div class="mono-note">这一步先把本轮仿真讨论的范围讲清楚</div>
+      </div>
+      <div class="stack" style="flex:1; justify-content:center;">
+        <div class="eyebrow">研究边界</div>
+        <h2 class="title wide">目前这项研究讨论的范围和前提</h2>
+        <div class="logic-strip">
+          <div class="logic-card">
+            <span class="kicker">前提一</span>
+            <h3>单医生门诊场景</h3>
+            <p>当前先聚焦单个医生的门诊接诊流程，目的是先把首诊与复诊之间的基本机制看清楚。</p>
+          </div>
+          <div class="logic-card">
+            <span class="kicker">前提二</span>
+            <h3>复诊由首诊触发</h3>
+            <p>部分首诊患者在完成检查检验后需要再次就诊，因此今天的首诊会转化成后续的复诊压力。</p>
+          </div>
+          <div class="logic-card">
+            <span class="kicker">前提三</span>
+            <h3>次日回诊是当前重点</h3>
+            <p>本轮主要讨论检查结果能在第二天返回的情形，因此重点比较次日复诊应如何安排。</p>
+          </div>
+          <div class="logic-card">
+            <span class="kicker">前提四</span>
+            <h3>按固定插入规则比较</h3>
+            <p>当前不是直接讨论医生自由调整，而是先比较不同首诊和复诊插入顺序会带来什么差异。</p>
+          </div>
+        </div>
+        <div class="mapping-grid">
+          <div class="mapping-card">
+            <strong>当前关注的结果</strong>
+            等待时间、加班时间与空闲时间。
+          </div>
+          <div class="mapping-card">
+            <strong>当前不展开的内容</strong>
+            多医生协同、科室联动和更长周期回诊。
+          </div>
+          <div class="mapping-card">
+            <strong>比例的实际含义</strong>
+            更接近“接诊几位初诊后插入一位复诊”的顺序规则。
+          </div>
+          <div class="mapping-card">
+            <strong>这一步的意义</strong>
+            先得到规律，再用医院真实数据把它校准成可落地规则。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide sand" data-title="仿真比较重点">
+      <div class="topbar">
+        <div class="brand">研究内容</div>
+        <div class="mono-note">当前主要围绕三个管理旋钮做比较</div>
+      </div>
+      <div class="stack" style="flex:1; justify-content:center;">
+        <div class="eyebrow">研究设计</div>
+        <h2 class="title wide">这轮仿真主要比较三件事</h2>
+        <div class="grid-3">
+          <div class="metric">
+            <span class="kicker">因素一</span>
+            <h3>患者量水平</h3>
+            <p>比较低负荷到高负荷场景，观察门诊忙闲变化对接诊顺序设置的影响。</p>
+          </div>
+          <div class="metric">
+            <span class="kicker">因素二</span>
+            <h3>首诊与复诊插入顺序</h3>
+            <p>这里的比例本质上表示首诊与复诊的插入顺序，例如 2/3 可理解为平均接诊 2 位首诊后插入 1 位复诊。</p>
+          </div>
+          <div class="metric">
+            <span class="kicker">因素三</span>
+            <h3>次日复诊安排方式</h3>
+            <p>比较延期复诊集中安排与分散安排两种方式在不同场景下的运行差异。</p>
+          </div>
+        </div>
+        <div class="formula-band">
+          <div class="formula-chip">覆盖由较低患者量到较高患者量的多个场景</div>
+          <div class="formula-chip">重点观察等待、加班与空闲三类结果</div>
+          <div class="formula-chip">目标是识别更稳妥的接诊顺序设置</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide glass projection-compact" data-title="核心结论一">
+      <div class="topbar">
+        <div class="brand">结果一</div>
+        <div class="mono-note">以下三图统一采用 Scheme 1</div>
+      </div>
+      <div class="stack" style="flex:1; min-height:0;">
+        <div class="eyebrow">核心结论一</div>
+        <h2 class="title wide">负荷越高，最优的初复诊插入顺序越要向初诊侧右移</h2>
+        <div class="formula-band">
+          <div class="formula-chip">患者人数少的情况下，系统仍有缓冲，顺序可以更均衡</div>
+          <div class="formula-chip">患者人数接近满负荷的情况下，最优点开始明显右移</div>
+          <div class="formula-chip">患者人数高负荷时，必须先稳住初诊端积压</div>
+        </div>
+        <div class="caution-card">
+          <p>三条曲线都有内部谷底，说明顺序不能长期只偏向一侧；负荷越高，谷底越往右，说明门诊越忙，就越要先满足初诊患者就诊需求 。</p>
+        </div>
+        <div class="plot-grid-3" style="flex:1;">
+          <div class="figure-card tight">
+            <span class="kicker">轻载</span>
+            <h3>患者数量少，系统还有缓冲</h3>
+            <div class="image-frame">
+              <img src="assets/exp1_cost_rho_lam8.png" alt="Scheme1轻载下总成本随rho变化" />
+              <div class="image-caption">谷底较宽，说明轻载下允许更均衡的插入顺序，复诊不必被长期压后。</div>
+            </div>
+          </div>
+          <div class="figure-card tight">
+            <span class="kicker">临界附近</span>
+            <h3>患者人数接近满负荷，需要调整插队顺序</h3>
+            <div class="image-frame">
+              <img src="assets/exp1_cost_rho_lam18.png" alt="Scheme1临界附近总成本随rho变化" />
+              <div class="image-caption">患者负荷接近95%，到了这一带，谷底明显右移，顺序设置开始决定全天节奏。</div>
+            </div>
+          </div>
+          <div class="figure-card tight">
+            <span class="kicker">高负荷</span>
+            <h3>患者人数高负荷，先防初诊端失守</h3>
+            <div class="image-frame">
+              <img src="assets/exp1_cost_rho_lam20.png" alt="Scheme1高负荷下总成本随rho变化" />
+              <div class="image-caption">右移到 ρ*=0.725，说明系统已没有多少容错，插入顺序必须更偏向先稳住初诊积压。</div>
+            </div>
+          </div>
+        </div>
+        <div class="callout">
+          <p>这页真正给医院的不是一个固定比例，而是一条更可靠的判断：先看当天负荷，再决定接诊顺序应该更均衡，还是更偏向优先稳住初诊端。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide graphite projection-compact" data-title="核心结论二">
+      <div class="stack" style="flex:1; min-height:0;">
+        <div class="eyebrow">核心结论二</div>
+        <h2 class="title wide">复诊回流方式决定拥堵出现的时点</h2>
+        <div class="formula-band">
+          <div class="formula-chip">两种方案的差别首先体现在拥堵的时间形状，而不是总工作量</div>
+          <div class="formula-chip">只有初诊端基本稳住后，复诊回流方式的差异才会真正暴露</div>
+          <div class="formula-chip">重载下要警惕把晨峰风险转成更大的尾段残留</div>
+        </div>
+        <div class="grid-2 equal" style="flex:1; min-height:0;">
+          <div class="figure-card insight-card insight-card-caution">
+            <span class="kicker">Scheme 1：集中回流</span>
+            <h3>早晨出现回流高峰</h3>
+            <p>集中回流不是全天都更忙，而是把延期复诊会在次日最早几个时段进入，抬高晨峰。对门诊现场来说，最先被打乱的是分诊、解释沟通和开诊节奏。</p>
+            <div class="image-frame" style="margin-top:14px; min-height:0;">
+              <img src="assets/queue_shape_scheme1_focus.png" alt="集中安排的队列形状" />
+              <div class="image-caption">Scheme 1 是“晨峰型拥堵”：压力先在开诊前段爆发，门诊会很早就感到被顶住。</div>
+            </div>
+          </div>
+          <div class="figure-card insight-card insight-card-positive">
+            <span class="kicker">Scheme 2：分散回流</span>
+            <h3>把峰值削平，但可能把尾段拖长</h3>
+            <p>Scheme 2 的优势是削弱晨峰，但它并不是“无条件更优”。当患者数量较多时，会把压力平摊到各个时段，最后会加长医生的工作时间。</p>
+            <div class="image-frame" style="margin-top:14px; min-height:0;">
+              <img src="assets/queue_shape_scheme2_focus.png" alt="分散安排的队列形状" />
+              <div class="image-caption">Scheme 2 更像“长尾型压力”：早高峰没那么尖，但系统可能在后段一直处于高压状态。</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="strategy-banner">
+          <p><strong>对医院更有用的判断</strong> 不同的科室对应患者病症不同，不同患者复诊回流规律不同，我们需要详细分析各个科室真实场景中患者的回流情况，不同的情况下医院的初诊放号规则需要进行相应调整。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide glass projection-compact" data-title="核心结论三">
+      <div class="topbar">
+        <div class="brand">结果三</div>
+        <div class="mono-note">高负荷下，先抓真正会改写顺序规则的变量</div>
+      </div>
+      <div class="stack" style="flex:1; min-height:0;">
+        <div class="eyebrow">核心结论三</div>
+        <h2 class="title wide">高负荷下，先看关键因素如何推着 optimal rho 变化</h2>
+        <div class="formula-band">
+          <div class="formula-chip">左侧交互图只展示当前仿真结论下的变化方向，不代表真实数据精确拟合</div>
+          <div class="formula-chip">下一步会把这些示意参数逐步替换成各科室真实分布</div>
+        </div>
+        <div class="focus-grid">
+          <div class="trend-explorer">
+            <div class="explorer-header">
+              <div>
+                <span class="kicker">交互趋势示意</span>
+                <h3>修改参数，观察 optimal rho 的变化方向</h3>
+                <p>这里不是给出精确数值，而是把当前仿真已经确认的方向关系做成可交互展示。</p>
+              </div>
+              <div class="trend-readout">
+                <span>当前示意值</span>
+                <strong id="rhoDisplay">0.640</strong>
+                <small>仅用于展示趋势</small>
+              </div>
+            </div>
+            <div class="explorer-stage">
+              <div class="control-panel">
+                <div class="control-card">
+                  <label for="trendAxis">当前重点查看哪个因素</label>
+                  <select id="trendAxis">
+                    <option value="lambda">患者总量 λ</option>
+                    <option value="phi">复诊率 φ</option>
+                    <option value="weight">相对权重 c^p/c^r</option>
+                    <option value="delta">回流节奏 δ</option>
+                  </select>
+                  <p>图中会突出这个因素的变化方向，其余参数按下面控件固定。</p>
+                </div>
+                <div class="control-grid">
+                  <div class="control-card">
+                    <label for="lambdaControl">患者总量 λ</label>
+                    <select id="lambdaControl">
+                      <option value="8">8</option>
+                      <option value="10">10</option>
+                      <option value="12">12</option>
+                      <option value="15" selected>15</option>
+                      <option value="18">18</option>
+                      <option value="20">20</option>
+                    </select>
+                  </div>
+                  <div class="control-card">
+                    <label for="phiControl">复诊率 φ</label>
+                    <select id="phiControl">
+                      <option value="0.40">0.40</option>
+                      <option value="0.50">0.50</option>
+                      <option value="0.60" selected>0.60</option>
+                      <option value="0.70">0.70</option>
+                      <option value="0.80">0.80</option>
+                    </select>
+                  </div>
+                  <div class="control-card">
+                    <label for="weightControl">相对权重 c^p/c^r</label>
+                    <select id="weightControl">
+                      <option value="0.5">0.5</option>
+                      <option value="1" selected>1.0</option>
+                      <option value="2">2.0</option>
+                      <option value="4">4.0</option>
+                    </select>
+                  </div>
+                  <div class="control-card">
+                    <label for="deltaControl">回流节奏 δ</label>
+                    <select id="deltaControl">
+                      <option value="0">0</option>
+                      <option value="1">1</option>
+                      <option value="3" selected>3</option>
+                      <option value="5">5</option>
+                      <option value="8">8</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="trend-note" id="trendExplanation"></div>
+              </div>
+              <div class="trend-chart-shell">
+                <svg id="rhoTrendChart" viewBox="0 0 640 360" aria-label="optimal rho 变化趋势图"></svg>
+                <p class="chart-disclaimer">图中只表达方向关系：患者总量和初诊优先权重升高时，optimal rho 倾向右移；复诊率和回流更集中时，optimal rho 倾向左移。</p>
+              </div>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="factor-grid">
+              <div class="mini-card">
+                <span class="kicker">下一步一：做真实负荷分层</span>
+                <p>按科室、医生、出诊单元统计日内到诊量和高峰区间，把 λ 从仿真参数变成真实的门诊负荷层级。</p>
+              </div>
+              <div class="mini-card">
+                <span class="kicker">下一步二：识别真实复诊率</span>
+                <p>利用患者 ID 串联首诊、检查检验和后续回诊记录，分科室估计真实复诊率 φ，而不是继续使用统一假设。</p>
+              </div>
+              <div class="mini-card">
+                <span class="kicker">下一步三：提炼等待优先目标</span>
+                <p>结合后续调研情况，判断各科室更想优先保护首诊接入，还是更强调复诊连续性。</p>
+              </div>
+              <div class="mini-card">
+                <span class="kicker">下一步四：估计真实回流节奏</span>
+                <p>测算从检查完成到复诊预约、再到实际到诊的时间分布，提取各科室的回流节奏 δ 和“晨峰型/拖尾型”标签。</p>
+              </div>
+            </div>
+            <div class="caution-card">
+              <span class="kicker">真实数据阶段要做什么</span>
+              <p>下一步不是继续展示更多仿真图，而是把 λ、φ、δ 和等待优先目标逐步替换成真实医疗数据，再按科室重新校准顺序规则。到那一步，optimal rho 才会从“方向判断”变成“本科室可执行的参考范围”。</p>
+            </div>
+            <div class="callout">
+              <p>简单说，当前仿真已经帮我们找出了“该看哪些变量”；下一步真实数据工作，就是把这些参数的实际分布与取值。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide graphite projection-compact" data-title="管理启示与数据分析">
+      <div class="topbar">
+        <div class="brand">阶段性判断边界</div>
+        <div class="hint">这页用来避免把阶段结果说得过头</div>
+      </div>
+      <div class="stack" style="flex:1; justify-content:center;">
+        <div class="eyebrow">管理启示与数据分析</div>
+        <h2 class="title wide">不同情景下会出现什么现象，对应怎样管理</h2>
+        <div class="grid-2 equal">
+          <div class="caution-card">
+            <span class="kicker">不同情景下的现象与问题</span>
+            <div class="grid-2 equal">
+              <div class="mini-card">
+                <h3>超负荷场景</h3>
+                <p>现象：大多数时段两类患者都在排队问诊，需要详细思考到底应该如何调节初诊放号量以及插入复诊患者规则</p>
+              </div>
+              <div class="mini-card">
+                <h3>近临界场景</h3>
+                <p>现象：顺序稍调一点，等待和加班就会明显变化。</p>
+              </div>
+              <div class="mini-card">
+                <h3>高负荷 + 集中回流</h3>
+                <p>现象：次日晨峰被抬高，早段最先拥堵。</p>
+              </div>
+              <div class="mini-card">
+                <h3>高负荷 + 分散回流</h3>
+                <p>现象：早高峰缓一些，但中后段压力拉长。</p>
+              </div>
+            </div>
+
+            <span class="kicker">下一步真实数据分析与处理</span>
+            <ul class="bullet-list">
+              <li>分科室、分医生统计日内到诊量和高峰区间，把患者总量 λ 做成真实负荷分层。</li>
+              <li>串联首诊、检查检验和回诊记录，估计不同科室的真实复诊率 φ。</li>
+              <li>测算检查完成到复诊预约、再到实际到诊的时间分布，提取回流节奏 δ。</li>
+            </ul>
+          </div>
+          <div class="caution-card">
+            <span class="kicker">项目现阶段的真正意义</span>
+            <h3>提出插队规则的可行性与局限性</h3>
+            <ul class="bullet-list" style="margin-top:14px;">
+              <li>当下医院的规则的可行条件：当患者量基本满负荷、复诊率较平稳、次日回流不集中时，沿用当前规则通常是稳妥的，医院不需要频繁改规则。</li>
+              <li>引发插队矛盾的情景：当门诊量超负荷、复诊率上升、或者次日复诊患者在早段集中回流时，原有规则可能不再稳健，需要提前调整初诊放号量和插入节奏。</li>
+              <li>失效以后代价：晨峰更乱、护士分诊压力更大、初诊排队更长、初复诊问诊矛盾增大、医生加班更明显。</li>
+              <li>根据医院科室的真实情况，哪些科室可以继续沿用、哪些需要单独改：负荷平稳、回流较均匀的科室可以继续用经验规则；高复诊率、晨峰型、拖尾型或日波动大的科室，需要单独校准放号和插诊规则。</li>
+            </ul>
+            <p style="margin-top:14px;">当前仿真在于提出：什么条件下采用什么插队规则</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>当前仿真已经告诉我们哪些因素最关键；下一步真实数据工作的重点，就是把这些因素从统一假设替换成各科室真实分布，再形成更可执行的门诊规则。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide sand projection-compact" data-title="下一步工作">
+      <div class="topbar">
+        <div class="brand">下一步重点：成本标定</div>
+        <div class="mono-note">如果下一阶段重点做成本调研，建议直接做成一份短而明确的调研方案</div>
+      </div>
+      <div class="stack" style="flex:1; justify-content:center;">
+        <div class="eyebrow">下一步重点工作</div>
+        <h2 class="title wide">成本调研、参数标定与应用推进</h2>
+        <div class="survey-grid">
+          <div class="survey-card">
+            <span class="kicker">步骤一</span>
+            <h3>访谈对象</h3>
+            <p>建议覆盖出诊医生、护士或分诊人员、门诊管理者，以及患者服务相关人员。</p>
+          </div>
+          <div class="survey-card">
+            <span class="kicker">步骤二</span>
+            <h3>重点问题</h3>
+            <p>重点了解哪类患者更不能等待、加班与空闲哪个更难接受，以及哪些时段最难管理。</p>
+          </div>
+          <div class="survey-card">
+            <span class="kicker">步骤三</span>
+            <h3>调研方式</h3>
+            <p>建议采用半结构访谈与短问卷排序相结合的方式，先获得相对轻重顺序，再逐步做定量化。</p>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="mini-card">
+            <span class="kicker">输出一</span>
+            <h3>初诊与复诊等待权重</h3>
+            <p>将“谁更不能等”的管理判断转化为相对权重，而不是一开始就追求精确货币化。</p>
+          </div>
+          <div class="mini-card">
+            <span class="kicker">输出二</span>
+            <h3>加班与空闲的容忍边界</h3>
+            <p>将门诊实际最难接受的加班程度和空档程度转化为相对管理权重。</p>
+          </div>
+          <div class="mini-card">
+            <span class="kicker">输出三</span>
+            <h3>科室级差异标签</h3>
+            <p>区分更怕晨峰的科室和更怕后段延长压力的科室，为后续科室级建模做准备。</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>成本调研的关键不是先做一份很长的问卷，而是先帮助医院明确不同等待和加班情形的相对管理代价。</p>
+        </div>
+        <div class="callout final-goal-callout">
+          <p>最终目标不是给出一个固定比例，而是形成按科室、按负荷分层的接诊规则，尽量减少不必要加班，同时兼顾首诊和复诊体验。</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">
+      <div class="page-label" id="pageLabel">1 / 11 · 封面</div>
+      <div class="progress-shell"><div class="progress-bar" id="progressBar"></div></div>
+    </div>
+    <div class="footer-right">
+      <button class="nav-btn" id="prevBtn" aria-label="上一页">‹</button>
+      <button class="nav-btn" id="nextBtn" aria-label="下一页">›</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const pageLabel = document.getElementById('pageLabel');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let current = 0;
+    let wheelLocked = false;
+
+    function getFragments(slide) {
+      return Array.from(slide.querySelectorAll('.fragment-step'));
+    }
+
+    function resetFragments(slide) {
+      getFragments(slide).forEach((fragment) => {
+        fragment.classList.remove('is-visible');
+        fragment.hidden = true;
+      });
+    }
+
+    function revealNextFragment(slide) {
+      const nextFragment = getFragments(slide).find((fragment) => fragment.hidden);
+      if (!nextFragment) return false;
+      nextFragment.hidden = false;
+      window.requestAnimationFrame(() => {
+        nextFragment.classList.add('is-visible');
+      });
+      return true;
+    }
+
+    function hideLastFragment(slide) {
+      const visibleFragments = getFragments(slide).filter((fragment) => !fragment.hidden);
+      const lastFragment = visibleFragments[visibleFragments.length - 1];
+      if (!lastFragment) return false;
+      lastFragment.classList.remove('is-visible');
+      window.setTimeout(() => {
+        lastFragment.hidden = true;
+      }, 180);
+      return true;
+    }
+
+    function showSlide(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((slide, i) => {
+        resetFragments(slide);
+        slide.classList.toggle('active', i === current);
+      });
+      const title = slides[current].dataset.title || `第 ${current + 1} 页`;
+      pageLabel.textContent = `${current + 1} / ${slides.length} · ${title}`;
+      progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+      window.location.hash = `slide-${current + 1}`;
+    }
+
+    function nextSlide() {
+      if (revealNextFragment(slides[current])) return;
+      if (current < slides.length - 1) showSlide(current + 1);
+    }
+
+    function prevSlide() {
+      if (hideLastFragment(slides[current])) return;
+      if (current > 0) showSlide(current - 1);
+    }
+
+    function isInteractiveTarget(target) {
+      if (!(target instanceof Element)) return false;
+      return Boolean(target.closest('button, a, select, option, input, textarea, label, .trend-explorer')) || target.isContentEditable;
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (isInteractiveTarget(event.target) && ["ArrowRight", "PageDown", " ", "Enter", "ArrowLeft", "PageUp", "Backspace"].includes(event.key)) {
+        return;
+      }
+      if (["ArrowRight", "PageDown", " ", "Enter"].includes(event.key)) {
+        event.preventDefault();
+        nextSlide();
+      }
+      if (["ArrowLeft", "PageUp", "Backspace"].includes(event.key)) {
+        event.preventDefault();
+        prevSlide();
+      }
+      if (event.key.toLowerCase() === 'f') {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen?.();
+        } else {
+          document.exitFullscreen?.();
+        }
+      }
+      if (event.key.toLowerCase() === 'h') {
+        showSlide(0);
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (isInteractiveTarget(event.target)) return;
+      const half = window.innerWidth / 2;
+      if (event.clientX > half) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    });
+
+    document.addEventListener('wheel', (event) => {
+      if (isInteractiveTarget(event.target)) return;
+      if (wheelLocked) return;
+      if (Math.abs(event.deltaY) < 14) return;
+      wheelLocked = true;
+      if (event.deltaY > 0) nextSlide(); else prevSlide();
+      window.setTimeout(() => {
+        wheelLocked = false;
+      }, 520);
+    }, { passive: true });
+
+    prevBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      prevSlide();
+    });
+
+    nextBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      nextSlide();
+    });
+
+    const trendExplorer = {
+      axis: document.getElementById('trendAxis'),
+      lambda: document.getElementById('lambdaControl'),
+      phi: document.getElementById('phiControl'),
+      weight: document.getElementById('weightControl'),
+      delta: document.getElementById('deltaControl'),
+      chart: document.getElementById('rhoTrendChart'),
+      rhoDisplay: document.getElementById('rhoDisplay'),
+      explanation: document.getElementById('trendExplanation'),
+    };
+
+    const trendAxisMeta = {
+      lambda: {
+        label: '患者总量 λ',
+        values: [8, 10, 12, 15, 18, 20],
+        formatter: (value) => `λ=${value}`,
+      },
+      phi: {
+        label: '复诊率 φ',
+        values: [0.4, 0.5, 0.6, 0.7, 0.8],
+        formatter: (value) => `φ=${value.toFixed(2)}`,
+      },
+      weight: {
+        label: '相对权重 c^p/c^r',
+        values: [0.5, 1, 2, 4],
+        formatter: (value) => `c^p/c^r=${value}`,
+      },
+      delta: {
+        label: '回流节奏 δ',
+        values: [0, 1, 3, 5, 8],
+        formatter: (value) => `δ=${value}`,
+      },
+    };
+
+    function getTrendState() {
+      return {
+        lambda: Number(trendExplorer.lambda.value),
+        phi: Number(trendExplorer.phi.value),
+        weight: Number(trendExplorer.weight.value),
+        delta: Number(trendExplorer.delta.value),
+      };
+    }
+
+    function computeOptimalRhoTrend(state) {
+      const loadN = (state.lambda - 8) / 12;
+      const phiN = (state.phi - 0.4) / 0.4;
+      const weightN = Math.log2(state.weight);
+      const deltaN = state.delta / 8;
+      const rho = 0.63
+        + 0.15 * loadN
+        - 0.07 * phiN
+        + 0.025 * weightN
+        - (0.02 + 0.06 * loadN) * deltaN;
+      return Math.max(0.52, Math.min(0.76, rho));
+    }
+
+    function getTrendExplanation(axis, state, currentRho) {
+      const baseline = `当前固定设定：λ=${state.lambda}，φ=${state.phi.toFixed(2)}，c^p/c^r=${state.weight}，δ=${state.delta}`;
+      if (axis === 'lambda') {
+        return `<strong>患者总量 λ</strong> 升高时，系统缓冲会先被吃掉，所以 optimal rho 更倾向右移，先稳住初诊端。${baseline}，当前示意值约为 ${currentRho.toFixed(3)}。`;
+      }
+      if (axis === 'phi') {
+        return `<strong>复诊率 φ</strong> 升高时，更多初诊会转成未来回流，系统需要给复诊端留更稳定的窗口，所以 optimal rho 倾向左移。${baseline}，当前示意值约为 ${currentRho.toFixed(3)}。`;
+      }
+      if (axis === 'weight') {
+        return `<strong>相对权重 c^p/c^r</strong> 提高时，说明管理上更想优先保护初诊体验，因此 optimal rho 会右移；如果更强调复诊连续性，则会左移。${baseline}，当前示意值约为 ${currentRho.toFixed(3)}。`;
+      }
+      return `<strong>回流节奏 δ</strong> 变大时，延期复诊会更集中地回到后续时段；在当前 Scheme 1 逻辑下，这会放大复诊端冲击，因此 optimal rho 倾向左移。${baseline}，当前示意值约为 ${currentRho.toFixed(3)}。`;
+    }
+
+    function renderTrendChart(points, currentPoint, axisKey) {
+      if (!trendExplorer.chart) return;
+      const width = 640;
+      const height = 360;
+      const margin = { top: 36, right: 24, bottom: 56, left: 54 };
+      const chartWidth = width - margin.left - margin.right;
+      const chartHeight = height - margin.top - margin.bottom;
+      const yMin = 0.52;
+      const yMax = 0.76;
+      const axisMeta = trendAxisMeta[axisKey];
+      const xStep = points.length > 1 ? chartWidth / (points.length - 1) : chartWidth;
+      const xAt = (index) => margin.left + index * xStep;
+      const yAt = (value) => margin.top + ((yMax - value) / (yMax - yMin)) * chartHeight;
+      const polyline = points.map((point, index) => `${xAt(index)},${yAt(point.y)}`).join(' ');
+      const area = `${margin.left},${margin.top + chartHeight} ${polyline} ${margin.left + chartWidth},${margin.top + chartHeight}`;
+      const currentIndex = points.findIndex((point) => String(point.x) === String(currentPoint.x));
+      const yTicks = [0.55, 0.60, 0.65, 0.70, 0.75];
+
+      trendExplorer.chart.innerHTML = `
+        <defs>
+          <linearGradient id="trendLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1ea4b8" />
+            <stop offset="100%" stop-color="#d76842" />
+          </linearGradient>
+          <linearGradient id="trendFillGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(30,164,184,0.24)" />
+            <stop offset="100%" stop-color="rgba(30,164,184,0.03)" />
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="${width}" height="${height}" rx="22" fill="rgba(248,250,251,0.98)" />
+        ${yTicks.map((tick) => `
+          <line x1="${margin.left}" y1="${yAt(tick)}" x2="${margin.left + chartWidth}" y2="${yAt(tick)}" stroke="rgba(20,32,43,0.10)" stroke-width="1" />
+          <text x="${margin.left - 10}" y="${yAt(tick) + 4}" text-anchor="end" font-size="12" fill="#7b8793">${tick.toFixed(2)}</text>
+        `).join('')}
+        <line x1="${margin.left}" y1="${margin.top + chartHeight}" x2="${margin.left + chartWidth}" y2="${margin.top + chartHeight}" stroke="rgba(20,32,43,0.22)" stroke-width="1.2" />
+        <line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + chartHeight}" stroke="rgba(20,32,43,0.22)" stroke-width="1.2" />
+        <polygon points="${area}" fill="url(#trendFillGradient)" />
+        <polyline points="${polyline}" fill="none" stroke="url(#trendLineGradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        ${points.map((point, index) => `
+          <circle cx="${xAt(index)}" cy="${yAt(point.y)}" r="${index === currentIndex ? 7.5 : 4.5}" fill="${index === currentIndex ? '#d76842' : '#1ea4b8'}" stroke="#ffffff" stroke-width="${index === currentIndex ? 3 : 2}" />
+          <text x="${xAt(index)}" y="${margin.top + chartHeight + 26}" text-anchor="middle" font-size="12" fill="#5e6974">${axisMeta.formatter(point.x)}</text>
+        `).join('')}
+        <text x="${margin.left}" y="18" font-size="13" font-weight="700" fill="#5e6974">optimal rho 趋势示意</text>
+        <text x="${margin.left + chartWidth}" y="18" text-anchor="end" font-size="12" fill="#7b8793">当前突出：${axisMeta.label}</text>
+        <text x="${margin.left + chartWidth / 2}" y="${height - 16}" text-anchor="middle" font-size="12" fill="#5e6974">${axisMeta.label}</text>
+        <text x="16" y="${margin.top + chartHeight / 2}" transform="rotate(-90 16 ${margin.top + chartHeight / 2})" text-anchor="middle" font-size="12" fill="#5e6974">optimal rho</text>
+        <rect x="${Math.max(margin.left + 10, xAt(currentIndex) - 56)}" y="${Math.max(margin.top + 8, yAt(currentPoint.y) - 34)}" width="112" height="28" rx="14" fill="rgba(215,104,66,0.12)" stroke="rgba(215,104,66,0.26)" />
+        <text x="${Math.max(margin.left + 66, xAt(currentIndex) + 0)}" y="${Math.max(margin.top + 27, yAt(currentPoint.y) - 15)}" text-anchor="middle" font-size="12" font-weight="700" fill="#a34927">ρ* ≈ ${currentPoint.y.toFixed(3)}</text>
+      `;
+    }
+
+    function updateTrendExplorer() {
+      if (!trendExplorer.axis || !trendExplorer.chart) return;
+      const axisKey = trendExplorer.axis.value;
+      const state = getTrendState();
+      const points = trendAxisMeta[axisKey].values.map((value) => {
+        const scenario = { ...state };
+        scenario[axisKey] = value;
+        return {
+          x: value,
+          y: computeOptimalRhoTrend(scenario),
+        };
+      });
+      const currentValue = state[axisKey];
+      const currentPoint = points.find((point) => String(point.x) === String(currentValue)) || points[Math.floor(points.length / 2)];
+      trendExplorer.rhoDisplay.textContent = currentPoint.y.toFixed(3);
+      trendExplorer.explanation.innerHTML = getTrendExplanation(axisKey, state, currentPoint.y);
+      renderTrendChart(points, currentPoint, axisKey);
+    }
+
+    function initTrendExplorer() {
+      if (!trendExplorer.axis || !trendExplorer.chart) return;
+      [
+        trendExplorer.axis,
+        trendExplorer.lambda,
+        trendExplorer.phi,
+        trendExplorer.weight,
+        trendExplorer.delta,
+      ].forEach((element) => {
+        element?.addEventListener('change', updateTrendExplorer);
+      });
+      updateTrendExplorer();
+    }
+
+    const hash = window.location.hash.match(/slide-(\d+)/);
+    if (hash) {
+      const target = Number(hash[1]) - 1;
+      if (!Number.isNaN(target)) current = target;
+    }
+    initTrendExplorer();
+    showSlide(current);
+  </script>
+</body>
+</html>

@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026-04-23 医院阶段汇报</title>
+  <style>
+    :root {
+      --bg-0: #f5f7fa;
+      --bg-1: #e9eef3;
+      --bg-2: #dbe7ee;
+      --ink-0: #0b1015;
+      --ink-1: #1a2430;
+      --ink-2: #5d6875;
+      --line: rgba(16, 24, 40, 0.08);
+      --card: rgba(255, 255, 255, 0.84);
+      --card-strong: rgba(255, 255, 255, 0.96);
+      --card-dark: rgba(14, 20, 27, 0.64);
+      --shadow-xl: 0 16px 42px rgba(11, 16, 21, 0.10);
+      --shadow-lg: 0 10px 26px rgba(11, 16, 21, 0.08);
+      --shadow-md: 0 6px 18px rgba(11, 16, 21, 0.06);
+      --accent: #0f8ea2;
+      --accent-2: #3ab7c8;
+      --accent-soft: rgba(15, 142, 162, 0.12);
+      --good: #117f67;
+      --warn: #c26523;
+      --danger: #c73b4a;
+      --deck-padding-x: 72px;
+      --deck-padding-y: 54px;
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --transition: 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(58, 183, 200, 0.10), transparent 20%),
+        linear-gradient(180deg, #f2f5f7 0%, #f7f9fb 100%);
+      color: var(--ink-0);
+      font-family: "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0));
+      pointer-events: none;
+      opacity: 0.35;
+    }
+
+    .deck {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      isolation: isolate;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      padding: var(--deck-padding-y) var(--deck-padding-x) calc(var(--deck-padding-y) + 22px);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(34px) scale(0.986);
+      transition: opacity 380ms ease, transform var(--transition);
+      background:
+        radial-gradient(circle at top right, rgba(58, 183, 200, 0.08), transparent 18%),
+        linear-gradient(180deg, rgba(255,255,255,0.70), rgba(255,255,255,0.48));
+      overflow: hidden;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0) scale(1);
+      z-index: 2;
+    }
+
+    .slide.dark {
+      color: #eff8fb;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(75, 217, 233, 0.16), transparent 24%),
+        linear-gradient(135deg, #0b1218 0%, #111b24 56%, #162330 100%);
+    }
+
+    .slide.ice {
+      background:
+        radial-gradient(circle at 90% 0%, rgba(58, 183, 200, 0.10), transparent 20%),
+        linear-gradient(180deg, #f7fafc 0%, #eef3f6 100%);
+    }
+
+    .slide.soft {
+      background:
+        radial-gradient(circle at 0% 0%, rgba(58, 183, 200, 0.08), transparent 22%),
+        linear-gradient(180deg, #f6f8fb 0%, #edf2f5 100%);
+    }
+
+    .slide.graphite {
+      color: #eff8fb;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(58, 183, 200, 0.12), transparent 20%),
+        linear-gradient(135deg, #121a23 0%, #10171f 54%, #17212d 100%);
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .dark .eyebrow,
+    .graphite .eyebrow {
+      color: #7de7ef;
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(38px, 5.8vw, 78px);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      font-weight: 700;
+      max-width: 12ch;
+    }
+
+    .title.wide {
+      max-width: 16ch;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: clamp(18px, 2vw, 26px);
+      line-height: 1.5;
+      color: var(--ink-2);
+      max-width: 42ch;
+    }
+
+    .dark .subtitle,
+    .graphite .subtitle {
+      color: rgba(239, 248, 251, 0.76);
+    }
+
+    .lead {
+      margin: 0;
+      font-size: clamp(22px, 2.8vw, 36px);
+      line-height: 1.28;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      max-width: 20ch;
+    }
+
+    .small-copy {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .dark .small-copy,
+    .graphite .small-copy {
+      color: rgba(239, 248, 251, 0.76);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.06fr 0.94fr;
+      gap: 28px;
+      align-items: stretch;
+      min-height: 0;
+      flex: 1;
+    }
+
+    .grid-2.equal {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-height: 0;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(16, 24, 40, 0.08);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 24px 24px 22px;
+    }
+
+    .card.strong {
+      background: var(--card-strong);
+    }
+
+    .card.dark-card {
+      background: var(--card-dark);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #eff8fb;
+    }
+
+    .card.muted {
+      background: rgba(255,255,255,0.74);
+      border-color: rgba(16, 24, 40, 0.06);
+      color: var(--ink-1);
+    }
+
+    .dark .card,
+    .graphite .card {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.10);
+      color: #eff8fb;
+      box-shadow: none;
+    }
+
+    .dark .card.muted,
+    .graphite .card.muted {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .card h3,
+    .card h4 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: inherit;
+      opacity: 0.9;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      background: rgba(15, 142, 162, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(15, 142, 162, 0.18);
+    }
+
+    .dark .chip,
+    .graphite .chip {
+      background: rgba(125, 231, 239, 0.10);
+      color: #8ef1f7;
+      border-color: rgba(125, 231, 239, 0.16);
+    }
+
+    .hero-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+      flex: 1;
+      max-width: 860px;
+      padding-top: 22px;
+    }
+
+    .image-frame {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 26px;
+      background: #ffffff;
+      border: 1px solid rgba(16,24,40,0.08);
+      box-shadow: var(--shadow-lg);
+      min-height: 0;
+    }
+
+    .image-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      padding: 18px 20px 8px;
+    }
+
+    .image-frame.plot img {
+      padding: 18px 20px 12px;
+    }
+
+    .image-frame.flush img {
+      padding: 0;
+    }
+
+    .image-caption {
+      padding: 0 18px 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      font-weight: 600;
+      color: var(--ink-2);
+      max-width: none;
+    }
+
+    .dark .image-caption,
+    .graphite .image-caption {
+      color: rgba(239, 248, 251, 0.78);
+    }
+
+    .image-frame.tall {
+      min-height: 300px;
+    }
+
+    .bullet-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .bullet-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .bullet-list li::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      margin-top: 10px;
+      flex: 0 0 auto;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .metric-card {
+      border-radius: 28px;
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(246,250,252,0.88));
+      border: 1px solid rgba(16, 24, 40, 0.06);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .metric-card .metric-kicker {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .metric-card h3 {
+      margin: 8px 0 10px;
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .metric-card p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .flow-line {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      align-items: center;
+    }
+
+    .flow-step {
+      position: relative;
+      padding: 28px 24px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(16,24,40,0.06);
+      box-shadow: var(--shadow-md);
+      min-height: 170px;
+    }
+
+    .flow-step h3 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+    }
+
+    .flow-step p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 50%;
+      right: -16px;
+      transform: translateY(-50%);
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--accent);
+      z-index: 2;
+    }
+
+    .callout {
+      padding: 22px 24px;
+      border-radius: 24px;
+      background: rgba(15,142,162,0.08);
+      border: 1px solid rgba(15,142,162,0.14);
+    }
+
+    .callout p {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.5;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    .dark .callout,
+    .graphite .callout {
+      background: rgba(125, 231, 239, 0.08);
+      border-color: rgba(125, 231, 239, 0.18);
+    }
+
+    .duo-images {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      min-height: 0;
+    }
+
+    .figure-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .figure-card .figure-title {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.4;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .figure-card .figure-note {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--ink-2);
+    }
+
+    .scenario-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .scenario {
+      padding: 24px 22px 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(16,24,40,0.06);
+      box-shadow: var(--shadow-md);
+    }
+
+    .scenario .state {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .scenario h3 {
+      margin: 8px 0 12px;
+      font-size: 24px;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .scenario p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .priority-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .priority-card {
+      padding: 26px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(16,24,40,0.06);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .priority-card h3 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .priority-card .tagline {
+      margin: 0 0 14px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .priority-card p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .priority-bar {
+      height: 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(15,142,162,0.18), rgba(15,142,162,0.55));
+      overflow: hidden;
+      margin-top: 18px;
+      position: relative;
+    }
+
+    .priority-bar::after {
+      content: "";
+      position: absolute;
+      inset: 2px auto 2px 2px;
+      width: var(--marker, 56%);
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .matrix-row {
+      display: grid;
+      grid-template-columns: 170px 1.15fr 1fr 0.95fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .matrix-cell {
+      padding: 18px 18px 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(16,24,40,0.06);
+      box-shadow: var(--shadow-md);
+    }
+
+    .matrix-cell h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      line-height: 1.2;
+      color: var(--ink-2);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .matrix-cell p,
+    .matrix-cell li {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--ink-1);
+    }
+
+    .matrix-cell ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .state-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 20px;
+      line-height: 1.25;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, rgba(15,142,162,0.18), rgba(58,183,200,0.10));
+    }
+
+    .request-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .request-card {
+      padding: 26px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.90);
+      border: 1px solid rgba(16,24,40,0.06);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .request-card .number {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .request-card h3 {
+      margin: 8px 0 10px;
+      font-size: 26px;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+    }
+
+    .request-card p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .backup-badge {
+      align-self: flex-start;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      background: rgba(15, 142, 162, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(15, 142, 162, 0.18);
+    }
+
+    .term-table {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .term-head,
+    .term-cell {
+      padding: 18px 18px 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(16,24,40,0.06);
+      box-shadow: var(--shadow-md);
+    }
+
+    .term-head {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+
+    .term-cell strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+
+    .term-cell p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .qa-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .qa-item {
+      padding: 20px 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(16,24,40,0.06);
+      box-shadow: var(--shadow-md);
+    }
+
+    .qa-item h4 {
+      margin: 0 0 8px;
+      font-size: 19px;
+      line-height: 1.4;
+      letter-spacing: -0.02em;
+    }
+
+    .qa-item p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .footer {
+      position: fixed;
+      left: 28px;
+      right: 28px;
+      bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .footer-left,
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      pointer-events: auto;
+    }
+
+    .progress-shell {
+      width: min(38vw, 460px);
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(16,24,40,0.10);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 260ms ease;
+    }
+
+    .page-label {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.90);
+      border: 1px solid rgba(16,24,40,0.08);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-1);
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(16,24,40,0.08);
+      background: rgba(255,255,255,0.92);
+      color: var(--ink-1);
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-md);
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.96);
+    }
+
+    .hint {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+    }
+
+    .dark .hint,
+    .graphite .hint {
+      color: rgba(239,248,251,0.55);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+    }
+
+    .dark .brand,
+    .graphite .brand {
+      color: rgba(239,248,251,0.55);
+    }
+
+    .mono-note {
+      font-size: 14px;
+      color: var(--ink-2);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .dark .mono-note,
+    .graphite .mono-note {
+      color: rgba(239,248,251,0.64);
+    }
+
+    @media (max-width: 1280px) {
+      :root {
+        --deck-padding-x: 48px;
+        --deck-padding-y: 40px;
+      }
+
+      .grid-2,
+      .grid-2.equal,
+      .priority-grid,
+      .qa-grid,
+      .request-grid,
+      .duo-images,
+      .metric-grid,
+      .grid-3,
+      .scenario-strip,
+      .flow-line,
+      .term-table,
+      .matrix-row {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-step:not(:last-child)::after {
+        content: "↓";
+        top: auto;
+        bottom: -22px;
+        right: 50%;
+        transform: translateX(50%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <section class="slide dark active" data-title="封面">
+      <div class="topbar">
+        <div class="brand">2026-04-23 医院阶段汇报</div>
+        <div class="hint">方向键 / 空格翻页</div>
+      </div>
+      <div class="hero-block">
+        <div class="eyebrow">门诊排班与复诊回流</div>
+        <h1 class="title">门诊时间，<br />应该怎么分</h1>
+        <p class="subtitle">从首诊与复诊的时间冲突出发，给出一套更贴近门诊现场的排班判断框架。</p>
+        <div class="chip-row">
+          <div class="chip">首诊号源占比</div>
+          <div class="chip">复诊次日安排</div>
+          <div class="chip">分场景决策建议</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide soft" data-title="先讲为什么做">
+      <div class="topbar">
+        <div class="brand">先说我为什么想做这个</div>
+        <div class="mono-note">门诊并不是均匀运转的系统</div>
+      </div>
+      <div class="grid-2">
+        <div class="stack">
+          <div class="eyebrow">先从现场说起</div>
+          <h2 class="title wide">这不是一个只在纸上成立的问题，<br />它就是门诊每天会遇到的事</h2>
+          <p class="subtitle">门诊真正难的，不只是今天来了多少人，还包括前几天首诊触发出来、今天又回来的复诊压力。</p>
+          <ul class="bullet-list">
+            <li>患者在一天中的到达并不均匀，高峰和低谷都很明显。</li>
+            <li>不同科室的工作节奏不同，局部拥堵会被放大。</li>
+            <li>今天的首诊安排，会影响未来几天的复诊回流。</li>
+          </ul>
+        </div>
+        <div class="stack">
+          <div class="image-frame tall plot">
+            <img src="assets/clinic_flow.png" alt="全科室人流量图" />
+            <div class="image-caption">不同科室与时段的人流量并不均匀，门诊压力天然带有峰谷。</div>
+          </div>
+          <div class="image-frame tall plot">
+            <img src="assets/overall_wait_by_slot.png" alt="平均等待时段图" />
+            <div class="image-caption">等待并不是随机散开，而是会在某些时段集中出现。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide ice" data-title="想解决什么">
+      <div class="topbar">
+        <div class="brand">这件事到底想帮医院定什么</div>
+        <div class="mono-note">先说问题，再说方法</div>
+      </div>
+      <div class="stack" style="justify-content:center; flex:1;">
+        <div class="eyebrow">我真正想回答的</div>
+        <h2 class="title wide">同一个医生的时间，<br />首诊和复诊到底该怎么分</h2>
+        <p class="subtitle">我们真正想帮助医院回答的，不是一个抽象数学问题，而是三个很具体的管理问题。</p>
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-kicker">Question 01</div>
+            <h3>首诊号源占比怎么定</h3>
+            <p>一天的门诊时间里，首诊和复诊各留多少，才不会让一边排队、一边被挤压。</p>
+          </div>
+          <div class="metric-card">
+            <div class="metric-kicker">Question 02</div>
+            <h3>次日复诊怎么安排</h3>
+            <p>无法落在理想时点的复诊，是堆到次日一早，还是主动分散到次日全天。</p>
+          </div>
+          <div class="metric-card">
+            <div class="metric-kicker">Question 03</div>
+            <h3>哪些条件一变就要重算</h3>
+            <p>患者量、等待优先顺序和回流规律一旦变化，排班建议是否也应该跟着调整。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide soft" data-title="我们怎么简化">
+      <div class="topbar">
+        <div class="brand">我这次到底模拟了什么</div>
+        <div class="mono-note">先抓主要矛盾，不求一步覆盖全部复杂性</div>
+      </div>
+      <div class="stack" style="flex:1; justify-content:center;">
+        <div class="eyebrow">先把事情讲简单</div>
+        <h2 class="title wide">这一步，我先只抓最核心的那个冲突</h2>
+        <div class="flow-line">
+          <div class="flow-step">
+            <h3>首诊</h3>
+            <p>患者第一次来看病，完成问诊、检查开单和初步处置。</p>
+          </div>
+          <div class="flow-step">
+            <h3>检查检验</h3>
+            <p>一部分患者会进入检查检验流程，结果不会在同一时点全部返回。</p>
+          </div>
+          <div class="flow-step">
+            <h3>复诊</h3>
+            <p>患者带着结果回来继续就诊，形成对同一位医生时间的再次占用。</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>今天的首诊安排，会影响未来几天的复诊压力；首诊和复诊不是两条互不相关的线，而是在争夺同一个医生的时间。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide ice" data-title="先看哪三件事">
+      <div class="topbar">
+        <div class="brand">先看哪些东西真的会改结果</div>
+        <div class="mono-note">先抓少数关键变量</div>
+      </div>
+      <div class="stack" style="flex:1; justify-content:center;">
+        <div class="eyebrow">先看三个地方</div>
+        <h2 class="title wide">到这一步，我最想先看清的<br />其实就这三件事</h2>
+        <div class="grid-3">
+          <div class="card strong">
+            <h3>门诊负荷</h3>
+            <p>单位时段新来的首诊患者量高不高，门诊现在是宽松、紧张，还是已经接近满负荷。</p>
+          </div>
+          <div class="card strong">
+            <h3>首诊号源占比</h3>
+            <p>医生一天的时间里，有多大比例优先留给第一次来看病的患者。</p>
+          </div>
+          <div class="card strong">
+            <h3>复诊次日安排</h3>
+            <p>无法落在理想时点的复诊，是集中到次日一早，还是主动分散到次日全天。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide soft" data-title="中间有个平衡点">
+      <div class="topbar">
+        <div class="brand">首诊和复诊都不能被挤得太狠</div>
+        <div class="mono-note">这页讲平衡，不讲公式</div>
+      </div>
+      <div class="grid-2 equal">
+        <div class="stack" style="justify-content:center;">
+          <div class="eyebrow">先说一个直觉</div>
+          <h2 class="title wide">首诊比例不是越高越好，<br />也不是越低越好</h2>
+          <ul class="bullet-list">
+            <li>首诊留得太少，第一次来看病的患者开始排队。</li>
+            <li>复诊留得太少，后半段更容易出现堆积和拖堂。</li>
+            <li>真正稳妥的方案，往往在两者之间，而不是在两端。</li>
+          </ul>
+        </div>
+        <div class="image-frame plot">
+          <img src="assets/rho_balance_lam15.png" alt="首诊号源占比平衡图" />
+          <div class="image-caption">这里保留一个最典型的代表性场景，重点只看那条 U 形曲线和虚线位置。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide ice" data-title="哪些最影响结果">
+      <div class="topbar">
+        <div class="brand">先分清谁影响大谁影响小</div>
+        <div class="mono-note">不是所有因素都会同样改变排班建议</div>
+      </div>
+      <div class="stack" style="flex:1; min-height:0;">
+        <div class="eyebrow">先说结论</div>
+        <h2 class="title wide">真正会把排法改掉的，<br />主要就是这几类因素</h2>
+        <div class="card muted" style="padding:18px 22px 16px;">
+          <p>主页面只保留两个最值得讲的因素: 复诊回流窗口和等待优先顺序。拖堂容忍度、结构性空档放到口头里一句带过，不再挤在主图上。</p>
+        </div>
+        <div class="duo-images" style="flex:1; min-height:0;">
+          <div class="figure-card">
+            <p class="figure-title">集中安排时，最该盯的还是这两项</p>
+            <div class="image-frame plot" style="min-height: 0; flex: 1;">
+              <img src="assets/sensitivity_key_scheme1.png" alt="集中安排场景下的关键敏感性图" />
+            </div>
+            <p class="figure-note">左边看“多久回来复诊”，右边看“更不希望哪类患者久等”。两块都明显变化，说明这两项值得优先重估。</p>
+          </div>
+          <div class="figure-card">
+            <p class="figure-title">换成分散安排，这两项还是最关键</p>
+            <div class="image-frame plot" style="min-height: 0; flex: 1;">
+              <img src="assets/sensitivity_key_scheme2.png" alt="分散安排场景下的关键敏感性图" />
+            </div>
+            <p class="figure-note">换了安排方式之后，排序并没有根本改变，这说明我们抓到的是相对稳定的管理抓手。</p>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="card strong">
+            <h3>最值得优先看</h3>
+            <p>患者量有多高，门诊现在处在什么负荷区间。</p>
+          </div>
+          <div class="card strong">
+            <h3>同样重要</h3>
+            <p>医院更不希望哪类患者久等，排班建议会随之偏移。</p>
+          </div>
+          <div class="card muted">
+            <h3>当前影响较弱</h3>
+            <p>单独围绕拖堂容忍度或结构性空档做文章，当前不是最直接的抓手。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide graphite" data-title="病人一多会怎样">
+      <div class="topbar">
+        <div class="brand">先看病人多起来会怎样</div>
+        <div class="hint">门诊越忙，容错越小</div>
+      </div>
+      <div class="stack" style="flex:1; justify-content:center;">
+        <div class="eyebrow">先看最敏感的</div>
+        <h2 class="title wide">病人一多，<br />光靠经验排就容易出问题</h2>
+        <p class="subtitle">宽松时差一点可能问题不大；接近高负荷时，同样的偏差会被迅速放大成明显排队和拖堂。</p>
+        <div class="scenario-strip">
+          <div class="scenario">
+            <div class="state">轻载</div>
+            <h3>缓冲还在</h3>
+            <p>首诊和复诊两边都还有余地，规则可以相对粗一些。</p>
+          </div>
+          <div class="scenario">
+            <div class="state">中载</div>
+            <h3>开始敏感</h3>
+            <p>排班建议逐渐收紧，这时提前干预收益最高。</p>
+          </div>
+          <div class="scenario">
+            <div class="state">近临界</div>
+            <h3>容错骤降</h3>
+            <p>原本能接受的小偏差，开始明显放大成排队和后半段堆积。</p>
+          </div>
+          <div class="scenario">
+            <div class="state">过载</div>
+            <h3>不能只靠优化</h3>
+            <p>单靠排班微调已经不够，需要考虑分流、限量和资源侧调整。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide soft" data-title="更想保护谁">
+      <div class="topbar">
+        <div class="brand">到底更不想让谁等太久</div>
+        <div class="mono-note">这不是技术参数，而是管理目标</div>
+      </div>
+      <div class="stack" style="flex:1; justify-content:center;">
+        <div class="eyebrow">这个目标很关键</div>
+        <h2 class="title wide">你更想让谁少等一点，<br />排法就会跟着变</h2>
+        <div class="priority-grid">
+          <div class="priority-card">
+            <p class="tagline">更优先保护首诊</p>
+            <h3>第一次来看病的患者，更不能久等</h3>
+            <p>适用于流程不熟、沟通时间长、等待过久更容易引发不满意的场景。此时排班建议会更多向首诊倾斜。</p>
+            <div class="priority-bar" style="--marker: 72%;"></div>
+          </div>
+          <div class="priority-card">
+            <p class="tagline">更优先保护复诊</p>
+            <h3>带着结果回来继续看的患者，更不能久等</h3>
+            <p>适用于强调连续管理、结果解读、术后复查或慢病随访的场景。此时应给复诊保留更多可用时间。</p>
+            <div class="priority-bar" style="--marker: 42%;"></div>
+          </div>
+        </div>
+        <div class="callout">
+          <p>这里不是在调一个抽象数学权重，而是在把医院自己的管理目标翻译成排班建议。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide ice" data-title="复诊会不会扎堆">
+      <div class="topbar">
+        <div class="brand">复诊回来这件事会不会扎堆</div>
+        <div class="mono-note">差异首先体现在拥堵出现在什么时候</div>
+      </div>
+      <div class="stack" style="flex:1; min-height:0;">
+        <div class="eyebrow">这也是很敏感的一项</div>
+        <h2 class="title wide">如果复诊老是扎堆到第二天早上，<br />就得想办法把它们摊开</h2>
+        <div class="card muted" style="padding:18px 22px 16px;">
+          <p>这页不再放整张科研图，只截取一个高负荷代表性场景。目的不是展示公式细节，而是让人一眼看出压力到底是前移，还是被摊平到全天。</p>
+        </div>
+        <div class="duo-images" style="flex:1; min-height:0;">
+          <div class="figure-card">
+            <p class="figure-title">集中安排：压力更容易早早顶上来</p>
+            <div class="image-frame plot" style="flex:1; min-height:0;">
+              <img src="assets/queue_shape_scheme1_focus.png" alt="集中安排下的高负荷队列形状图" />
+            </div>
+            <p class="figure-note">左边首诊队列、右边复诊队列。复诊端在前半段就更高，意味着门诊更容易一开始就觉得挤。</p>
+          </div>
+          <div class="figure-card">
+            <p class="figure-title">分散安排：早高峰没那么尖，但会拖得更长</p>
+            <div class="image-frame plot" style="flex:1; min-height:0;">
+              <img src="assets/queue_shape_scheme2_focus.png" alt="分散安排下的高负荷队列形状图" />
+            </div>
+            <p class="figure-note">峰值更多推迟到常规门诊末端附近，说明它是在把晨峰削开，但没有把压力真正消掉。</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>这里最重要的不是“哪个方案永远最好”，而是看医院最难管理的是前半天晨峰，还是全天被拉长的拖尾压力。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide soft" data-title="先抓什么">
+      <div class="topbar">
+        <div class="brand">不是所有事都得现在一起抓</div>
+        <div class="mono-note">先抓最能改写排班建议的因素</div>
+      </div>
+      <div class="stack" style="flex:1; justify-content:center;">
+        <div class="eyebrow">先后顺序很重要</div>
+        <h2 class="title wide">不是都一起抓，<br />得先抓最顶用的</h2>
+        <div class="grid-2 equal">
+          <div class="stack">
+            <div class="card strong">
+              <h3>更值得优先抓</h3>
+              <p>患者量到底高不高、医院更不希望哪类患者久等、复诊患者会不会在次日形成集中回流。</p>
+            </div>
+            <div class="card strong">
+              <h3>直接改变排班建议</h3>
+              <p>这些因素一变，首诊号源占比和次日复诊安排方式都可能随之变化。</p>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="card muted">
+              <h3>当前不是第一抓手</h3>
+              <p>单独围绕“门诊能不能再拖晚一点”或“是不是尽量不要出现空档”去优化，当前推动力相对弱。</p>
+            </div>
+            <div class="card muted">
+              <h3>这并不等于不重要</h3>
+              <p>医生工作强度和门诊节奏当然重要，只是当前更高优先级的管理抓手在别的地方。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide graphite" data-title="不同状态怎么排">
+      <div class="topbar">
+        <div class="brand">不同状态下，我会怎么判断</div>
+        <div class="hint">不同门诊状态下，优先动作应该不同</div>
+      </div>
+      <div class="stack" style="flex:1; min-height:0;">
+        <div class="eyebrow">我的判断方式</div>
+        <h2 class="title wide">不用死盯一个固定比例，<br />得看当天门诊是什么状态</h2>
+        <div class="matrix" style="flex:1; min-height:0;">
+          <div class="matrix-row">
+            <div class="matrix-cell state-pill">轻载</div>
+            <div class="matrix-cell">
+              <h4>当前状态</h4>
+              <p>系统仍有缓冲，首诊和复诊两边都还有一定弹性。</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>优先动作</h4>
+              <p>先识别哪些科室开始出现复诊回流扎堆，不必过度微调号源比例。</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>最该观察</h4>
+              <p>局部晨峰、个别科室回流时间点是否集中。</p>
+            </div>
+          </div>
+          <div class="matrix-row">
+            <div class="matrix-cell state-pill">中载</div>
+            <div class="matrix-cell">
+              <h4>当前状态</h4>
+              <p>排班建议开始变敏感，是最值得提前调整的阶段。</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>优先动作</h4>
+              <p>更认真地看首诊号源占比，同时明确医院更想优先保护哪类患者等待体验。</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>最该观察</h4>
+              <p>哪一侧患者开始成为主要排队来源。</p>
+            </div>
+          </div>
+          <div class="matrix-row">
+            <div class="matrix-cell state-pill">近临界</div>
+            <div class="matrix-cell">
+              <h4>当前状态</h4>
+              <p>容错迅速变小，原本可接受的小偏差会被明显放大。</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>优先动作</h4>
+              <p>精细调整号源，并重点防止复诊在次日形成局部晨峰冲击。</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>最该观察</h4>
+              <p>后半段排队、拖堂时长、次日早高峰。</p>
+            </div>
+          </div>
+          <div class="matrix-row">
+            <div class="matrix-cell state-pill">过载</div>
+            <div class="matrix-cell">
+              <h4>当前状态</h4>
+              <p>系统已接近或超过容量上限，单靠排班微调已经不够。</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>优先动作</h4>
+              <p>优化只能延缓问题，还需要分流、限量、弹性安排或资源侧调整。</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>最该观察</h4>
+              <p>是否已经出现持续拖堂、全天堆积和次日继续回压。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide dark" data-title="接下来想补什么">
+      <div class="topbar">
+        <div class="brand">如果继续往下做</div>
+        <div class="hint">下一步不是再多画几张通用图，而是往贵院的真实情况上落</div>
+      </div>
+      <div class="stack" style="flex:1; justify-content:center;">
+        <div class="eyebrow">接下来最想补的数据</div>
+        <h2 class="title wide">如果接下来真要落到医院里，<br />最先得补哪些信息</h2>
+        <div class="request-grid">
+          <div class="request-card">
+            <div class="number">01</div>
+            <h3>高峰时段真实首诊量</h3>
+            <p>先看最忙的时间段有多忙，而不是只看全天平均水平。</p>
+          </div>
+          <div class="request-card">
+            <div class="number">02</div>
+            <h3>不同科室复诊回流时间跨度</h3>
+            <p>检查检验之后，患者是当天回、隔天回，还是几天后扎堆回来。</p>
+          </div>
+          <div class="request-card">
+            <div class="number">03</div>
+            <h3>哪些患者最不能接受等待</h3>
+            <p>不同科室、不同患者类型，对等待的敏感程度并不相同。</p>
+          </div>
+          <div class="request-card">
+            <div class="number">04</div>
+            <h3>哪些科室最容易出现次日晨峰</h3>
+            <p>这会直接决定是否需要主动把复诊分散到全天。</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>这项工作的下一步，不是单纯把模型做得更复杂，而是和医院一起，把关键参数做得更真实。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide ice backup" data-title="备份：这一步先做到哪">
+      <div class="backup-badge">备份页</div>
+      <div class="stack" style="justify-content:center; flex:1;">
+        <div class="eyebrow">这一步先做到哪</div>
+        <h2 class="title wide">这一步我先没有把所有复杂情况都加进去</h2>
+        <div class="grid-2 equal">
+          <div class="card strong">
+            <h3>当前聚焦</h3>
+            <p>单医生、首诊与复诊时间冲突、复诊回流节奏、次日安排方式。</p>
+          </div>
+          <div class="card strong">
+            <h3>暂未展开</h3>
+            <p>多医生协同、多科室联动、患者失约、插队、转诊等更复杂场景。</p>
+          </div>
+          <div class="card muted">
+            <h3>为什么先这么做</h3>
+            <p>先把最主要的时间分配矛盾看清楚，再决定下一步要在哪些环节加细节。</p>
+          </div>
+          <div class="card muted">
+            <h3>下一步方向</h3>
+            <p>用贵院真实数据做科室版本或院内版本，再逐步扩展到更复杂的流程协同。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide soft backup" data-title="备份：词怎么翻">
+      <div class="backup-badge">备份页</div>
+      <div class="stack" style="justify-content:center; flex:1;">
+        <div class="eyebrow">先把词说人话</div>
+        <h2 class="title wide">模型里这些词，放到门诊里到底是什么意思</h2>
+        <div class="term-table">
+          <div class="term-head">模型表达</div>
+          <div class="term-head">对医护的表达</div>
+          <div class="term-head">现实含义</div>
+
+          <div class="term-cell"><strong>首诊号源占比</strong><p>给第一次来看病患者预留的时间比例</p></div>
+          <div class="term-cell"><strong>首诊号源占比</strong><p>今天门诊里，首诊大概占多少</p></div>
+          <div class="term-cell"><strong>同一位医生的时间怎么分</strong><p>首诊多一点还是复诊多一点</p></div>
+
+          <div class="term-cell"><strong>门诊负荷</strong><p>单位时段新来的首诊患者量</p></div>
+          <div class="term-cell"><strong>门诊忙到什么程度</strong><p>现在是宽松、紧张还是快满负荷</p></div>
+          <div class="term-cell"><strong>容错大小</strong><p>差一点会不会马上变糟</p></div>
+
+          <div class="term-cell"><strong>复诊回流窗口</strong><p>患者多久回来复诊</p></div>
+          <div class="term-cell"><strong>检查检验后回来得快不快、会不会扎堆</strong><p>决定晨峰是否会放大</p></div>
+          <div class="term-cell"><strong>回流节奏</strong><p>不是总量先出问题，而是时间点先出问题</p></div>
+
+          <div class="term-cell"><strong>等待优先顺序</strong><p>医院更不希望哪类患者久等</p></div>
+          <div class="term-cell"><strong>管理目标</strong><p>首诊更优先，还是复诊更优先</p></div>
+          <div class="term-cell"><strong>排班偏向方向</strong><p>目标一变，建议也会跟着变</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide ice backup" data-title="备份：图上怎么看区别">
+      <div class="backup-badge">备份页</div>
+      <div class="stack" style="flex:1; min-height:0;">
+        <div class="eyebrow">如果要细看图</div>
+        <h2 class="title wide">病人很多的时候，<br />两种安排看起来到底差在哪</h2>
+        <div class="duo-images" style="flex:1; min-height:0;">
+          <div class="figure-card">
+            <p class="figure-title">集中安排：复诊压力更容易往前顶</p>
+            <div class="image-frame plot" style="flex:1; min-height:0;">
+              <img src="assets/queue_shape_scheme1_focus.png" alt="集中安排下的代表性队列形状" />
+            </div>
+            <p class="figure-note">如果现场想细看，这一页可以补充说明“为什么我们说它更容易早段拥堵”。</p>
+          </div>
+          <div class="figure-card">
+            <p class="figure-title">分散安排：更像把高峰摊到全天</p>
+            <div class="image-frame plot" style="flex:1; min-height:0;">
+              <img src="assets/queue_shape_scheme2_focus.png" alt="分散安排下的代表性队列形状" />
+            </div>
+            <p class="figure-note">适合在被追问“为什么说它不是更轻松，只是更平”时展开解释。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide soft backup" data-title="备份：现场追问">
+      <div class="backup-badge">备份页</div>
+      <div class="stack" style="justify-content:center; flex:1;">
+        <div class="eyebrow">如果现场追问</div>
+        <h2 class="title wide">如果现场被问住了，<br />我觉得可以先这样回答</h2>
+        <div class="qa-grid">
+          <div class="qa-item">
+            <h4>为什么不直接给一个固定最优比例？</h4>
+            <p>因为患者量、回流节奏和管理目标一变，推荐比例也会跟着变。我们提供的是判断框架，不是脱离场景的固定数字。</p>
+          </div>
+          <div class="qa-item">
+            <h4>为什么不能只靠延长门诊时间？</h4>
+            <p>延长时间更像补救措施，能往后推问题，但不能替代更合理的首诊/复诊时间配置。</p>
+          </div>
+          <div class="qa-item">
+            <h4>为什么说有些因素不是当前第一抓手？</h4>
+            <p>不是说不重要，而是从现在结果看，更能改写排班建议的，还是患者量、等待优先顺序和回流节奏。</p>
+          </div>
+          <div class="qa-item">
+            <h4>能不能直接推广到整个医院？</h4>
+            <p>当前更稳妥的方式是先做成科室版本，再逐步扩展，因为不同科室的回流规律和门诊结构差异很大。</p>
+          </div>
+          <div class="qa-item">
+            <h4>为什么不直接说某个方案永远更好？</h4>
+            <p>因为不同方案的优劣和门诊负荷、回流节奏、管理目标都有关，我们不希望给出看似简单、但实际会误导执行的统一结论。</p>
+          </div>
+          <div class="qa-item">
+            <h4>如果下一步继续合作，先补什么数据？</h4>
+            <p>先补高峰时段真实首诊量、复诊回流窗口、等待最敏感人群，以及最容易形成次日晨峰的科室。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">
+      <div class="page-label" id="pageLabel">1 / 17 · 封面</div>
+      <div class="progress-shell"><div class="progress-bar" id="progressBar"></div></div>
+    </div>
+    <div class="footer-right">
+      <button class="nav-btn" id="prevBtn" aria-label="上一页">‹</button>
+      <button class="nav-btn" id="nextBtn" aria-label="下一页">›</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const pageLabel = document.getElementById('pageLabel');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let current = 0;
+    let wheelLocked = false;
+
+    function showSlide(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === current);
+      });
+      const title = slides[current].dataset.title || `第 ${current + 1} 页`;
+      pageLabel.textContent = `${current + 1} / ${slides.length} · ${title}`;
+      progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+      window.location.hash = `slide-${current + 1}`;
+    }
+
+    function nextSlide() {
+      if (current < slides.length - 1) showSlide(current + 1);
+    }
+
+    function prevSlide() {
+      if (current > 0) showSlide(current - 1);
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (["ArrowRight", "PageDown", " ", "Enter"].includes(event.key)) {
+        event.preventDefault();
+        nextSlide();
+      }
+      if (["ArrowLeft", "PageUp", "Backspace"].includes(event.key)) {
+        event.preventDefault();
+        prevSlide();
+      }
+      if (event.key.toLowerCase() === 'f') {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen?.();
+        } else {
+          document.exitFullscreen?.();
+        }
+      }
+      if (event.key.toLowerCase() === 'h') {
+        showSlide(0);
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      const interactive = event.target.closest('button, a');
+      if (interactive) return;
+      const half = window.innerWidth / 2;
+      if (event.clientX > half) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    });
+
+    document.addEventListener('wheel', (event) => {
+      if (wheelLocked) return;
+      if (Math.abs(event.deltaY) < 14) return;
+      wheelLocked = true;
+      if (event.deltaY > 0) nextSlide(); else prevSlide();
+      window.setTimeout(() => {
+        wheelLocked = false;
+      }, 520);
+    }, { passive: true });
+
+    prevBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      prevSlide();
+    });
+
+    nextBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      nextSlide();
+    });
+
+    const hash = window.location.hash.match(/slide-(\d+)/);
+    if (hash) {
+      const target = Number(hash[1]) - 1;
+      if (!Number.isNaN(target)) current = target;
+    }
+    showSlide(current);
+  </script>
+</body>
+</html>
