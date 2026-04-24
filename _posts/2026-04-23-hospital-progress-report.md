@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "医院汇报：门诊首诊与复诊插入顺序阶段进展"
+title: "医院汇报：初诊与复诊插入顺序优化研究"
 date: 2026-04-23 10:00:00 +0800
 categories: [Hospital Report, Healthcare Operations]
 tags: [医院汇报, 门诊管理, 排班优化]
-excerpt: "阶段汇报页面：围绕门诊首诊与复诊插入顺序优化，汇总问题背景、仿真结果、管理启示与下一步工作。"
-link: /hospital-report-progress-2026-04-23.html
+excerpt: "医院汇报展示页：围绕门诊初诊与复诊插入顺序优化，展示研究背景、仿真结果、管理启示与下一步工作。"
+link: /2026-4-23医院汇报/医院汇报.html
 ---
 
-这是 2026-04-23 医院阶段汇报的 Blog 入口。
+这是 2026-04-23 医院汇报的 Blog 入口。
 
-[直接打开汇报页面](/hospital-report-progress-2026-04-23.html)
+[直接打开汇报页面](/2026-4-23医院汇报/医院汇报.html)
 
 内容摘要：
 
