@@ -490,23 +490,3 @@
     opacity: 0.9;
   }
 }
-
-/* Blog feed */
-.blog-feed {
-  .blog-entry {
-    &:hover {
-      background: rgba($primary-color, 0.02);
-      padding-left: 1em;
-      margin-left: -1em;
-      border-radius: 4px;
-      transition: all 0.2s ease;
-    }
-  }
-}
-
-/* Reading time meta */
-.blog-entry-meta {
-  .fa {
-    margin-right: 2px;
-  }
-}
