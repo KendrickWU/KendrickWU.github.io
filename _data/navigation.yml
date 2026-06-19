@@ -16,4 +16,7 @@ main:
     url: /technical-notes/
 
   - title: "Blog"
+    url: /blog/
+
+  - title: "Writing"
     url: /writing/

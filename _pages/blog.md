@@ -1,18 +1,34 @@
 ---
-layout: null
+layout: archive
 permalink: /blog/
+title: "Blog posts"
+author_profile: true
+redirect_from:
+  - /wordpress/blog-posts/
 ---
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url={{ '/writing/' | relative_url }}">
-  <link rel="canonical" href="{{ '/writing/' | absolute_url }}">
-  <title>Redirecting to Writing</title>
-  <script>window.location.replace("{{ '/writing/' | relative_url }}");</script>
-</head>
-<body>
-  <p>Redirecting to <a href="{{ '/writing/' | relative_url }}">Writing</a>.</p>
-</body>
-</html>
+
+{% include base_path %}
+
+{% assign blog_post_count = 0 %}
+{% capture written_year %}'None'{% endcapture %}
+
+{% for post in site.posts %}
+  {% assign is_writing_post = false %}
+  {% if post.categories contains 'writing' or post.tags contains 'writing' %}
+    {% assign is_writing_post = true %}
+  {% endif %}
+
+  {% unless is_writing_post %}
+    {% assign blog_post_count = blog_post_count | plus: 1 %}
+    {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
+    {% if year != written_year %}
+      <h2 id="{{ year | slugify }}" class="archive__subtitle">{{ year }}</h2>
+      {% capture written_year %}{{ year }}{% endcapture %}
+    {% endif %}
+    {% include archive-single.html %}
+  {% endunless %}
+{% endfor %}
+
+{% if blog_post_count == 0 %}
+  <p>No blog posts yet.</p>
+{% endif %}
