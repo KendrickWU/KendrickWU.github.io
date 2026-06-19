@@ -1,15 +1,12 @@
 ---
 layout: writing-post
-title: "横须贺圣地巡礼计划：去找《步履不停》的几个地点"
+title: "横须贺圣地巡礼计划：『步履不停』取景地完全攻略"
 date: 2026-06-19 12:00:00 +0800
 permalink: /writing/yokosuka-still-walking-pilgrimage/
 categories: [writing, travel, 日本, 圣地巡礼]
 tags: [writing, 是枝裕和, 步履不停, 横须贺, 三浦半岛, 久里浜霊園, 三浦海岸, 日本旅行]
 location: "Yokosuka / Miura Peninsula"
-excerpt: "一份还没出发的《步履不停》圣地巡礼计划：把中文互联网上零散的信息重新整理成地点清单、交通方式和一日路线。"
-header:
-  overlay_color: "#2f3f44"
-  overlay_filter: "0.25"
+excerpt: "一直想去做一次《步履不停》的圣地巡礼。中文互联网上关于取景地的信息很零散，所以先把地址、交通和路线整理成一份出发前攻略。"
 ---
 
 > 「人生は、いつもちょっとだけ間に合わない。」
@@ -17,125 +14,108 @@ header:
 > 是枝裕和《歩いても歩いても》（2008）
 
 <div class="travel-lead">
-  <p>这篇还不是正式游记，而是一份出发前的巡礼计划。</p>
-  <p>我最近很想去横须贺和三浦半岛走一遍《步履不停》里的地点。查资料时发现，中文互联网上关于这些取景地的信息很零散：有些文章写电影，有些文章写横须贺旅行，但很少有人把地点、交通、顺路关系和可执行路线放在一起。</p>
-  <p>所以我先把现有资料整理成一版可执行路线。等真的走完，再回来补一篇实地版。</p>
+  <p>这是我为这个 Writing 页面写的第一篇文章，也是一篇还没有真正出发的游记。</p>
+  <p>我一直很喜欢是枝裕和的《步履不停》。横山一家在长子忌日那天团聚，一天的饭菜、闲谈和沉默里，其实藏了很多说不出口的遗憾。电影里那些石阶、墓园、海边和公交站都不是夸张的景点，但正因为普通，才很适合亲自去走一遍。</p>
+  <p>查资料时我发现，中文互联网上关于这些取景地的信息很散。有些文章只写电影，有些只提横须贺旅行，具体坐到哪一站、地址在哪里、几个点怎么连起来，反而不太完整。所以先把目前确认的信息整理在这里。</p>
 </div>
 
-## 先说结论
+## 三个最重要的打卡点
+
+这次先以你在地图上确认的三个点为核心：步履不停阶梯、步履不停公交站、步履不停陵园。横须贺美术馆可以作为顺路加餐，不再把它和电影取景地混成一类。
+
+![横须贺与三浦半岛三个《步履不停》打卡点示意图]({{ '/images/blog/yokosuka-still-walking/checkpoints-map.svg' | relative_url }})
 
 <div class="route-summary">
   <div class="route-summary__item">
-    <span class="route-summary__label">主题</span>
-    <div class="route-summary__value">《步履不停》取景地巡礼</div>
+    <span class="route-summary__label">Stairs</span>
+    <div class="route-summary__value">35°17'20.8&quot;N, 139°35'53.3&quot;E</div>
   </div>
   <div class="route-summary__item">
-    <span class="route-summary__label">区域</span>
-    <div class="route-summary__value">东京三鹰、叶山、横须贺、三浦半岛</div>
+    <span class="route-summary__label">Bus Stop</span>
+    <div class="route-summary__value">35°14'56.1&quot;N, 139°35'25.9&quot;E</div>
   </div>
   <div class="route-summary__item">
-    <span class="route-summary__label">时间</span>
-    <div class="route-summary__value">紧凑一日，宽松两日</div>
-  </div>
-  <div class="route-summary__item">
-    <span class="route-summary__label">核心站点</span>
-    <div class="route-summary__value">長柄の階段、久里浜霊園、三浦海岸、秋谷一带</div>
+    <span class="route-summary__label">Cemetery</span>
+    <div class="route-summary__value">35°12'37.6&quot;N, 139°40'31.3&quot;E</div>
   </div>
 </div>
 
-如果只能选一个地方，我会优先去久里浜霊園。它和电影里“去扫墓”的段落关系最直接，也最能把《步履不停》里那种平静、错过和家庭关系的重量放到现实地景里。
+这三个点的位置关系很清楚：阶梯在北边，公交站在西侧海岸附近，陵园在南边、靠近京急长泽方向。它们不完全在一条直线上，所以路线安排上最好不要按“景点打卡”的节奏硬赶。
 
-## 我的地图
-
-我把目前确认到的地点先放进了 Google Maps。这个地图不是最终版，之后会随着实地走访继续修正。
-
-<iframe class="map-frame" src="https://www.google.com/maps/d/embed?mid=1wJQkNLqJkZBjZVnQQHjJYpQEXG4uBto&ehbc=2E312F" allowfullscreen="" loading="lazy"></iframe>
-
-[打开 Google Maps 完整路线收藏](https://maps.app.goo.gl/XJYjJd47jWcYskHv7)
-
-## 地点清单
+## 取景地一览
 
 <div class="place-grid">
   <div class="place-card">
-    <span class="place-card__label">Tokyo</span>
-    <h3>永井医院（ながい医院）</h3>
-    <p><strong>地址：</strong>東京都三鷹市下連雀 2-10-10</p>
-    <p><strong>最近车站：</strong>JR中央線 三鷹駅</p>
-    <p>电影里横山家诊所外观的参考点。这里是私人诊所，只适合在外部安静经过，不要打扰当地居民和病人。</p>
+    <span class="place-card__label">Point 01</span>
+    <h3>步履不停阶梯</h3>
+    <p><strong>坐标：</strong>35°17'20.8&quot;N, 139°35'53.3&quot;E</p>
+    <p><strong>区域：</strong>叶山町长柄一带</p>
+    <p>这是电影里很有记忆点的石阶场景。它不是一个正式景点，更像是普通住宅区里的路。去的时候最好安静经过，不要把它当成需要大声拍照的地方。</p>
   </div>
 
   <div class="place-card">
-    <span class="place-card__label">Hayama</span>
-    <h3>長柄の階段</h3>
-    <p><strong>地址：</strong>神奈川県三浦郡葉山町長柄</p>
-    <p><strong>最近车站：</strong>JR横須賀線 東逗子駅</p>
-    <p>这是电影里很有记忆点的一段石阶。它不是“景点式”的地方，适合慢慢走，不适合期待强烈的观光感。</p>
+    <span class="place-card__label">Point 02</span>
+    <h3>步履不停公交站</h3>
+    <p><strong>坐标：</strong>35°14'56.1&quot;N, 139°35'25.9&quot;E</p>
+    <p><strong>区域：</strong>秋谷、长井海岸方向</p>
+    <p>这个点离电车站不近，可能要依赖公交或者打车。它适合放在比较松的行程里，不适合和太多点硬塞在同一天。</p>
   </div>
 
   <div class="place-card">
-    <span class="place-card__label">Yokosuka</span>
-    <h3>久里浜霊園</h3>
-    <p><strong>地址：</strong>神奈川県横須賀市長沢 1-54-1</p>
+    <span class="place-card__label">Point 03</span>
+    <h3>步履不停陵园</h3>
+    <p><strong>坐标：</strong>35°12'37.6&quot;N, 139°40'31.3&quot;E</p>
     <p><strong>最近车站：</strong>京急久里浜線 京急長沢駅</p>
-    <p>电影中扫墓段落的重要地点。墓园地势开阔，可以远远看到海，是这条路线里我最想确认的地点。</p>
-  </div>
-
-  <div class="place-card">
-    <span class="place-card__label">Miura</span>
-    <h3>不二家 三浦海岸店旧址</h3>
-    <p><strong>地址：</strong>神奈川県三浦市南下浦町上宮田 3259</p>
-    <p><strong>最近车站：</strong>京急久里浜線 三浦海岸駅</p>
-    <p>电影中的家庭餐厅参考点已经闭店。这里更适合作为三浦海岸散步路线的一部分，而不是单独目的地。</p>
-  </div>
-
-  <div class="place-card">
-    <span class="place-card__label">Shonan</span>
-    <h3>HAPPY BEACH</h3>
-    <p><strong>地址：</strong>神奈川県平塚市</p>
-    <p><strong>最近车站：</strong>JR東海道線 / JR湘南新宿ライン 平塚駅</p>
-    <p>和亮太、淳史的海边段落有关。位置和主路线有些分离，如果只做一日行程，可能需要取舍。</p>
-  </div>
-
-  <div class="place-card">
-    <span class="place-card__label">Akiya</span>
-    <h3>子産石バス停付近</h3>
-    <p><strong>地址：</strong>神奈川県横須賀市秋谷</p>
-    <p><strong>最近车站：</strong>京急逗子線 逗子・葉山駅</p>
-    <p>电影结尾附近的地点。它离车站并不近，最好提前查巴士班次，或者把它安排在不赶时间的半天里。</p>
+    <p>这是我最想去确认的地点。电影里扫墓那一段非常轻，但后劲很长。实际去的时候也要记得，这是墓园，不是普通观光地。</p>
   </div>
 </div>
 
-## 推荐走法
+## 我会怎么走
 
-如果从东京出发，我会把这条路线拆成两种版本。
+如果从东京出发，我现在更倾向于把这条路线拆成两种版本。
 
 ### 紧凑一日版
 
 | 时间 | 安排 |
 |------|------|
-| 上午 | 东京出发，到三鷹看永井医院外观 |
-| 上午后段 | 回到东京方向转 JR 横須賀線，前往東逗子，再去長柄の階段 |
-| 下午 | 转京急线到京急長沢，前往久里浜霊園 |
-| 傍晚 | 三浦海岸散步，视体力决定是否继续去横须贺美术馆 |
-| 晚上 | 从横须贺或三浦海岸返回东京 |
+| 上午 | 从东京出发，先去叶山町长柄一带找步履不停阶梯 |
+| 中午 | 继续往秋谷、长井海岸方向移动，确认步履不停公交站 |
+| 下午 | 转到京急久里浜線，去京急長沢駅附近的步履不停陵园 |
+| 傍晚 | 如果体力还够，再去三浦海岸或横须贺美术馆附近散步 |
 
-这版适合“先把核心地点踩完”。问题是路上转乘多，节奏会比较赶，尤其是秋谷和平塚方向很难自然塞进同一天。
+这版可以一天跑完，但它更像“资料确认行程”。优点是效率高，缺点是你很难在每个地方停很久。电影本身那么慢，行程太快反而有点对不上。
 
 ### 宽松两日版
 
 | 天数 | 安排 |
 |------|------|
-| 第一天 | 三鷹、長柄の階段、秋谷一带 |
-| 第二天 | 久里浜霊園、三浦海岸、横须贺美术馆 |
+| 第一天 | 叶山町长柄阶梯、秋谷方向公交站、海边散步 |
+| 第二天 | 京急長沢、步履不停陵园、三浦海岸或横须贺美术馆 |
 
-如果想保留电影的余味，我更偏向两日版。《步履不停》不是那种适合打卡式跑完的电影。很多地点也不是强视觉景点，慢一点反而更接近它的气质。
+如果时间允许，我会选这个版本。第一天看阶梯和公交站，第二天去陵园和海边。这样地点之间的情绪不会被交通压得太碎。
 
-## 还需要实地确认的事
+## 为什么这几个点值得单独整理
+
+《步履不停》的取景地不像很多电影巡礼那样有明确地标。它的地点本身很日常：一段阶梯，一个公交站，一个墓园。没有大型牌子，也没有“到此一游”的设计。
+
+这也是我想把它们整理出来的原因。它们不是为了证明“我来过”，而是为了把电影里那种微妙的生活感放回现实地理里看一遍。
+
+尤其是陵园。Lone Wanderer 那篇文章里提到，网上关于墓园地点的说法曾经并不一致，作者也是通过 Google Maps 反复对比才确认。这个过程其实很像一次小小的考据：不是直接消费电影，而是顺着电影留下来的线索，慢慢把一个真实地点找出来。
+
+## 路线地图
+
+我把目前整理的地点放进了 Google Maps。后面如果真的去走，会继续修正路线、交通时间和每个点的现场备注。
+
+<iframe class="map-frame" src="https://www.google.com/maps/d/embed?mid=1wJQkNLqJkZBjZVnQQHjJYpQEXG4uBto&ehbc=2E312F" allowfullscreen="" loading="lazy"></iframe>
+
+[打开 Google Maps 完整路线收藏](https://maps.app.goo.gl/XJYjJd47jWcYskHv7)
+
+## 出发前还需要确认
 
 <div class="soft-note">
-  <p><strong>第一，交通时间。</strong>地图上的步行时间和实际体感可能不一样，尤其是墓园、阶梯和海边路线。</p>
-  <p><strong>第二，地点边界。</strong>有些取景地只对应一段街区或一个大致区域，不能期待每个地点都有明确门牌。</p>
-  <p><strong>第三，照片。</strong>这篇计划版暂时不放第三方博客照片。等我自己去现场后，会用自己的照片补成正式游记。</p>
+  <p><strong>交通：</strong>公交站和阶梯都不是标准旅游景点，实际走路时间可能比地图显示更麻烦。最好提前查好公交班次。</p>
+  <p><strong>礼貌：</strong>阶梯在居民区，陵园是墓地。去的时候要尽量安静，不打扰当地人。</p>
+  <p><strong>照片：</strong>这篇先不放第三方博客照片。等我自己去现场后，再用自己的照片补成真正的游记版。</p>
 </div>
 
 ## 参考资料
@@ -146,10 +126,12 @@ header:
 
 ## 后记
 
-我很喜欢《步履不停》里那种不把情绪说满的方式。它讲的是家庭，但没有把家庭写成温暖的避风港；它讲的是错过，但也没有把错过写成戏剧性的崩塌。
+这是我为这个页面写的第一篇随笔。说实话，它现在更像攻略，不太像游记，因为我还没有真的去。
 
-所以这次想去的也不只是几个电影地点。更像是想找一个理由，到横须贺、叶山、三浦这一带慢慢走一下。看海，看坡道，看墓园，看一些电影里没有被大声说明的东西。
+但做攻略这件事本身已经让我很开心了。为了喜欢的一部电影，去查地点、对照地图、判断路线，再想象自己会怎样走过那些地方，这个过程本身就很像一次出发前的散步。
+
+《步履不停》里说，人生总是差一点点赶不上。也许圣地巡礼吸引我的地方就在这里：明知道电影里的时间已经过去了，但还是想去现实里找找它留下来的影子。
 
 等真的走完，再回来写实际版。
 
-<p class="source-note">说明：本文使用公开资料和我整理的地图作为计划依据。正文不转载第三方博客照片；实地照片会在之后由我自己补充。</p>
+<p class="source-note">说明：本文使用公开资料、用户整理地图和站内自制示意图作为计划依据。正文不转载第三方博客照片；实地照片会在之后由我自己补充。</p>
