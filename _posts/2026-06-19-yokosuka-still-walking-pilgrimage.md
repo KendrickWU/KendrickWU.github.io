@@ -1,96 +1,16 @@
 ---
-layout: post
+layout: writing-post
 title: "横须贺圣地巡礼计划：去找《步履不停》的几个地点"
 date: 2026-06-19 12:00:00 +0800
-categories: [blog, 日本, 圣地巡礼]
-tags: [blog, 是枝裕和, 步履不停, 横须贺, 三浦半岛, 久里浜霊園, 三浦海岸, 日本旅行]
+permalink: /writing/yokosuka-still-walking-pilgrimage/
+categories: [writing, travel, 日本, 圣地巡礼]
+tags: [writing, 是枝裕和, 步履不停, 横须贺, 三浦半岛, 久里浜霊園, 三浦海岸, 日本旅行]
+location: "Yokosuka / Miura Peninsula"
 excerpt: "一份还没出发的《步履不停》圣地巡礼计划：把中文互联网上零散的信息重新整理成地点清单、交通方式和一日路线。"
 header:
   overlay_color: "#2f3f44"
   overlay_filter: "0.25"
 ---
-
-<style>
-  .travel-lead {
-    margin: 1.8em 0 2.2em;
-    padding: 1.25em 1.4em;
-    border-left: 4px solid #287477;
-    background: #fbf7f0;
-    color: #5e574f;
-    line-height: 1.9;
-  }
-  .travel-lead p {
-    margin: 0.45em 0;
-  }
-  .route-summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 0.9em;
-    margin: 1.5em 0 2em;
-  }
-  .route-summary__item,
-  .place-card {
-    border: 1px solid #e8dfd2;
-    border-radius: 4px;
-    background: #fffdf9;
-    box-shadow: 0 1px 4px rgba(57, 47, 35, 0.04);
-  }
-  .route-summary__item {
-    padding: 1em 1.1em;
-  }
-  .route-summary__label,
-  .place-card__label {
-    display: block;
-    margin-bottom: 0.35em;
-    color: #9a8f7f;
-    font-size: 0.75em;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-  .route-summary__value {
-    color: #2d302c;
-    font-size: 1.02em;
-    font-weight: 600;
-  }
-  .map-frame {
-    width: 100%;
-    height: 480px;
-    border: 1px solid #e4dbcf;
-    border-radius: 4px;
-    background: #f7f3ed;
-  }
-  .place-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1em;
-    margin: 1.3em 0 2em;
-  }
-  .place-card {
-    padding: 1.1em 1.2em;
-  }
-  .place-card h3 {
-    margin-top: 0;
-    margin-bottom: 0.5em;
-    font-size: 1.08em;
-  }
-  .place-card p {
-    margin: 0.45em 0;
-    line-height: 1.75;
-  }
-  .soft-note {
-    margin: 1.6em 0;
-    padding: 1em 1.15em;
-    border: 1px solid #e8dfd2;
-    border-radius: 4px;
-    background: #fffdf9;
-    color: #665f55;
-    line-height: 1.85;
-  }
-  .source-note {
-    color: #756b5d;
-    font-size: 0.92em;
-  }
-</style>
 
 > 「人生は、いつもちょっとだけ間に合わない。」
 >
