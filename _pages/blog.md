@@ -11,10 +11,7 @@ header:
 excerpt: "「人生は、いつもちょっとだけ間に合わない。」<br/>—— 是枝裕和『歩いても歩いても』"
 ---
 
-{% assign posts = site.posts | where_exp: "post", "post.categories contains 'blog' or post.tags contains 'blog'" %}
-{% if posts.size == 0 %}
-  {% assign posts = site.posts %}
-{% endif %}
+{% assign blog_post_count = 0 %}
 
 <style>
   /* ===== Blog Card Feed ===== */
@@ -141,7 +138,11 @@ excerpt: "「人生は、いつもちょっとだけ間に合わない。」<br/
 </style>
 
 <div class="blog-card-grid">
-  {% for post in posts %}
+  {% for post in site.posts %}
+    {% unless post.categories contains 'blog' or post.tags contains 'blog' %}
+      {% continue %}
+    {% endunless %}
+    {% assign blog_post_count = blog_post_count | plus: 1 %}
     {% comment %} Extract thumbnail from post frontmatter {% endcomment %}
     {% assign thumb = post.header.overlay_image | default: post.header.teaser | default: post.header.image %}
 
@@ -200,6 +201,6 @@ excerpt: "「人生は、いつもちょっとだけ間に合わない。」<br/
   {% endfor %}
 </div>
 
-{% if posts.size == 0 %}
+{% if blog_post_count == 0 %}
   <p class="blog-empty">まだ記事がありません。お楽しみに。</p>
 {% endif %}
