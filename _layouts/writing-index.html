@@ -1,282 +1,92 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Writing | Wu Hongfan</title>
-  <meta name="description" content="旅行、电影、城市和一些慢慢写下来的个人观察。">
-  <style>
-    :root {
-      --paper: #fbfaf6;
-      --paper-warm: #f2ece2;
-      --ink: #262522;
-      --muted: #766f64;
-      --faint: #a69c8c;
-      --line: #e1d8cb;
-      --accent: #496f70;
-      --max: 1080px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: Georgia, "Times New Roman", "Songti SC", "STSong", serif;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(circle at 8% 0%, rgba(73, 111, 112, 0.10), transparent 28%), linear-gradient(180deg, rgba(255, 255, 255, 0.70), rgba(251, 250, 246, 0.98) 36%), var(--paper);
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .shell {
-      width: min(var(--max), calc(100% - 44px));
-      margin: 0 auto;
-      padding: 48px 0 76px;
-    }
-
-    .topline {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 84px;
-      color: var(--muted);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .topline__right {
-      display: flex;
-      gap: 18px;
-      color: var(--faint);
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 0.92fr) minmax(260px, 0.48fr);
-      gap: 44px;
-      align-items: end;
-      margin-bottom: 72px;
-      padding-bottom: 44px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .hero h1 {
-      margin: 0;
-      max-width: 9ch;
-      font-size: clamp(56px, 10vw, 118px);
-      line-height: 0.95;
-      font-weight: 400;
-      letter-spacing: 0;
-    }
-
-    .hero p {
-      margin: 0;
-      color: var(--muted);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 16px;
-      line-height: 1.9;
-    }
-
-    .feed {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .entry {
-      display: grid;
-      grid-template-columns: 92px minmax(0, 1fr);
-      gap: 30px;
-      padding: 34px 0 38px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .entry:first-child {
-      border-top: 1px solid var(--line);
-    }
-
-    .entry__date {
-      padding-top: 8px;
-      color: var(--faint);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      text-align: right;
-      text-transform: uppercase;
-    }
-
-    .entry__day {
-      display: block;
-      color: var(--accent);
-      font-size: 34px;
-      line-height: 1;
-      letter-spacing: 0;
-    }
-
-    .entry__month {
-      display: block;
-      margin-top: 6px;
-      font-size: 12px;
-      letter-spacing: 0.16em;
-    }
-
-    .entry__meta {
-      margin-bottom: 10px;
-      color: var(--faint);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-    }
-
-    .entry h2 {
-      margin: 0 0 12px;
-      max-width: 820px;
-      font-size: clamp(25px, 4.2vw, 43px);
-      line-height: 1.16;
-      font-weight: 400;
-      letter-spacing: 0;
-    }
-
-    .entry p {
-      max-width: 690px;
-      margin: 0 0 20px;
-      color: var(--muted);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 15px;
-      line-height: 1.85;
-    }
-
-    .entry__link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--accent);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .entry__link::after {
-      content: "";
-      width: 36px;
-      height: 1px;
-      background: currentColor;
-      transition: width 180ms ease;
-    }
-
-    .entry:hover .entry__link::after {
-      width: 54px;
-    }
-
-    .empty {
-      padding: 64px 0;
-      color: var(--muted);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    .footer {
-      margin-top: 68px;
-      color: var(--faint);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    @media (max-width: 760px) {
-      .shell {
-        width: min(100% - 32px, var(--max));
-        padding-top: 34px;
-      }
-
-      .topline {
-        margin-bottom: 54px;
-      }
-
-      .topline__right {
-        display: none;
-      }
-
-      .hero {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        margin-bottom: 42px;
-      }
-
-      .hero h1 {
-        max-width: none;
-        font-size: 58px;
-      }
-
-      .entry {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .entry__date {
-        text-align: left;
-      }
-
-      .entry__day,
-      .entry__month {
-        display: inline;
-        margin-right: 8px;
-      }
-    }
-  </style>
+  {% include writing-head.html %}
 </head>
 <body>
-  <main class="shell">
-    <header class="topline">
-      <div>Wu Hongfan / Writing</div>
-      <div class="topline__right"><span>Travel</span><span>Film</span><span>Notes</span></div>
+  <div class="writing-shell">
+    <header class="writing-nav">
+      <a class="writing-nav__brand" href="{{ '/' | relative_url }}">Wu Hongfan <span>Personal Journal</span></a>
+      <nav class="writing-nav__links" aria-label="Writing navigation">
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <a href="{{ '/blog/' | relative_url }}">Research Notes</a>
+        <a class="is-active" href="{{ '/writing/' | relative_url }}">Writing</a>
+      </nav>
     </header>
 
-    <section class="hero" aria-labelledby="writing-title">
-      <h1 id="writing-title">Writing</h1>
-      <p>旅行计划、电影地点、城市散步和一些个人感悟。这里从学术主页分离出来，只保留慢慢写字和慢慢看的节奏。</p>
-    </section>
+    <main>
+      <section class="writing-hero" aria-labelledby="writing-title">
+        <div>
+          <div class="writing-hero__kicker">Essays · Travel · Memory</div>
+          <h1 id="writing-title">Writing</h1>
+        </div>
+        <div class="writing-hero__aside">
+          <p class="writing-hero__quote">马孔多在下雨。</p>
+          <p>旅行计划、电影地点、城市散步，以及那些无法被研究问题准确命名的感受。这里从学术主页分离出来，只保留慢慢写字和慢慢看的节奏。</p>
+        </div>
+      </section>
 
-    {% assign writing_count = 0 %}
-    <section class="feed" aria-label="Writing entries">
+      <div class="writing-intro-line">
+        <strong>Field notes</strong>
+        <span>关于去过与尚未抵达的地方，关于影像、记忆和现代生活中逐渐稀薄的连接。</span>
+      </div>
+
+      {% assign writing_count = 0 %}
       {% for post in site.posts %}
         {% if post.categories contains 'writing' or post.tags contains 'writing' %}
           {% assign writing_count = writing_count | plus: 1 %}
-          <article class="entry">
-            <time class="entry__date" datetime="{{ post.date | date_to_xmlschema }}">
-              <span class="entry__day">{{ post.date | date: "%d" }}</span>
-              <span class="entry__month">{{ post.date | date: "%b" }}</span>
-            </time>
-            <div>
-              <div class="entry__meta">{% if post.location %}{{ post.location }} / {% endif %}{{ post.date | date: "%Y" }}</div>
-              <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-              {% if post.excerpt %}<p>{{ post.excerpt | strip_html }}</p>{% endif %}
-              <a class="entry__link" href="{{ post.url | relative_url }}">Read entry</a>
-            </div>
-          </article>
         {% endif %}
       {% endfor %}
-    </section>
 
-    {% if writing_count == 0 %}
-      <div class="empty">No writing yet.</div>
-    {% endif %}
+      <section class="writing-feed" aria-label="Writing entries">
+        <div class="writing-feed__header">
+          <div class="writing-section-label">Latest entries</div>
+          <div class="writing-feed__count">{{ writing_count }} essays</div>
+        </div>
 
-    <footer class="footer">Not all field notes need to hurry.</footer>
-  </main>
+        {% assign entry_number = writing_count %}
+        {% for post in site.posts %}
+          {% if post.categories contains 'writing' or post.tags contains 'writing' %}
+            <article class="writing-card">
+              <a class="writing-card__cover" href="{{ post.url | relative_url }}" aria-label="阅读：{{ post.display_title | default: post.title }}">
+                {% if post.cover %}
+                  <img src="{{ post.cover | relative_url }}" alt="" loading="lazy">
+                {% else %}
+                  <span class="writing-card__fallback">Field note · {{ post.date | date: "%Y" }}</span>
+                {% endif %}
+              </a>
+              <div class="writing-card__body">
+                <div class="writing-card__eyebrow">No. {{ entry_number }} · {{ post.date | date: "%Y.%m.%d" }}</div>
+                <h2><a href="{{ post.url | relative_url }}">{{ post.display_title | default: post.title }}</a></h2>
+                {% if post.excerpt %}<p class="writing-card__excerpt">{{ post.excerpt | strip_html }}</p>{% endif %}
+                <div class="writing-card__footer">
+                  <div class="writing-card__meta">{{ post.location | default: "Hong Kong" }}</div>
+                  <a class="writing-card__link" href="{{ post.url | relative_url }}">Read essay</a>
+                </div>
+              </div>
+            </article>
+            {% assign entry_number = entry_number | minus: 1 %}
+          {% endif %}
+        {% endfor %}
+
+        {% if writing_count == 0 %}
+          <p>文字还在路上。</p>
+        {% endif %}
+
+        <aside class="writing-coming" aria-label="Coming next">
+          <div>
+            <div class="writing-section-label">Coming next</div>
+            <h2>马孔多在下雨</h2>
+          </div>
+          <p>准备写一篇关于这句话的文章：雨如何成为一种漫长的背景，以及现代人的感情为什么在持续连接中反而逐渐疏离。</p>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="writing-footer">
+      <span>Wu Hongfan · Writing</span>
+      <span>Not all field notes need to hurry.</span>
+    </footer>
+  </div>
 </body>
 </html>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1050" role="img" aria-labelledby="title desc">
+  <title id="title">横须贺与三浦半岛</title>
+  <desc id="desc">雾绿色海岸、石阶与远处海面的抽象旅行封面</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bbc9c4"/>
+      <stop offset=".52" stop-color="#d9ddd4"/>
+      <stop offset="1" stop-color="#ece7db"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#617f7d"/>
+      <stop offset="1" stop-color="#9aaea8"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix values="1 0 0 0 0
+                             0 1 0 0 0
+                             0 0 1 0 0
+                             0 0 0 .08 0"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="1050" fill="url(#sky)"/>
+  <path d="M0 450 C260 410 410 445 650 405 C910 360 1160 380 1600 300 L1600 1050 L0 1050 Z" fill="url(#sea)"/>
+  <path d="M0 520 C250 445 420 525 635 470 C850 415 1120 460 1600 345" fill="none" stroke="#e8e5dc" stroke-width="12" opacity=".48"/>
+  <path d="M0 665 C290 560 520 650 760 585 C1030 515 1260 575 1600 480" fill="none" stroke="#e8e5dc" stroke-width="7" opacity=".34"/>
+  <path d="M0 700 L360 565 L650 1050 L0 1050 Z" fill="#3e5654"/>
+  <path d="M1600 630 L1275 500 L1040 1050 L1600 1050 Z" fill="#536c69"/>
+  <g transform="translate(560 555) rotate(-4)">
+    <path d="M0 495 L195 0 L470 0 L670 495 Z" fill="#d7cdbd"/>
+    <g fill="none" stroke="#9a8f80" stroke-width="7" opacity=".76">
+      <path d="M22 442 H648"/>
+      <path d="M48 382 H622"/>
+      <path d="M74 322 H596"/>
+      <path d="M100 262 H570"/>
+      <path d="M126 202 H544"/>
+      <path d="M152 142 H518"/>
+      <path d="M178 82 H492"/>
+    </g>
+  </g>
+  <circle cx="1260" cy="194" r="54" fill="#f1e6ca" opacity=".7"/>
+  <g fill="#f7f2e8" font-family="Georgia, serif">
+    <text x="92" y="112" font-size="24" letter-spacing="8">FIELD NOTE 01</text>
+    <text x="92" y="900" font-size="68">Yokosuka</text>
+    <text x="96" y="952" font-size="24" letter-spacing="5">MIURA PENINSULA · 2026</text>
+  </g>
+  <rect width="1600" height="1050" filter="url(#grain)" opacity=".65"/>
+</svg>

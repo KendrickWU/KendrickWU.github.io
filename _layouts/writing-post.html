@@ -1,319 +1,69 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.title | strip_html }} | Writing</title>
-  {% if page.excerpt %}<meta name="description" content="{{ page.excerpt | strip_html | escape }}">{% endif %}
-  <style>
-    :root {
-      --paper: #fbfaf6;
-      --paper-warm: #f4efe7;
-      --ink: #252522;
-      --muted: #777064;
-      --faint: #a69c8c;
-      --line: #e3dbcf;
-      --accent: #496f70;
-      --accent-soft: #edf3f1;
-      --max: 760px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: Georgia, "Times New Roman", "Songti SC", "STSong", serif;
-      font-size: 18px;
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    body {
-      margin: 0;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(251, 250, 246, 0.96) 38%),
-        radial-gradient(circle at 18% 0%, rgba(73, 111, 112, 0.10), transparent 32%),
-        var(--paper);
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration-thickness: 1px;
-      text-underline-offset: 0.18em;
-    }
-
-    .site-shell {
-      min-height: 100vh;
-      padding: 44px 22px 72px;
-    }
-
-    .site-mark {
-      width: min(var(--max), 100%);
-      margin: 0 auto 58px;
-      color: var(--muted);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .site-mark a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .post {
-      width: min(var(--max), 100%);
-      margin: 0 auto;
-    }
-
-    .post-meta {
-      margin-bottom: 18px;
-      color: var(--faint);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .post-title {
-      margin: 0 0 22px;
-      max-width: 12ch;
-      font-size: clamp(36px, 6vw, 64px);
-      line-height: 1.06;
-      font-weight: 400;
-      letter-spacing: 0;
-    }
-
-    .post-subtitle {
-      max-width: 42em;
-      margin: 0 0 54px;
-      color: var(--muted);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 17px;
-      line-height: 1.85;
-    }
-
-    .post-content {
-      font-size: 18px;
-      line-height: 1.9;
-    }
-
-    .post-content > * {
-      max-width: var(--max);
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .post-content p {
-      margin-top: 0;
-      margin-bottom: 1.25em;
-    }
-
-    .post-content h2 {
-      margin-top: 3.2em;
-      margin-bottom: 0.9em;
-      font-size: 25px;
-      line-height: 1.35;
-      font-weight: 400;
-    }
-
-    .post-content h3 {
-      margin-top: 2.2em;
-      margin-bottom: 0.7em;
-      color: var(--accent);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 15px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .post-content blockquote {
-      margin-top: 0;
-      margin-bottom: 2.6em;
-      padding: 0 0 0 22px;
-      border-left: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 20px;
-      line-height: 1.8;
-    }
-
-    .post-content table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1em;
-      margin-bottom: 1.8em;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 14px;
-      line-height: 1.65;
-    }
-
-    .post-content img {
-      display: block;
-      width: min(980px, 100%);
-      height: auto;
-      margin: 1.2em auto 2em;
-      border: 1px solid var(--line);
-      background: var(--paper-warm);
-    }
-
-    .post-content th,
-    .post-content td {
-      padding: 12px 10px;
-      border-bottom: 1px solid var(--line);
-      vertical-align: top;
-    }
-
-    .post-content th {
-      color: var(--muted);
-      font-weight: 600;
-      text-align: left;
-    }
-
-    .post-content .travel-lead,
-    .post-content .soft-note {
-      max-width: 840px;
-      margin: 2em auto 2.4em;
-      padding: 1.15em 1.25em;
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.55);
-      color: var(--muted);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 15px;
-      line-height: 1.85;
-    }
-
-    .route-summary,
-    .place-grid {
-      max-width: 980px;
-      display: grid;
-      gap: 14px;
-      margin-top: 1.4em;
-      margin-bottom: 2.3em;
-    }
-
-    .route-summary {
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    }
-
-    .place-grid {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    }
-
-    .route-summary__item,
-    .place-card {
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.62);
-    }
-
-    .route-summary__item {
-      padding: 18px 20px;
-    }
-
-    .place-card {
-      padding: 20px 22px;
-    }
-
-    .route-summary__label,
-    .place-card__label {
-      display: block;
-      margin-bottom: 7px;
-      color: var(--faint);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .route-summary__value,
-    .place-card h3 {
-      color: var(--ink);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-weight: 500;
-    }
-
-    .place-card h3 {
-      margin: 0 0 12px;
-      font-size: 17px;
-      letter-spacing: 0;
-      text-transform: none;
-    }
-
-    .place-card p {
-      margin-bottom: 0.7em;
-      color: var(--muted);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 14px;
-      line-height: 1.75;
-    }
-
-    .map-frame {
-      display: block;
-      width: min(980px, 100%);
-      height: min(62vh, 520px);
-      min-height: 360px;
-      border: 1px solid var(--line);
-      background: var(--paper-warm);
-      margin: 1.2em auto 1.2em;
-    }
-
-    .source-note {
-      margin-top: 3.5em;
-      color: var(--faint);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 13px;
-      line-height: 1.75;
-    }
-
-    .post-footer {
-      width: min(var(--max), 100%);
-      margin: 62px auto 0;
-      padding-top: 24px;
-      border-top: 1px solid var(--line);
-      color: var(--faint);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    @media (max-width: 720px) {
-      .site-shell {
-        padding: 28px 18px 56px;
-      }
-
-      .site-mark {
-        margin-bottom: 42px;
-      }
-
-      .post-title {
-        max-width: none;
-        font-size: 36px;
-      }
-
-      .post-content {
-        font-size: 17px;
-      }
-    }
-  </style>
+  {% include writing-head.html %}
 </head>
 <body>
-  <main class="site-shell">
-    <div class="site-mark"><a href="{{ '/writing/' | relative_url }}">Writing</a></div>
-    <article class="post">
-      <header>
-        <div class="post-meta">{{ page.date | date: "%b %d, %Y" }}{% if page.location %} / {{ page.location }}{% endif %}</div>
-        <h1 class="post-title">{{ page.title }}</h1>
-        {% if page.excerpt %}<p class="post-subtitle">{{ page.excerpt | strip_html }}</p>{% endif %}
+  <div class="writing-post-shell">
+    <header class="writing-nav">
+      <a class="writing-nav__brand" href="{{ '/' | relative_url }}">Wu Hongfan <span>Personal Journal</span></a>
+      <nav class="writing-nav__links" aria-label="Writing navigation">
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <a href="{{ '/blog/' | relative_url }}">Research Notes</a>
+        <a class="is-active" href="{{ '/writing/' | relative_url }}">Writing</a>
+      </nav>
+    </header>
+
+    <main>
+      <header class="writing-post__header">
+        <div>
+          <div class="writing-post__meta">{{ page.date | date: "%Y.%m.%d" }}{% if page.location %} · {{ page.location }}{% endif %}</div>
+          <h1 class="writing-post__title">{{ page.display_title | default: page.title }}</h1>
+        </div>
+        {% if page.excerpt %}<p class="writing-post__dek">{{ page.excerpt | strip_html }}</p>{% endif %}
       </header>
-      <section class="post-content">
+
+      {% if page.cover %}
+        <figure class="writing-post__cover">
+          <img src="{{ page.cover | relative_url }}" alt="{{ page.cover_alt | default: page.display_title | default: page.title }}">
+        </figure>
+      {% endif %}
+
+      <article class="writing-post">
         {{ content }}
-      </section>
-    </article>
-    <footer class="post-footer">Notes, travel, and field plans.</footer>
-  </main>
+      </article>
+
+      <aside class="writing-related">
+        <div class="writing-post__section-label">More writing</div>
+        <div class="writing-related__grid">
+          {% assign related_count = 0 %}
+          {% for post in site.posts %}
+            {% if related_count < 2 and post.url != page.url %}
+              {% if post.categories contains 'writing' or post.tags contains 'writing' %}
+                <article class="writing-related__card">
+                  <a href="{{ post.url | relative_url }}">
+                    <span>{{ post.date | date: "%Y.%m.%d" }} · {{ post.location }}</span>
+                    <h3>{{ post.display_title | default: post.title }}</h3>
+                  </a>
+                </article>
+                {% assign related_count = related_count | plus: 1 %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          <article class="writing-related__card">
+            <a href="{{ '/writing/' | relative_url }}">
+              <span>Archive</span>
+              <h3>返回全部随笔</h3>
+            </a>
+          </article>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="writing-footer">
+      <span>Notes, travel, and field plans.</span>
+      <a href="{{ '/writing/' | relative_url }}">Writing archive</a>
+    </footer>
+  </div>
 </body>
 </html>

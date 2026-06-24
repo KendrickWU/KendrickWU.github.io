@@ -1,11 +1,14 @@
 ---
 layout: writing-post
 title: "2026/6 -《步履不停》，旅行攻略"
+display_title: "《步履不停》，旅行攻略"
 date: 2026-06-19 12:00:00 +0800
 permalink: /writing/yokosuka-still-walking-pilgrimage/
 categories: [writing, travel, 日本, 圣地巡礼]
 tags: [writing, 是枝裕和, 步履不停, 横须贺, 三浦半岛, 久里浜霊園, 三浦海岸, 日本旅行]
 location: "Yokosuka / Miura Peninsula"
+cover: /images/writing/yokosuka-cover.svg
+cover_alt: "雾绿色海岸、石阶与远处海面的抽象旅行封面"
 excerpt: "今天在做一些之前一直想做的事情：把《步履不停》的取景点重新整理了一遍。希望日后真的出发，给自己留一份清楚的记录。"
 ---
 

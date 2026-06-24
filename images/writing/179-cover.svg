@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1050" role="img" aria-labelledby="title desc">
+  <title id="title">179 的故事比 91 要早</title>
+  <desc id="desc">南洋暮色、公交线路与城市灯光的抽象记忆封面</desc>
+  <defs>
+    <linearGradient id="twilight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#263c50"/>
+      <stop offset=".42" stop-color="#496676"/>
+      <stop offset=".7" stop-color="#c58e70"/>
+      <stop offset="1" stop-color="#ead4b4"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#293236"/>
+      <stop offset="1" stop-color="#11191d"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="4" stitchTiles="stitch"/>
+      <feColorMatrix values="1 0 0 0 0
+                             0 1 0 0 0
+                             0 0 1 0 0
+                             0 0 0 .09 0"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="1050" fill="url(#twilight)"/>
+  <circle cx="1190" cy="300" r="112" fill="#f4c39d" opacity=".62"/>
+  <path d="M0 710 C230 650 430 675 610 620 C850 545 1030 600 1260 525 C1390 482 1490 466 1600 460 L1600 1050 L0 1050 Z" fill="#1e2c31" opacity=".72"/>
+  <path d="M-80 1050 C370 770 755 750 1680 720 L1680 1050 Z" fill="url(#road)"/>
+  <path d="M-40 1025 C440 790 840 780 1600 752" fill="none" stroke="#e8c8a4" stroke-width="7" stroke-dasharray="42 36" opacity=".74"/>
+  <g opacity=".78">
+    <circle cx="280" cy="720" r="8" fill="#f4d49c"/>
+    <circle cx="390" cy="680" r="6" fill="#f4d49c"/>
+    <circle cx="510" cy="646" r="7" fill="#f4d49c"/>
+    <circle cx="1420" cy="538" r="6" fill="#f4d49c"/>
+    <circle cx="1490" cy="520" r="5" fill="#f4d49c"/>
+  </g>
+  <g font-family="Georgia, serif" fill="#f6efe3">
+    <text x="94" y="112" font-size="24" letter-spacing="8">FIELD NOTE 02</text>
+    <text x="88" y="835" font-size="230" opacity=".94">179</text>
+    <text x="905" y="866" font-size="104" opacity=".52">91</text>
+    <text x="98" y="952" font-size="24" letter-spacing="5">NTU · SINGAPORE · HONG KONG</text>
+  </g>
+  <path d="M735 178 C930 252 1040 370 1110 535" fill="none" stroke="#e8ded0" stroke-width="2" opacity=".34"/>
+  <path d="M770 160 C960 230 1090 350 1180 518" fill="none" stroke="#e8ded0" stroke-width="1" opacity=".24"/>
+  <rect width="1600" height="1050" filter="url(#grain)" opacity=".7"/>
+</svg>

@@ -7,9 +7,25 @@ redirect_from:
   - /about.html
 ---
 
+<section class="home-intro">
+  <div class="home-intro__eyebrow">Operations Research · Machine Learning Systems</div>
+  <h2>Researching how intelligent systems move, match, and scale.</h2>
+  <p class="home-intro__lead">I am Wu Hongfan, a Ph.D. student at HKUST working at the intersection of operations research and machine learning systems—from distributed MoE inference to stochastic control and spatial matching.</p>
+  <div class="home-intro__links">
+    <a href="/publications/">Research</a>
+    <a href="/cv/">Curriculum Vitae</a>
+    <a href="/writing/">Personal Writing</a>
+  </div>
+</section>
+
 I am a Ph.D. student in the Department of Industrial Engineering and Decision Analytics at **Hong Kong University of Science and Technology (HKUST)**, supervised by [Prof. Jiheng Zhang](https://reijz.github.io/), Head of IEDA and Full Professor in IEDA and MATH. I received my Master of Engineering degree from Nanyang Technological University (NTU) in 2023 and my Bachelor of Engineering degree from Huazhong University of Science and Technology (HUST) in 2022.
 
 I am actively seeking **internship opportunities** in large language model companies, quantitative firms, or research institutes. My research interests lie at the intersection of **operations research** and **machine learning systems**, with a focus on:
+
+<div class="home-note">
+  <strong>Two modes</strong>
+  <p><a href="/blog/">Blog</a> collects technical notes and project write-ups. <a href="/writing/">Writing</a> is a quieter space for travel, films, cities, and personal essays.</p>
+</div>
 
 ## 🔬 Research Interests
 

@@ -1,0 +1,6 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if page.display_title %}{{ page.display_title | strip_html }} · {% elsif page.title %}{{ page.title | strip_html }} · {% endif %}Writing · Wu Hongfan</title>
+<meta name="description" content="{{ page.excerpt | default: '旅行、电影、城市和一些慢慢写下来的个人观察。' | strip_html | escape }}">
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/writing.css' | relative_url }}">
