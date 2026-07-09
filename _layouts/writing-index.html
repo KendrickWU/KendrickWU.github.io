@@ -17,69 +17,38 @@
     <main>
       <section class="writing-hero" aria-labelledby="writing-title">
         <div>
-          <div class="writing-hero__kicker">Essays · Travel · Memory</div>
+          <div class="writing-hero__kicker">Essays · Stories · Travel</div>
           <h1 id="writing-title">Writing</h1>
         </div>
         <div class="writing-hero__aside">
           <p class="writing-hero__quote">马孔多在下雨。</p>
-          <p>旅行计划、电影地点、城市散步，以及那些无法被研究问题准确命名的感受。这里从学术主页分离出来，只保留慢慢写字和慢慢看的节奏。</p>
+          <p>这里从学术主页分离出来，按文字的形态重新整理：随笔、故事、旅行、摄影和美食。每一类都保留慢慢写字和慢慢看的节奏。</p>
         </div>
       </section>
 
       <div class="writing-intro-line">
-        <strong>Field notes</strong>
-        <span>关于去过与尚未抵达的地方，关于影像、记忆和现代生活中逐渐稀薄的连接。</span>
+        <strong>Categories</strong>
+        <span>从这里进入不同类型的个人写作。已有文章会按分类归档，暂时空着的栏目也先留出位置。</span>
       </div>
 
-      {% assign writing_count = 0 %}
-      {% for post in site.posts %}
-        {% if post.categories contains 'writing' or post.tags contains 'writing' %}
-          {% assign writing_count = writing_count | plus: 1 %}
-        {% endif %}
-      {% endfor %}
+      <section class="writing-category-grid" aria-label="Writing categories">
+        {% for category in site.data.writing_categories %}
+          {% assign category_count = 0 %}
+          {% for post in site.posts %}
+            {% if post.writing_type == category.key %}
+              {% assign category_count = category_count | plus: 1 %}
+            {% endif %}
+          {% endfor %}
 
-      <section class="writing-feed" aria-label="Writing entries">
-        <div class="writing-feed__header">
-          <div class="writing-section-label">Latest entries</div>
-          <div class="writing-feed__count">{{ writing_count }} essays</div>
-        </div>
-
-        {% assign entry_number = writing_count %}
-        {% for post in site.posts %}
-          {% if post.categories contains 'writing' or post.tags contains 'writing' %}
-            <article class="writing-card">
-              <a class="writing-card__cover" href="{{ post.url | relative_url }}" aria-label="阅读：{{ post.display_title | default: post.title }}">
-                {% if post.cover %}
-                  <img src="{{ post.cover | relative_url }}" alt="" loading="lazy">
-                {% else %}
-                  <span class="writing-card__fallback">Field note · {{ post.date | date: "%Y" }}</span>
-                {% endif %}
-              </a>
-              <div class="writing-card__body">
-                <div class="writing-card__eyebrow">No. {{ entry_number }} · {{ post.date | date: "%Y.%m.%d" }}</div>
-                <h2><a href="{{ post.url | relative_url }}">{{ post.display_title | default: post.title }}</a></h2>
-                {% if post.excerpt %}<p class="writing-card__excerpt">{{ post.excerpt | strip_html }}</p>{% endif %}
-                <div class="writing-card__footer">
-                  <div class="writing-card__meta">{{ post.location | default: "Hong Kong" }}</div>
-                  <a class="writing-card__link" href="{{ post.url | relative_url }}">Read essay</a>
-                </div>
-              </div>
-            </article>
-            {% assign entry_number = entry_number | minus: 1 %}
-          {% endif %}
+          <a class="writing-category-card" href="{{ category.url | relative_url }}">
+            <span class="writing-category-card__icon">
+              {% include writing-category-icon.html icon=category.icon %}
+            </span>
+            <span class="writing-category-card__title">{{ category.title }}</span>
+            <span class="writing-category-card__description">{{ category.description }}</span>
+            <span class="writing-category-card__count">{{ category_count }} 篇</span>
+          </a>
         {% endfor %}
-
-        {% if writing_count == 0 %}
-          <p>文字还在路上。</p>
-        {% endif %}
-
-        <aside class="writing-coming" aria-label="Coming next">
-          <div>
-            <div class="writing-section-label">Coming next</div>
-            <h2>马孔多在下雨</h2>
-          </div>
-          <p>准备写一篇关于这句话的文章：雨如何成为一种漫长的背景，以及现代人的感情为什么在持续连接中反而逐渐疏离。</p>
-        </aside>
       </section>
     </main>
 

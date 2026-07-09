@@ -1,0 +1,28 @@
+<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  {% case include.icon %}
+  {% when "pen" %}
+    <path d="M13 34l2-8 18-18 7 7-18 18-9 1z"/>
+    <path d="M29 12l7 7"/>
+    <path d="M12 40h24"/>
+  {% when "book" %}
+    <path d="M12 10h12c4 0 7 3 7 7v21H19c-4 0-7-3-7-7V10z"/>
+    <path d="M31 17c0-4 3-7 7-7h2v28h-9"/>
+    <path d="M19 17h6"/>
+    <path d="M19 24h6"/>
+  {% when "map" %}
+    <path d="M10 14l10-4 9 4 9-4v24l-9 4-9-4-10 4V14z"/>
+    <path d="M20 10v24"/>
+    <path d="M29 14v24"/>
+  {% when "camera" %}
+    <path d="M12 17h8l3-4h8l3 4h2c3 0 5 2 5 5v12c0 3-2 5-5 5H12c-3 0-5-2-5-5V22c0-3 2-5 5-5z"/>
+    <circle cx="24" cy="28" r="7"/>
+  {% when "bowl" %}
+    <path d="M10 24h28c0 9-6 15-14 15S10 33 10 24z"/>
+    <path d="M15 39h18"/>
+    <path d="M17 13c-2 2-2 4 0 6"/>
+    <path d="M24 10c-2 3-2 5 0 8"/>
+    <path d="M31 13c-2 2-2 4 0 6"/>
+  {% else %}
+    <circle cx="24" cy="24" r="14"/>
+  {% endcase %}
+</svg>

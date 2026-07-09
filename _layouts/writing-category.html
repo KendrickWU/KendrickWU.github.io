@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  {% include writing-head.html %}
+</head>
+<body>
+  {% assign current_category = site.data.writing_categories | where: "key", page.writing_type | first %}
+  <div class="writing-shell">
+    <header class="writing-nav">
+      <a class="writing-nav__brand" href="{{ '/' | relative_url }}">Wu Hongfan <span>Personal Journal</span></a>
+      <nav class="writing-nav__links" aria-label="Writing navigation">
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <a href="{{ '/blog/' | relative_url }}">Research Notes</a>
+        <a class="is-active" href="{{ '/writing/' | relative_url }}">Writing</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="writing-hero writing-hero--category" aria-labelledby="writing-category-title">
+        <div>
+          <div class="writing-hero__kicker">Writing · {{ current_category.title | default: page.title }}</div>
+          <h1 id="writing-category-title">{{ current_category.title | default: page.title }}</h1>
+        </div>
+        <div class="writing-hero__aside">
+          <p class="writing-hero__quote">{{ current_category.title | default: page.title }}</p>
+          <p>{{ current_category.description | default: page.excerpt }}</p>
+        </div>
+      </section>
+
+      <nav class="writing-category-tabs" aria-label="Writing categories">
+        {% for category in site.data.writing_categories %}
+          <a class="{% if category.key == page.writing_type %}is-active{% endif %}" href="{{ category.url | relative_url }}">{{ category.title }}</a>
+        {% endfor %}
+      </nav>
+
+      {% assign category_posts = site.posts | where: "writing_type", page.writing_type %}
+      {% if page.writing_type == "story" %}
+        {% assign sorted_posts = category_posts | sort: "writing_order" %}
+      {% else %}
+        {% assign sorted_posts = category_posts | sort: "date" | reverse %}
+      {% endif %}
+
+      <section class="writing-feed writing-feed--category" aria-label="{{ current_category.title }}文章列表">
+        <div class="writing-feed__header">
+          <div class="writing-section-label">{{ current_category.title | default: page.title }}</div>
+          <div class="writing-feed__count">{{ category_posts.size }} 篇</div>
+        </div>
+
+        {% for post in sorted_posts %}
+          <article class="writing-card">
+            <a class="writing-card__cover" href="{{ post.url | relative_url }}" aria-label="阅读：{{ post.display_title | default: post.title }}">
+              {% if post.cover %}
+                <img src="{{ post.cover | relative_url }}" alt="" loading="lazy">
+              {% else %}
+                <span class="writing-card__fallback">{{ current_category.title }} · {{ post.date | date: "%Y" }}</span>
+              {% endif %}
+            </a>
+            <div class="writing-card__body">
+              <div class="writing-card__eyebrow">
+                {{ post.writing_type_label | default: current_category.title }}{% if post.writing_order %} · No. {{ post.writing_order }}{% endif %} · {{ post.date | date: "%Y.%m.%d" }}
+              </div>
+              <h2><a href="{{ post.url | relative_url }}">{{ post.display_title | default: post.title }}</a></h2>
+              {% if post.excerpt %}<p class="writing-card__excerpt">{{ post.excerpt | strip_html }}</p>{% endif %}
+              <div class="writing-card__footer">
+                <div class="writing-card__meta">{{ post.location | default: "Hong Kong" }}</div>
+                <a class="writing-card__link" href="{{ post.url | relative_url }}">Read</a>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+
+        {% if category_posts.size == 0 %}
+          <div class="writing-empty">
+            <p>{{ current_category.empty | default: "暂无文章。" }}</p>
+          </div>
+        {% endif %}
+      </section>
+    </main>
+
+    <footer class="writing-footer">
+      <a href="{{ '/writing/' | relative_url }}">Writing categories</a>
+      <span>{{ current_category.title | default: page.title }}</span>
+    </footer>
+  </div>
+</body>
+</html>
