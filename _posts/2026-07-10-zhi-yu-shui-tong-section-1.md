@@ -21,9 +21,11 @@ Section 1
 
 我叫吴洪帆，博士读到第三年，研究的都是最理性的模型。但我的故事，却要从一趟最不理性的旅行开始。那时候，我和她拿着一份比任何学术论文都更精确的攻略，坐上了那趟叫金目鲷号的列车，以为它会一直开往我们规划好的未来。
 
-![热海附近的山坡与海面，呼应故事里海和天之间的距离]({{ '/images/writing/zhi-yu-shui-tong/section-1-atami-sea.jpeg' | relative_url }})
+![海边山路旁停靠的列车，呼应金目鲷号开往热海的旅程]({{ '/images/writing/zhi-yu-shui-tong/section-1-railway.jpeg' | relative_url }})
 
 车厢外是太平洋，像一块巨大的、流动的灰色丝绒。她把头靠在我肩上，指着窗外说，你看，海和天之间，好像能跑马。
+
+![热海附近的山坡与海面，呼应故事里海和天之间的距离]({{ '/images/writing/zhi-yu-shui-tong/section-1-atami-sea.jpeg' | relative_url }})
 
 我说，那不是马，是海浪。
 
@@ -40,6 +42,8 @@ Section 1
 热海那晚的温泉很烫。
 
 旅馆藏在半山腰，推开窗，能听见太平洋的海浪撞在崖壁上，发出沉闷的、仿佛来自地心的回响。她把脚伸进池子里，被烫得缩回来，然后转过头看我，眼珠很亮，说，你先下。
+
+![雾气里的山坡和索道，呼应热海半山腰旅馆与温泉蒸汽]({{ '/images/writing/zhi-yu-shui-tong/section-1-mountain.jpeg' | relative_url }})
 
 我说，我也怕烫。
 
