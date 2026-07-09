@@ -147,18 +147,38 @@ include:
   - _pages
   - files
 exclude:
-  - "*.sublime-project"
-  - "*.sublime-workspace"
+  # Local-only and generated content
+  - _site
+  - local
+  - CV_Research_Future
+  - TA_Stuff
+  - Japan_Topophilia
+  - markdown_generator
+  - talkmap
+  - talkmap.ipynb
+  - talkmap.py
+  # Development and dependency files
+  - .DS_Store
   - .asset-cache
   - .bundle
+  - .claude
+  - .github
+  - .idea
   - .jekyll-assets-cache
+  - .jekyll-cache
   - .sass-cache
+  - .vscode
+  - "*.sublime-project"
+  - "*.sublime-workspace"
   - CHANGELOG
   - Capfile
+  - CONTRIBUTING.md
   - Gemfile
+  - Gemfile.lock
   - Gruntfile.js
   - LICENSE
   - README
+  - README.md
   - Rakefile
   - assets/js/_main.js
   - assets/js/plugins
@@ -168,6 +188,7 @@ exclude:
   - log
   - node_modules
   - package.json
+  - package-lock.json
   - tmp
   - vendor
 keep_files:
@@ -259,7 +280,7 @@ defaults:
       layout: single
       author_profile: true
       share: true
-      comment: true
+      comments: true
   # _talks
   - scope:
       path: ""

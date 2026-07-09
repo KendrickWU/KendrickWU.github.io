@@ -2,6 +2,7 @@
 layout: post
 title: "PriceMoE Presentation: AI Traffic Control"
 date: 2026-03-23 10:00:00 +0800
+permalink: /presentation/price-moe/
 categories: [Presentation, MoE, AI Systems]
 tags: [PriceMoE, Queueing Theory, MoE Routing]
 excerpt: "Interactive class presentation page for PriceMoE: how queue-aware routing reduces MoE hotspots."

@@ -2,6 +2,7 @@
 layout: post
 title: "Cross-Dataset Retinal Vessel Segmentation Presentation"
 date: 2026-04-22 10:00:00 +0800
+permalink: /presentation/retinal-vessel-segmentation/
 categories: [Presentation, Medical Imaging, Domain Generalization]
 tags: [Retinal Vessel Segmentation, U-Net, STARE, HRF]
 excerpt: "Interactive class presentation on cross-dataset retinal vessel segmentation, showing that retinal-specific preprocessing drives most of the transfer gain."

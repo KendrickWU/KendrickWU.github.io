@@ -4,10 +4,16 @@
 # Personal local materials (do not publish)
 TA_Stuff/
 CV_Research_Future/
+Japan_Topophilia/
 
 # IDE
 .idea/
 .vscode/
+
+# Jekyll / Bundler cache
+.bundle/
+.jekyll-cache/
+.sass-cache/
 
 # Python cache
 __pycache__/
@@ -24,6 +30,7 @@ __pycache__/
 *.synctex.gz
 *.toc
 *.vrb
+
 # Ignore the contents of the _site directory
 _site/
 
@@ -33,6 +40,6 @@ local/
 # Ignore the Gemfile that is generated
 Gemfile.lock
 
-# Ingore files created by npm
-node_modules
+# Ignore files created by npm
+node_modules/
 package-lock.json

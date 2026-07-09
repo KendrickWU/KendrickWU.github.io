@@ -1,8 +1,11 @@
-Contributions are welcome! 
+# Contributing
 
-Please add issues and make pull requests. There are no stupid questions. All ideas are welcome. This is a volunteer project. Be excellent to each other.
+This is a personal academic website repository. Most updates are content edits, site configuration changes, or theme maintenance.
 
-Bug reports and feature requests to the template  should be [submitted via GitHub](https://github.com/academicpages/academicpages.github.io/issues/new/choose). For questions concerning how to style the template, please feel free to start a [new discussion on GitHub](https://github.com/academicpages/academicpages.github.io/discussions).
+Before opening or merging a change, run:
 
-Fork from master and go from there. Remember that this repository is intended to remain a generic, ready-to-fork template that demonstrates the features of academicpages.
+```sh
+bundle exec jekyll build
+```
 
+Avoid committing generated files from `_site/`, local private materials, or dependency folders.
