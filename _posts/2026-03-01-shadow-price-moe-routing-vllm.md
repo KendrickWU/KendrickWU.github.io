@@ -6,6 +6,7 @@ permalink: /llm-systems/shadow-price-moe-routing-vllm/
 categories: [LLM Systems, MoE, Queueing]
 tags: [MoE, vLLM, Routing, Shadow Price, Queueing Theory, A100]
 excerpt: "A practical story of how queue lengths become shadow prices, and how that idea can be implemented in vLLM by modifying CPU-side expert selection only—then validated on Qwen2.5-MoE-72B with 8×A100 TTFT/TPOT measurements."
+mathjax: true
 ---
 
 > This post is the blog-form version of my internal note: **“Shadow Price in MoE Routing: From Queueing Theory to a Minimal vLLM Implementation”** (last updated 2026-03-01).

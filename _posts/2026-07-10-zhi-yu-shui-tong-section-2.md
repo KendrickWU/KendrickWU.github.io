@@ -2,13 +2,16 @@
 layout: writing-post
 title: "知与谁同 · Section 2"
 display_title: "知与谁同 · Section 2"
+title_lines: ["知与谁同", "Section 2"]
 date: 2026-07-10 00:02:00 +0800
 permalink: /writing/stories/zhi-yu-shui-tong-section-2/
 categories: [writing, story]
 tags: [writing, story, 知与谁同, 长沙, 香港]
 writing_type: story
 writing_type_label: "故事"
+writing_series: zhi-yu-shui-tong
 writing_order: 2
+source_path: "Japan_Topophilia/知与谁同/知与谁同section2.md"
 location: "Changsha / Hong Kong"
 cover: /images/writing/zhi-yu-shui-tong/section-2-food.jpeg
 cover_alt: "旅途中打开的一盒食物，呼应《知与谁同》第二节里关于城市与吃饭的记忆"

@@ -4,21 +4,21 @@
   {% include writing-head.html %}
 </head>
 <body>
+  {% assign writing_title = page.display_title | default: page.title %}
   <div class="writing-post-shell">
-    <header class="writing-nav">
-      <a class="writing-nav__brand" href="{{ '/' | relative_url }}">Wu Hongfan <span>Personal Journal</span></a>
-      <nav class="writing-nav__links" aria-label="Writing navigation">
-        <a href="{{ '/' | relative_url }}">Home</a>
-        <a href="{{ '/blog/' | relative_url }}">Research Notes</a>
-        <a class="is-active" href="{{ '/writing/' | relative_url }}">Writing</a>
-      </nav>
-    </header>
+    {% include writing-nav.html %}
 
     <main>
       <header class="writing-post__header">
         <div>
           <div class="writing-post__meta">{{ page.date | date: "%Y.%m.%d" }}{% if page.location %} · {{ page.location }}{% endif %}</div>
-          <h1 class="writing-post__title">{{ page.display_title | default: page.title }}</h1>
+          <h1 class="writing-post__title{% if page.title_lines %} writing-post__title--stacked{% endif %}">
+            {% if page.title_lines %}
+              {% for title_line in page.title_lines %}<span>{{ title_line }}</span>{% endfor %}
+            {% else %}
+              {{ writing_title }}
+            {% endif %}
+          </h1>
         </div>
         {% if page.excerpt %}<p class="writing-post__dek">{{ page.excerpt | strip_html }}</p>{% endif %}
       </header>
@@ -29,7 +29,7 @@
         </figure>
       {% endif %}
 
-      <article class="writing-post">
+      <article class="writing-post{% if page.writing_type %} writing-post--{{ page.writing_type | slugify }}{% endif %}{% if page.writing_series %} writing-post--{{ page.writing_series | slugify }}{% endif %}">
         {{ content }}
       </article>
 
@@ -37,17 +37,23 @@
         <div class="writing-post__section-label">More writing</div>
         <div class="writing-related__grid">
           {% assign related_count = 0 %}
-          {% for post in site.posts %}
-            {% if related_count < 2 and post.url != page.url %}
-              {% if post.categories contains 'writing' or post.tags contains 'writing' %}
-                <article class="writing-related__card">
-                  <a href="{{ post.url | relative_url }}">
-                    <span>{{ post.date | date: "%Y.%m.%d" }} · {{ post.location }}</span>
-                    <h3>{{ post.display_title | default: post.title }}</h3>
-                  </a>
-                </article>
+          {% if page.writing_series %}
+            {% assign series_posts = site.posts | where: "writing_series", page.writing_series | sort: "writing_order" %}
+            {% for related_post in series_posts %}
+              {% if related_count < 2 and related_post.url != page.url %}
+                {% include writing-related-card.html post=related_post %}
                 {% assign related_count = related_count | plus: 1 %}
               {% endif %}
+            {% endfor %}
+          {% endif %}
+          {% for related_post in site.posts %}
+            {% assign same_series = false %}
+            {% if page.writing_series and related_post.writing_series == page.writing_series %}
+              {% assign same_series = true %}
+            {% endif %}
+            {% if related_count < 2 and related_post.url != page.url and related_post.writing_type and same_series == false %}
+              {% include writing-related-card.html post=related_post %}
+              {% assign related_count = related_count | plus: 1 %}
             {% endif %}
           {% endfor %}
           <article class="writing-related__card">

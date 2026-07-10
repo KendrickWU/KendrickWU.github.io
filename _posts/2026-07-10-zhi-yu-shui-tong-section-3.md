@@ -2,13 +2,16 @@
 layout: writing-post
 title: "知与谁同 · Section 3"
 display_title: "知与谁同 · Section 3"
+title_lines: ["知与谁同", "Section 3"]
 date: 2026-07-10 00:03:00 +0800
 permalink: /writing/stories/zhi-yu-shui-tong-section-3/
 categories: [writing, story]
 tags: [writing, story, 知与谁同, 香港, 西贡]
 writing_type: story
 writing_type_label: "故事"
+writing_series: zhi-yu-shui-tong
 writing_order: 3
+source_path: "Japan_Topophilia/知与谁同/知与谁同section3.md"
 location: "Hong Kong"
 cover: /images/writing/zhi-yu-shui-tong/section-3-city-night.jpeg
 cover_alt: "暮色里的山与建筑灯光，呼应《知与谁同》第三节的香港夜晚"

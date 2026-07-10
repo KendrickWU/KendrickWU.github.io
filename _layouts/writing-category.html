@@ -6,14 +6,7 @@
 <body>
   {% assign current_category = site.data.writing_categories | where: "key", page.writing_type | first %}
   <div class="writing-shell">
-    <header class="writing-nav">
-      <a class="writing-nav__brand" href="{{ '/' | relative_url }}">Wu Hongfan <span>Personal Journal</span></a>
-      <nav class="writing-nav__links" aria-label="Writing navigation">
-        <a href="{{ '/' | relative_url }}">Home</a>
-        <a href="{{ '/blog/' | relative_url }}">Research Notes</a>
-        <a class="is-active" href="{{ '/writing/' | relative_url }}">Writing</a>
-      </nav>
-    </header>
+    {% include writing-nav.html %}
 
     <main>
       <section class="writing-hero writing-hero--category" aria-labelledby="writing-category-title">
@@ -29,7 +22,7 @@
 
       <nav class="writing-category-tabs" aria-label="Writing categories">
         {% for category in site.data.writing_categories %}
-          <a class="{% if category.key == page.writing_type %}is-active{% endif %}" href="{{ category.url | relative_url }}">{{ category.title }}</a>
+          <a class="{% if category.key == page.writing_type %}is-active{% endif %}" href="{{ category.url | relative_url }}"{% if category.key == page.writing_type %} aria-current="page"{% endif %}>{{ category.title }}</a>
         {% endfor %}
       </nav>
 

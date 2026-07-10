@@ -39,6 +39,11 @@ a {
   color: inherit;
 }
 
+a:focus-visible {
+  outline: 2px solid var(--writing-accent);
+  outline-offset: 4px;
+}
+
 img {
   max-width: 100%;
 }
@@ -527,6 +532,14 @@ img {
   line-height: 1.02;
 }
 
+.writing-post__title--stacked span {
+  display: block;
+}
+
+.writing-post__title--stacked span + span {
+  margin-top: 0.02em;
+}
+
 .writing-post__dek {
   margin: 0;
   padding-bottom: 8px;
@@ -605,6 +618,38 @@ img {
   margin: 2.4em 50%;
   border: 1px solid var(--writing-line);
   transform: translateX(-50%);
+}
+
+.writing-post--zhi-yu-shui-tong {
+  font-size: 18.5px;
+  line-height: 2.08;
+}
+
+.writing-post--zhi-yu-shui-tong > p:first-child {
+  margin: 0 0 2.8em;
+  color: var(--writing-accent);
+  font-family: var(--writing-sans);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.writing-post--zhi-yu-shui-tong > p:nth-of-type(2) {
+  margin-bottom: 2.1em;
+  color: var(--writing-muted);
+  font-size: 20px;
+  line-height: 2;
+}
+
+.writing-post--zhi-yu-shui-tong > p:not(:first-child) {
+  text-align: justify;
+  text-justify: inter-ideograph;
+}
+
+.writing-post--zhi-yu-shui-tong img {
+  margin-top: 3.2em;
+  margin-bottom: 3.2em;
 }
 
 .writing-post table {
@@ -728,7 +773,7 @@ img {
 
 .writing-related__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
   margin-top: 24px;
 }
@@ -869,6 +914,40 @@ img {
 
   .writing-post {
     font-size: 17px;
+  }
+
+  .writing-post__title {
+    max-width: 100%;
+    font-size: clamp(36px, 10.4vw, 46px);
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .writing-post--zhi-yu-shui-tong {
+    font-size: 17px;
+    line-height: 2;
+  }
+
+  .writing-post img,
+  .writing-post .travel-lead,
+  .writing-post .soft-note,
+  .writing-post .route-summary,
+  .writing-post .place-grid,
+  .writing-post .map-frame {
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+    transform: none;
+  }
+
+  .writing-post--zhi-yu-shui-tong > p:nth-of-type(2) {
+    font-size: 18px;
+    line-height: 1.95;
+  }
+
+  .writing-post--zhi-yu-shui-tong > p:not(:first-child) {
+    text-align: left;
   }
 
   .writing-related__grid {

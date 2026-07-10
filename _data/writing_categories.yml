@@ -1,6 +1,5 @@
 - key: essay
   title: "随笔"
-  slug: essays
   url: /writing/essays/
   icon: pen
   description: "日常、校园、记忆和一些无法归入研究问题的观察。"
@@ -8,7 +7,6 @@
 
 - key: story
   title: "故事"
-  slug: stories
   url: /writing/stories/
   icon: book
   description: "连续叙事、人物关系和那些需要慢慢展开的长段落。"
@@ -16,7 +14,6 @@
 
 - key: travel
   title: "旅行"
-  slug: travel
   url: /writing/travel/
   icon: map
   description: "城市散步、路线整理、电影地点和将来想抵达的地方。"
@@ -24,7 +21,6 @@
 
 - key: photography
   title: "摄影"
-  slug: photography
   url: /writing/photography/
   icon: camera
   description: "照片、光线、地点和影像背后的现场记忆。"
@@ -32,7 +28,6 @@
 
 - key: food
   title: "美食"
-  slug: food
   url: /writing/food/
   icon: bowl
   description: "餐桌、街边小店、地方口味和食物带来的回忆。"

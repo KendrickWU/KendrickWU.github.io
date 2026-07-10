@@ -5,14 +5,7 @@
 </head>
 <body>
   <div class="writing-shell">
-    <header class="writing-nav">
-      <a class="writing-nav__brand" href="{{ '/' | relative_url }}">Wu Hongfan <span>Personal Journal</span></a>
-      <nav class="writing-nav__links" aria-label="Writing navigation">
-        <a href="{{ '/' | relative_url }}">Home</a>
-        <a href="{{ '/blog/' | relative_url }}">Research Notes</a>
-        <a class="is-active" href="{{ '/writing/' | relative_url }}">Writing</a>
-      </nav>
-    </header>
+    {% include writing-nav.html %}
 
     <main>
       <section class="writing-hero" aria-labelledby="writing-title">

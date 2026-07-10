@@ -22,7 +22,7 @@ redirect_from:
     {% assign blog_post_count = blog_post_count | plus: 1 %}
     {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
     {% if year != written_year %}
-      <h2 id="{{ year | slugify }}" class="archive__subtitle">{{ year }}</h2>
+<h2 id="{{ year | slugify }}" class="archive__subtitle">{{ year }}</h2>
       {% capture written_year %}{{ year }}{% endcapture %}
     {% endif %}
     {% include archive-single.html %}
@@ -30,5 +30,5 @@ redirect_from:
 {% endfor %}
 
 {% if blog_post_count == 0 %}
-  <p>No blog posts yet.</p>
+<p>No blog posts yet.</p>
 {% endif %}

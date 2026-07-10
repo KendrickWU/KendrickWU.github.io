@@ -73,6 +73,8 @@ body {
 }
 
 .page__content {
+  min-width: 0;
+  overflow-x: hidden;
   color: #44443e;
   line-height: 1.72;
 }
@@ -101,10 +103,15 @@ body {
 }
 
 .page__content table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
+  overflow-x: auto;
   border: 1px solid rgba(54, 54, 48, 0.11);
   border-radius: 2px;
   background: rgba(255, 255, 255, 0.55);
+  -webkit-overflow-scrolling: touch;
 }
 
 .page__content table th {

@@ -2,13 +2,16 @@
 layout: writing-post
 title: "知与谁同 · Section 1"
 display_title: "知与谁同 · Section 1"
+title_lines: ["知与谁同", "Section 1"]
 date: 2026-07-10 00:01:00 +0800
 permalink: /writing/stories/zhi-yu-shui-tong-section-1/
 categories: [writing, story]
 tags: [writing, story, 知与谁同, 热海, 太平洋]
 writing_type: story
 writing_type_label: "故事"
+writing_series: zhi-yu-shui-tong
 writing_order: 1
+source_path: "Japan_Topophilia/知与谁同/知与谁同section1.md"
 location: "Atami / Japan"
 cover: /images/writing/zhi-yu-shui-tong/section-1-journey.jpeg
 cover_alt: "山间复古列车与站台，呼应《知与谁同》第一节里的日本旅途记忆"
