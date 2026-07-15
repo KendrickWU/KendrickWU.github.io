@@ -143,6 +143,32 @@ rescue Psych::SyntaxError, RuntimeError => error
   errors << "#{path.relative_path_from(ROOT)}: #{error.message}"
 end
 
+publication_orders = []
+Dir[ROOT.join("_publications/*.{md,markdown}")].sort.each do |filename|
+  path = Pathname(filename)
+  metadata, = read_front_matter(path)
+
+  %w[title publication_status order excerpt].each do |field|
+    errors << "#{path.relative_path_from(ROOT)}: missing #{field}" if metadata[field].to_s.strip.empty?
+  end
+
+  order = metadata["order"]
+  if !order.is_a?(Integer) || order < 1
+    errors << "#{path.relative_path_from(ROOT)}: order must be a positive integer"
+  else
+    publication_orders << [order, path.relative_path_from(ROOT)]
+  end
+rescue Psych::SyntaxError, RuntimeError => error
+  errors << "#{path.relative_path_from(ROOT)}: #{error.message}"
+end
+
+publication_orders.group_by(&:first).each do |order, entries|
+  next if entries.size == 1
+
+  files = entries.map { |entry| entry.last }.join(", ")
+  errors << "_publications: duplicate order #{order} in #{files}"
+end
+
 html_files = Dir[SITE_ROOT.join("**/*.html")].sort.map { |filename| Pathname(filename) }
 html_files.each do |path|
   document = Nokogiri::HTML(path.read)

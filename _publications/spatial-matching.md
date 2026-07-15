@@ -1,11 +1,19 @@
 ---
 title: "Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing"
-authors: ["Sirui Wang", "Hongfan Wu", "Jiheng Zhang"]
-venue: "Submitted to Operations Research"
+authors:
+  - "Hongfan Wu"
+  - "Sirui Wang"
+  - "Jiheng Zhang"
+publication_status: "Submitted to Operations Research"
+order: 1
+excerpt: "A coordinated control framework for two demand classes sharing drivers under abandonment, cancellation, and endogenous pickup times."
 ---
 
-**Model**: Two demand classes sharing drivers; endogenous pickup times via Cobb–Douglas spatial matching; two-stage customer loss (pre-match abandonment and post-match cancellation).
+**Authors:** Hongfan Wu, Sirui Wang, and Jiheng Zhang<br>
+**Status:** Submitted to *Operations Research*
 
-**Theory**: Derived per-class Key Matching Indices (KMI) with decomposition into abandonment reduction, direct opportunity cost, and cross-market externality; optimal thresholds characterized by (ζ₁, ζ₂) = (1, 1).
+Ride-hailing platforms often serve heterogeneous demand classes from a shared driver pool. Waiting customers may abandon before matching, while long pickup times can cause cancellation after a match. Serving one class also consumes idle drivers and changes pickup efficiency for the other, so the two matching decisions cannot be optimized independently.
 
-**Algorithm**: Jacobian-based coordinated Newton controller; robust convergence from arbitrary initial thresholds in numerical experiments; quantify welfare–revenue divergence under congestion.
+We formulate a joint steady-state optimization problem and derive one **Key Matching Index (KMI)** for each class. Each index separates abandonment reduction, the direct opportunity cost of consuming idle drivers, and the cross-market effect on the other class. Optimal thresholds are characterized by driving both indices to one simultaneously.
+
+A Jacobian-based coordinated controller adjusts the two thresholds dynamically. In congested numerical benchmarks, the controller improves welfare by 19.4% and revenue by 8.7% relative to static priority while exposing the trade-off between the two customer classes.

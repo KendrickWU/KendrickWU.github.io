@@ -2,15 +2,15 @@
 permalink: /
 title: "About Me"
 author_profile: true
-redirect_from: 
+redirect_from:
   - /about/
   - /about.html
 ---
 
 <section class="home-intro">
-  <div class="home-intro__eyebrow">Operations Research · Machine Learning Systems</div>
-  <h2>Researching how intelligent systems move, match, and scale.</h2>
-  <p class="home-intro__lead">I am Wu Hongfan, a Ph.D. student at HKUST working at the intersection of operations research and machine learning systems—from distributed MoE inference to stochastic control and spatial matching.</p>
+  <div class="home-intro__eyebrow">Operations Research · AI Systems · Quantitative Research</div>
+  <h2>Turning complex systems into practical decisions.</h2>
+  <p class="home-intro__lead">I am Wu Hongfan, a Ph.D. student at HKUST and a Quantitative Research Intern at NewDaq. I develop routing, scheduling, and experimentation methods for AI infrastructure, mobility platforms, EV charging operations, and quantitative research.</p>
   <div class="home-intro__links">
     <a href="/publications/">Research</a>
     <a href="/cv/">Curriculum Vitae</a>
@@ -20,29 +20,53 @@ redirect_from:
 
 I am a Ph.D. student in the Department of Industrial Engineering and Decision Analytics at **Hong Kong University of Science and Technology (HKUST)**, supervised by [Prof. Jiheng Zhang](https://reijz.github.io/), Head of IEDA and Full Professor in IEDA and MATH. I received my Master of Engineering degree from Nanyang Technological University (NTU) in 2023 and my Bachelor of Engineering degree from Huazhong University of Science and Technology (HUST) in 2022.
 
-I am actively seeking **internship opportunities** in large language model companies, quantitative firms, or research institutes. My research interests lie at the intersection of **operations research** and **machine learning systems**, with a focus on:
+My work sits at the intersection of **operations research, AI systems, and data-intensive experimentation**. I am particularly interested in roles involving LLM systems and AI infrastructure, MaaS or product-facing AI, technical solutions, and quantitative research.
 
 <div class="home-note">
   <strong>Two modes</strong>
   <p><a href="/blog/">Blog</a> collects technical notes and project write-ups. <a href="/writing/">Writing</a> is a quieter space for travel, films, cities, and personal essays.</p>
 </div>
 
-## 🔬 Research Interests
+## Current Role
 
-- **Distributed LLM/MoE Inference Systems**: Efficient routing and load balancing for Mixture-of-Experts models under system constraints; shadow-price-based dynamic routing (PriceMoE); locality-aware online control for routing stability and tail-latency
-- **Online Stochastic Control & Queueing**: Threshold policies, Lyapunov drift analysis, and fluid approximations; network utility maximization with capacity constraints
-- **Spatial Matching & Marketplace Design**: Ride-hailing systems with heterogeneous demand and coordinated matching; Key Matching Indices for two-demand-class systems
+### Quantitative Research Intern, NewDaq
 
-## 📧 Contact
+*Shenzhen · 2026–Present · Long-term internship*
 
-- **Email**: [hwucn@connect.ust.hk](mailto:hwucn@connect.ust.hk)
-- **GitHub**: [https://github.com/KendrickWU](https://github.com/KendrickWU)
-- **Location**: Hong Kong
+NewDaq is a Shenzhen-based RMB 10B+ quantitative investment firm. My work is organized around **factor families rather than isolated signals**:
 
+- Run batch-level factor research and evaluate both linear and nonlinear predictive power inside an integrated factor library, testing, backtesting, and deployment workflow
+- Extend successful hypotheses to structurally related factor families, turning one-off findings into reusable research logic
+- Help maintain and reconstruct a multidimensional factor-mining and backtesting framework that combines statistical search coverage with economically and physically motivated hypotheses
 
----
+## Research Interests
 
-## 🎓 Education
+- **LLM and MoE inference systems**: Request-level routing across quantized MoE instances, quality-risk estimation, capacity allocation, and interpretable shadow-price policies
+- **Accelerator-cluster scheduling**: Placement, migration, and preemption under fragmentation, heterogeneous resource demands, and operational overhead
+- **Stochastic service systems**: Queueing, fluid approximations, Lyapunov control, LP/KKT analysis, dynamic programming, and threshold or index policies
+- **Mobility and marketplace design**: Spatial matching with heterogeneous demand, customer impatience, and coordinated real-time control
+- **EV charging operations**: Grid-compliant charging schedules and joint pricing-power control, informed by collaboration with a charging operator serving European customers
+
+## Publications & Working Papers
+
+The [Publications page](/publications/) lists five current research programs and their manuscript status.
+
+1. **[Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing](/publications/spatial-matching/)**<br>
+   Submitted to *Operations Research*.
+
+2. **[NPU Cluster Scheduling with Net-Gain Preemption](/publications/npu-scheduling/)**<br>
+   Submitted to ACM ATC; an Operations Research version is in preparation.
+
+3. **[Dynamic MoE Routing and Precision Allocation for Quantized MoE Serving](/publications/dynamic-moe-routing/)**<br>
+   NeurIPS 2026 version submitted; an Operations Research version is in preparation.
+
+4. **[Grid-Compliant Service-Time Scheduling for Mixed Single- and Three-Phase AC EV Charging](/publications/ev-charging-ieee/)**<br>
+   Manuscript in preparation for *IEEE Transactions on Smart Grid*.
+
+5. **[Joint Pricing and Power Scheduling for EV Charging](/publications/ev-charging-or/)**<br>
+   Manuscript in preparation for *Operations Research*.
+
+## Education
 
 | Degree | Institution | Period | Details |
 | ------ | ----------- | ------ | ------- |
@@ -50,42 +74,19 @@ I am actively seeking **internship opportunities** in large language model compa
 | M.Eng. in Computer Control and Automation | Nanyang Technological University (NTU) | Aug 2022 – Jun 2023 | GPA: 4.36/5.00 |
 | B.Eng. in Electrical Engineering and Automation | Huazhong University of Science and Technology (HUST) | Sep 2018 – Jun 2022 | GPA: 3.81/4.00 |
 
----
+## Technical Skills
 
-## 📝 Publications & Working Papers
+- **Programming and data**: Python, C/C++, MATLAB, SQL, NumPy, Pandas, simulation, and backtesting
+- **AI systems**: MoE routing, quantized inference, vLLM prototyping, accelerator scheduling, and performance evaluation
+- **Modeling and optimization**: Queueing, stochastic control, fluid approximations, constrained optimization, LP/KKT, dynamic programming, and threshold/index policies
 
-1. **Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing** (submitted to *Operations Research*)
-   - *with Sirui Wang, Jiheng Zhang*
-   - Model: Two demand classes sharing drivers; endogenous pickup times via Cobb–Douglas spatial matching; two-stage customer loss
-   - Theory: Derived per-class Key Matching Indices (KMI) with decomposition into abandonment reduction, direct opportunity cost, and cross-market externality
-   - Algorithm: Jacobian-based coordinated Newton controller with robust convergence
+## Contact
 
-2. **Airline Cargo Transport Recovery** (working paper)
-   - Model disrupted cargo as a backlog-clearing problem with stochastic residual bellyhold capacities
-   - Developed time-threshold segmentation policies trading off waiting cost against transfer time
+- **Email**: [hwucn@connect.ust.hk](mailto:hwucn@connect.ust.hk)
+- **GitHub**: [github.com/KendrickWU](https://github.com/KendrickWU)
+- **Location**: Hong Kong / Shenzhen
 
-3. **PriceMoE: Shadow-Price-Based Dynamic Routing for MoE Serving** (working paper)
-   - Formulate MoE routing as network utility maximization with capacity constraints; use fluid limits for tractable analysis
-   - Interpret queue lengths/dual variables as shadow prices for congestion-aware routing
-
-4. **Fluid-Affinity: Locality-Aware Token Routing for Distributed MoE Inference via Online Stochastic Control** (working paper)
-   - Online control for token routing across GPUs with transition costs; incorporate temporal locality via affinity reward
-   - Derived Lyapunov drift-plus-penalty controller with [O(1/V), O(V)] optimality gap
-
-5. **System-constrained MoE Routing** (working paper, details available upon request)
-   - Studies routing policies under hardware/deployment constraints with a focus on robustness and tail-latency
-
----
-
-## 🛠️ Technical Skills
-
-- **Modeling/OR**: Queueing networks, spatial matching, stochastic control, constrained optimization, fluid limits
-- **Programming**: Python, C/C++, MATLAB, SQL (MySQL)
-- **Systems/Tools**: ARM Keil, PSIM, COMSOL, AI designer
-
----
-
-## 🏆 Honors & Awards
+## Honors & Awards
 
 - Outstanding Graduate, HUST
 - Innovation of Science and Technology Scholarship
@@ -94,9 +95,7 @@ I am actively seeking **internship opportunities** in large language model compa
 - Excellence Award, Qiushi Cup Entrepreneurship Contest ("The Flash" EV charging service app)
 - Outstanding Volunteer, Youth Reading Challenges (Forbes World Record, Asia & Pacific Area)
 
----
-
-## 🌐 Languages
+## Languages
 
 - **Chinese**: Native (PSC Grade 2A)
 - **English**: IELTS 7; CET-6 572; CET-4 598

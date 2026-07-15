@@ -3,6 +3,8 @@ layout: archive
 title: "Publications"
 permalink: /publications/
 author_profile: true
+redirect_from:
+  - /publications/airline-cargo/
 ---
 
 {% if site.author.googlescholar %}
@@ -11,6 +13,9 @@ author_profile: true
 
 {% include base_path %}
 
-{% for post in site.publications reversed %}
+Current manuscripts are grouped by research program, so related conference and journal versions appear together instead of being counted as separate projects. The list below contains the five active research programs and their current submission status.
+
+{% assign current_publications = site.publications | sort: "order" %}
+{% for post in current_publications %}
   {% include archive-single.html %}
 {% endfor %}

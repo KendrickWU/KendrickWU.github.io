@@ -7,144 +7,126 @@ redirect_from:
   - /resume
 ---
 
-{% include base_path %}
+## Profile
 
-## Contact Information
+HKUST IEDA Ph.D. student and Quantitative Research Intern at NewDaq. My work combines operations research with executable systems and experiments: stochastic service models, LLM/MoE inference, accelerator scheduling, spatial matching, EV charging operations, and factor-family research.
+
+I am interested in roles spanning LLM systems and AI infrastructure, MaaS and product-facing AI, technical solutions, and quantitative research.
+
+## Contact
 
 - **Email**: [hwucn@connect.ust.hk](mailto:hwucn@connect.ust.hk)
-- **GitHub**: [https://github.com/KendrickWU](https://github.com/KendrickWU)
-- **Location**: Hong Kong
+- **GitHub**: [github.com/KendrickWU](https://github.com/KendrickWU)
+- **Website**: [kendrickwu.github.io](https://kendrickwu.github.io/)
+- **Location**: Hong Kong / Shenzhen
 
-## Research Interests
+## Experience
 
-Distributed LLM/MoE inference systems; online stochastic control and queueing; system-constrained routing and load balancing; spatial matching and marketplace design.
+### NewDaq
+
+**Quantitative Research Intern** · Shenzhen · *2026–Present (long-term)*
+
+- Conduct factor-family alpha research through batch experiments inside an integrated factor library, testing, backtesting, and deployment workflow
+- Evaluate linear and nonlinear predictive power, then use successful batch logic to guide exploration of structurally related factors
+- Help maintain and reconstruct a multidimensional parallel research framework combining statistical search coverage with economically and physically interpretable hypotheses
+
+### CARTIN Lab, Nanyang Technological University
+
+**Student Assistant** · Singapore · *Dec 2022–Apr 2023*
+
+- Built backend and database support for real-time visualization of Sentosa shuttle-bus locations and passenger boarding and alighting statistics
 
 ## Education
 
 ### Hong Kong University of Science and Technology (HKUST)
 
-**Ph.D. in Industrial Engineering and Decision Analytics**  
-*Aug 2023 – Jun 2027 (expected)*
+**Ph.D. in Industrial Engineering and Decision Analytics**<br>
+*Aug 2023–Jun 2027 (expected)*<br>
+Advisor: Prof. Jiheng Zhang
 
 ### Nanyang Technological University (NTU)
 
-**M.Eng. in Computer Control and Automation**  
-*Aug 2022 – Jun 2023*  
-GPA: 4.36/5.00
+**M.Eng. in Computer Control and Automation**<br>
+*Aug 2022–Jun 2023* · GPA: 4.36/5.00
 
 ### Huazhong University of Science and Technology (HUST)
 
-**B.Eng. in Electrical Engineering and Automation**  
-*Sep 2018 – Jun 2022*  
-GPA: 3.81/4.00
+**B.Eng. in Electrical Engineering and Automation**<br>
+*Sep 2018–Jun 2022* · GPA: 3.81/4.00
 
 ## Publications & Working Papers
 
 ### Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing
 
-Submitted to *Operations Research* (with Sirui Wang, Jiheng Zhang)
+**Submitted to *Operations Research*** · with Sirui Wang and Jiheng Zhang
 
-- **Model**: Two demand classes sharing drivers; endogenous pickup times via Cobb–Douglas spatial matching; two-stage customer loss (pre-match abandonment and post-match cancellation)
-- **Theory**: Derived per-class Key Matching Indices (KMI) with decomposition into abandonment reduction, direct opportunity cost, and cross-market externality; optimal thresholds characterized by (ζ₁, ζ₂) = (1, 1)
-- **Algorithm**: Jacobian-based coordinated Newton controller; robust convergence from arbitrary initial thresholds in numerical experiments; quantify welfare–revenue divergence under congestion
+- Model two demand classes sharing drivers, with endogenous pickup times, pre-match abandonment, and post-match cancellation
+- Derive per-class Key Matching Indices that expose abandonment reduction, direct opportunity cost, and cross-market externalities
+- Design a Jacobian-based coordinated controller; congested benchmarks show a 19.4% welfare improvement and an 8.7% revenue improvement over static priority
 
-### Airline Cargo Transport Recovery
+### NPU Cluster Scheduling with Net-Gain Preemption
 
-Working Paper
+**Submitted to ACM ATC; *Operations Research* version in preparation** · lead / idea initiator
 
-- Model disrupted cargo as a backlog-clearing problem with stochastic residual bellyhold capacities; allow direct vs. transfer routing with random transfer delay
-- Developed time-threshold segmentation policies that tradeoff waiting cost against transfer time; analyze static vs. dynamic decision gaps
+- Study placement and migration or preemption for multi-pod jobs under fragmentation, churn, and heterogeneous pod-size requirements
+- Estimate waiting time with bitmask dynamic programming and trigger migration only when expected delay reduction exceeds cool-down and recovery overhead
+- Across 99 simulation seeds, six placement policies, and four preemption policies, Net-Gain reduces average delay by about 26–32% relative to no preemption
 
-### PriceMoE: Shadow-Price-Based Dynamic Routing for MoE Serving
+### Dynamic MoE Routing and Precision Allocation for Quantized MoE Serving
 
-Working Paper
+**NeurIPS 2026 version submitted; *Operations Research* version in preparation** · with Zhenghong Huang and Jiheng Zhang
 
-- Formulate MoE routing as network utility maximization with capacity constraints; use fluid limits for tractable analysis
-- Interpret queue lengths/dual variables as shadow prices; resulting top-k routing trades off semantic score vs. congestion price
+- **NeurIPS version**: *Adaptive Routing for Quantized Mixture-of-Experts Serving with Theoretical Guarantee* routes requests across pre-quantized MoE instances using Fragility-Weighted Perplexity, a window-level LP, and a KKT-consistent greedy policy
+- **Operations Research version**: *Dynamic Precision Allocation for Mixture-of-Experts Inference Services* models routing as stochastic service control with class-level quality-risk calibration, fluid relaxation, and capacity and quality-risk shadow prices
+- Experiments on Qwen3-30B-A3B and DeepSeek-V2-Lite show up to 1.38x decode throughput against the highest-bit instance baseline without measured response-quality loss
 
-### Fluid-Affinity: Locality-Aware Token Routing for Distributed MoE Inference via Online Stochastic Control
+### Grid-Compliant Service-Time Scheduling for Mixed Single- and Three-Phase AC EV Charging
 
-Working Paper
+**Manuscript in preparation for *IEEE Transactions on Smart Grid*** · industry collaboration
 
-- Online control for token routing across GPUs with transition (communication) costs; incorporate temporal locality via an affinity reward
-- Derive Lyapunov drift-plus-penalty controller with [O(1/V), O(V)] optimality gap vs. average queue length tradeoff
+- Work with a real EV charging operator serving European customers
+- Calibrate each EV's natural AC charging envelope and schedule mixed single- and three-phase sessions under aggregate and per-phase grid constraints
+- Minimize congestion-induced service stretch while preserving grid compliance and work-conserving operation
 
-### System-constrained MoE Routing (private details)
+### Joint Pricing and Power Scheduling for EV Charging
 
-Working Paper
+**Manuscript in preparation for *Operations Research*** · industry collaboration
 
-- Routing policies under hardware/deployment constraints with a focus on robustness, stability, and tail-latency
-- Details (method and evaluation) are available upon request
+- Study joint pricing or admission and power-allocation control for capacity-constrained EV charging operations
+- Examine when commercial decisions can be separated from physical scheduling and when they must be optimized jointly
+- Develop the stochastic scheduling and fluid-control extension using operational requirements and charging-session structure from the industry collaboration
 
-## Research Summary (Selected Themes)
+## Research Themes
 
-- **Online control in coupled systems**: Index/threshold policies, Jacobian-based coordination, and Lyapunov drift analysis
-- **Fluid/steady-state approximations**: Tractable limits for optimization/design in spatial matching and distributed inference
-- **Interpretable decision rules**: Shadow prices and decompositions that expose externalities and congestion costs
+- **AI systems and resource allocation**: Quantized MoE routing, accelerator placement, migration and preemption, congestion pricing, and quality-capacity trade-offs
+- **Stochastic service systems**: Queueing, fluid approximations, Lyapunov control, LP/KKT analysis, dynamic programming, and threshold or index policies
+- **Platforms and energy operations**: Spatial matching, customer impatience, EV charging schedules, pricing, and multi-resource grid constraints
+- **Quantitative experimentation**: Factor-family hypothesis generation, linear and nonlinear signal evaluation, backtesting, and scalable research workflows
 
-## Research & Project Experience
+## Selected Engineering Projects
 
-### CARTIN Lab, NTU
+### C++ Limit Order Book Matching Engine
 
-*Student Assistant — Shuttle bus data visualization system (Sentosa)*  
-*Dec 2022 – Apr 2023*
+- Built an L2 order book with price-time priority, O(1) cancellation through order-ID indexing, unit tests, and a micro-benchmark harness
 
-- Built backend/database for real-time visualization of shuttle bus location and passenger boarding/alighting statistics
+### Queue-Aware MoE Routing Prototypes
 
-### IoT Distributed Home Monitoring & Security System
+- Implemented vLLM routing prototypes that inject per-expert virtual-queue penalties into expert selection and connect congestion signals with online control
 
-*Team Lead*  
-*May 2020 – May 2021*
+### IoT Distributed Home Monitoring and Security System
 
-- Designed end-to-end IoT architecture and implemented prototypes with microcontroller-based sensing, firmware, and hardware assembly
-
-### Inverted Pendulum Research on Signal and Control Integrated Experiment
-
-Sept 2020
-
-- Completed one-order inverted pendulum control algorithm based on STM32, and further carried out the inverted pendulum heavy load research, which adopted PI control and had good robustness
-
-### Intelligent Face Recognition and Face Changing System
-
-*Shinetech Software & HUST Summer Camp*  
-*Aug 2020 – Sept 2020*
-
-- Responsible for the development of face recognition system and image cropping, which were based on a dilb database of Python
-
-## Internship Experience
-
-### Guangdong Shangsheng New Energy Technology Co., Ltd
-
-*Assistant to Electric Vehicle Charging Station Engineer*  
-*Jul 2020 – Aug 2020*
-
-- Familiar with the knowledge of the electric vehicle charging station and participated in problem solving work
-- Tried to develop relevant APP projects to solve the problems of irregularity and dispersion in the current charging APP market, such as the project "The Flash" APP for New Energy Car Charging Service
+- Led end-to-end architecture and prototype development across microcontroller sensing, firmware, and hardware integration
 
 ## Technical Skills
 
-- **Modeling/OR**: Queueing networks, spatial matching, stochastic control, constrained optimization, fluid limits
-- **Programming**: Python, C/C++, MATLAB, SQL (MySQL)
-- **Systems/Tools**: ARM Keil, PSIM, COMSOL, AI designer
-
-## Languages
-
-- **Chinese**: Native (PSC Grade 2A)
-- **English**: IELTS 7; CET-6 572; CET-4 598
+- **Programming and data**: Python, C/C++, MATLAB, SQL, NumPy, Pandas, Matplotlib, simulation, and backtesting
+- **AI systems**: MoE routing, quantized inference, vLLM prototyping, accelerator scheduling, and performance evaluation
+- **Modeling and optimization**: Stochastic processes, queueing, fluid approximations, constrained optimization, LP/KKT, Lyapunov control, dynamic programming, and threshold/index policies
+- **Languages**: Chinese (native); English (professional working proficiency; IELTS 7)
 
 ## Honors & Awards
 
 - Outstanding Graduate, HUST
-- Innovation of Science and Technology Scholarship
-- Study Scholarship
-- Interdisciplinary Contest in Modeling (ICM): Honorable Mention (H Prize)
+- Interdisciplinary Contest in Modeling: Honorable Mention
+- Innovation of Science and Technology Scholarship; Study Scholarship
 - Excellence Award, Qiushi Cup Entrepreneurship Contest ("The Flash" EV charging service app)
-- Outstanding Volunteer, Youth Reading Challenges (Forbes World Record, Asia & Pacific Area)
-
-## Service & Additional Activities
-
-- Student assistantship and project delivery in applied mobility analytics (NTU CARTIN Lab)
-- Prior hardware/embedded prototyping experience (STM32/MCU-based control; IoT sensing)
-- Class Cadre in Charge of Finance Issues (Dec 2020 – present)
-- Class Cadre in Charge of Students' Daily Life Affairs (Aug 2018 – present)
-- Member of the Public Relations Department, HUST (Oct 2019 – Dec 2020)

@@ -38,6 +38,8 @@ Personal writing also lives in `_posts/`, with `layout: writing-post` and a `wri
 
 Writing series can add `writing_series`, `writing_order`, and `title_lines`. A local `source_path` is optional; when the source exists, the validator checks that all non-image body lines remain exactly unchanged.
 
+Publication documents live in `_publications/` and require `title`, `publication_status`, a unique positive `order`, and a concise `excerpt`. Conference and journal manuscripts from the same research program should remain in one document, with version-specific status recorded together.
+
 ## Project Structure
 
 - `_config.yml`: site-wide settings, collections, plugins, and build excludes.
