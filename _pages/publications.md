@@ -13,8 +13,6 @@ redirect_from:
 
 {% include base_path %}
 
-Current manuscripts are grouped by research program, so related conference and journal versions appear together instead of being counted as separate projects. The list below contains the five active research programs and their current submission status.
-
 {% assign current_publications = site.publications | sort: "order" %}
 {% for post in current_publications %}
   {% include archive-single.html %}

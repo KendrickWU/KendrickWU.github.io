@@ -64,13 +64,13 @@ Advisor: Prof. Jiheng Zhang
 - Derive per-class Key Matching Indices that expose abandonment reduction, direct opportunity cost, and cross-market externalities
 - Design a Jacobian-based coordinated controller; congested benchmarks show a 19.4% welfare improvement and an 8.7% revenue improvement over static priority
 
-### NPU Cluster Scheduling with Net-Gain Preemption
+### COMPASS-ABS: Reducing Fragmentation in Shared GPU Clusters for Deep Learning Training Workloads
 
-**Submitted to ACM ATC; *Operations Research* version in preparation** · lead / idea initiator
+**Submitted to ACM SIGOPS Annual Technical Conference (ATC '26); *Operations Research* version in preparation** · lead / idea initiator
 
-- Study placement and migration or preemption for multi-pod jobs under fragmentation, churn, and heterogeneous pod-size requirements
-- Estimate waiting time with bitmask dynamic programming and trigger migration only when expected delay reduction exceeds cool-down and recovery overhead
-- Across 99 simulation seeds, six placement policies, and four preemption policies, Net-Gain reduces average delay by about 26–32% relative to no preemption
+- Introduce Scheduler-Induced Fragmentation (SIF), a workload-history-independent metric that isolates fragmentation caused by scheduling decisions
+- Design COMPASS-ABS around the power-of-two structure of dominant GPU demands and eight-GPU node capacity; the COMPASS operators maintain a compact Anchor-Based Space throughout online scheduling
+- Prove an SIF bound of 2/N under the stated workload-composition condition and evaluate the scheduler using production traces, large-scale simulation, and a physical GPU cluster
 
 ### Dynamic MoE Routing and Precision Allocation for Quantized MoE Serving
 
@@ -98,7 +98,7 @@ Advisor: Prof. Jiheng Zhang
 
 ## Research Themes
 
-- **AI systems and resource allocation**: Quantized MoE routing, accelerator placement, migration and preemption, congestion pricing, and quality-capacity trade-offs
+- **AI systems and resource allocation**: Quantized MoE routing, GPU-cluster fragmentation and scheduling, congestion pricing, and quality-capacity trade-offs
 - **Stochastic service systems**: Queueing, fluid approximations, Lyapunov control, LP/KKT analysis, dynamic programming, and threshold or index policies
 - **Platforms and energy operations**: Spatial matching, customer impatience, EV charging schedules, pricing, and multi-resource grid constraints
 - **Quantitative experimentation**: Factor-family hypothesis generation, linear and nonlinear signal evaluation, backtesting, and scalable research workflows

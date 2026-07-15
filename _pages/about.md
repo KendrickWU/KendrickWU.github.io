@@ -42,7 +42,7 @@ NewDaq is a Shenzhen-based RMB 10B+ quantitative investment firm. My work is org
 ## Research Interests
 
 - **LLM and MoE inference systems**: Request-level routing across quantized MoE instances, quality-risk estimation, capacity allocation, and interpretable shadow-price policies
-- **Accelerator-cluster scheduling**: Placement, migration, and preemption under fragmentation, heterogeneous resource demands, and operational overhead
+- **Accelerator-cluster scheduling**: Fragmentation measurement, topology-aware placement, and continuous compaction for deep learning training jobs in shared GPU clusters
 - **Stochastic service systems**: Queueing, fluid approximations, Lyapunov control, LP/KKT analysis, dynamic programming, and threshold or index policies
 - **Mobility and marketplace design**: Spatial matching with heterogeneous demand, customer impatience, and coordinated real-time control
 - **EV charging operations**: Grid-compliant charging schedules and joint pricing-power control, informed by collaboration with a charging operator serving European customers
@@ -54,8 +54,8 @@ The [Publications page](/publications/) lists five current research programs and
 1. **[Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing](/publications/spatial-matching/)**<br>
    Submitted to *Operations Research*.
 
-2. **[NPU Cluster Scheduling with Net-Gain Preemption](/publications/npu-scheduling/)**<br>
-   Submitted to ACM ATC; an Operations Research version is in preparation.
+2. **[COMPASS-ABS: Reducing Fragmentation in Shared GPU Clusters for Deep Learning Training Workloads](/publications/compass-abs/)**<br>
+   Submitted to ACM SIGOPS Annual Technical Conference (ATC '26); an Operations Research version is in preparation.
 
 3. **[Dynamic MoE Routing and Precision Allocation for Quantized MoE Serving](/publications/dynamic-moe-routing/)**<br>
    NeurIPS 2026 version submitted; an Operations Research version is in preparation.
