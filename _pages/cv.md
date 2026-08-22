@@ -9,9 +9,9 @@ redirect_from:
 
 ## Profile
 
-HKUST IEDA Ph.D. student and Quantitative Research Intern at NewDaq. My work combines operations research with executable systems and experiments: stochastic service models, LLM/MoE inference, accelerator scheduling, spatial matching, EV charging operations, and factor-family research.
+HKUST IEDA Ph.D. student and Quantitative Research Intern at NewDaq. My work connects operations research with executable systems and experiments across high-frequency market microstructure, LLM/MoE inference, accelerator scheduling, spatial matching, and EV charging.
 
-I am interested in roles spanning LLM systems and AI infrastructure, MaaS and product-facing AI, technical solutions, and quantitative research.
+I focus on decision-making under uncertainty and resource constraints: building interpretable models, scalable evaluations, explicit acceptance gates, and evidence that remains useful when a hypothesis fails.
 
 ## Contact
 
@@ -24,11 +24,14 @@ I am interested in roles spanning LLM systems and AI infrastructure, MaaS and pr
 
 ### NewDaq
 
-**Quantitative Research Intern** · Shenzhen · *2026–Present (long-term)*
+**Quantitative Research Intern** · Shenzhen · *Jun 2026–Present (long-term)*
 
-- Conduct factor-family alpha research through batch experiments inside an integrated factor library, testing, backtesting, and deployment workflow
-- Evaluate linear and nonlinear predictive power, then use successful batch logic to guide exploration of structurally related factors
-- Help maintain and reconstruct a multidimensional parallel research framework combining statistical search coverage with economically and physically interpretable hypotheses
+- Conduct end-to-end high-frequency factor-family research using tick trades, active order flow, and multi-level order books, from market-mechanism decomposition and candidate design through statistical evaluation, redundancy control, evidence packaging, and library recommendations
+- Study active buying and selling, liquidity absorption, price response, order concentration and persistence, queue replenishment and withdrawal, large-trade impact, reversal, and recovery as reusable mechanism families
+- Separate predictability from tradability with multiple-testing control, cross-window robustness, full-library correlation gates, realized-spread and execution-cost checks, and strict reporting of negative results
+- Use Forward OOF Ridge and gradient-boosting tests to distinguish linear contribution, nonlinear incremental information, and lightweight screening without tuning a failed candidate into a positive result
+- Build auditable, parallel, and resumable research workflows with Python, Parquet, Slurm, Git/GitLab, automated checks, and versioned data/configuration/code provenance
+- Use AI agents for orchestration, monitoring, recovery, and audit preparation while keeping mechanisms, metrics, admission thresholds, and final research responsibility human-defined
 
 ### CARTIN Lab, Nanyang Technological University
 
@@ -54,7 +57,7 @@ Advisor: Prof. Jiheng Zhang
 **B.Eng. in Electrical Engineering and Automation**<br>
 *Sep 2018–Jun 2022* · GPA: 3.81/4.00
 
-## Publications & Working Papers
+## Publications & Continuing Working Papers
 
 ### Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing
 
@@ -62,46 +65,46 @@ Advisor: Prof. Jiheng Zhang
 
 - Model two demand classes sharing drivers, with endogenous pickup times, pre-match abandonment, and post-match cancellation
 - Derive per-class Key Matching Indices that expose abandonment reduction, direct opportunity cost, and cross-market externalities
-- Design a Jacobian-based coordinated controller; congested benchmarks show a 19.4% welfare improvement and an 8.7% revenue improvement over static priority
+- Design a Jacobian-based coordinated controller for coupled matching thresholds
 
-### COMPASS-ABS: Reducing Fragmentation in Shared GPU Clusters for Deep Learning Training Workloads
+### COMPASS-ABS: Reducing Fragmentation in Shared Accelerator Clusters
 
-**Submitted to ACM SIGOPS Annual Technical Conference (ATC '26); *Operations Research* version in preparation** · lead / idea initiator
+**Submitted to ACM ATC 2026; *Operations Research* extension in preparation** · lead / idea initiator
 
-- Introduce Scheduler-Induced Fragmentation (SIF), a workload-history-independent metric that isolates fragmentation caused by scheduling decisions
-- Design COMPASS-ABS around the power-of-two structure of dominant GPU demands and eight-GPU node capacity; the COMPASS operators maintain a compact Anchor-Based Space throughout online scheduling
-- Prove an SIF bound of 2/N under the stated workload-composition condition and evaluate the scheduler using production traces, large-scale simulation, and a physical GPU cluster
+- Introduce Scheduler-Induced Fragmentation, a workload-history-independent metric that isolates fragmentation caused by scheduling decisions
+- Maintain a compact Anchor-Based Space through online placement and compaction and prove a conditional fragmentation bound
+- Evaluate with production traces, large-scale simulation, and a physical accelerator cluster
 
 ### Dynamic MoE Routing and Precision Allocation for Quantized MoE Serving
 
-**NeurIPS 2026 version submitted; *Operations Research* version in preparation** · with Zhenghong Huang and Jiheng Zhang
+**NeurIPS 2026 version under revision for ICLR resubmission; *Operations Research* version nearing completion** · with Zhenghong Huang and Jiheng Zhang
 
-- **NeurIPS version**: *Adaptive Routing for Quantized Mixture-of-Experts Serving with Theoretical Guarantee* routes requests across pre-quantized MoE instances using Fragility-Weighted Perplexity, a window-level LP, and a KKT-consistent greedy policy
-- **Operations Research version**: *Dynamic Precision Allocation for Mixture-of-Experts Inference Services* models routing as stochastic service control with class-level quality-risk calibration, fluid relaxation, and capacity and quality-risk shadow prices
-- Experiments on Qwen3-30B-A3B and DeepSeek-V2-Lite show up to 1.38x decode throughput against the highest-bit instance baseline without measured response-quality loss
+- **ICLR resubmission**: Route heterogeneous requests across a fixed resident pool of pre-quantized MoE instances using calibrated request-level quality estimates, a window-level LP, and a KKT-consistent routing policy
+- **Operations Research version**: Formulate quantized MoE serving as stochastic service control with fluid relaxation and endogenous capacity and quality-risk shadow prices; model/theory work is near complete and result-dependent claims remain gated on empirical validation
+- **Slow-placement extension**: Study resident instance mix on a slower timescale and request routing on a faster timescale under memory, service-rate, quality, and reconfiguration-cost constraints
 
 ### Grid-Compliant Service-Time Scheduling for Mixed Single- and Three-Phase AC EV Charging
 
-**Manuscript in preparation for *IEEE Transactions on Smart Grid*** · industry collaboration
+**Manuscript in preparation for *Applied Energy*** · industry collaboration
 
-- Work with a real EV charging operator serving European customers
-- Calibrate each EV's natural AC charging envelope and schedule mixed single- and three-phase sessions under aggregate and per-phase grid constraints
-- Minimize congestion-induced service stretch while preserving grid compliance and work-conserving operation
+- Work with an EV charging operator serving European customers and calibrate each EV's natural AC charging envelope
+- Schedule mixed single- and three-phase sessions under aggregate and per-phase grid constraints, using congestion-induced service stretch as the main operational objective
+- Reconcile the available data, algorithm design, comparator set, and manuscript claims before submission; claims not supported by the present evidence remain out of scope
 
 ### Joint Pricing and Power Scheduling for EV Charging
 
-**Manuscript in preparation for *Operations Research*** · industry collaboration
+***Operations Research* working paper** · industry collaboration
 
-- Study joint pricing or admission and power-allocation control for capacity-constrained EV charging operations
-- Examine when commercial decisions can be separated from physical scheduling and when they must be optimized jointly
-- Develop the stochastic scheduling and fluid-control extension using operational requirements and charging-session structure from the industry collaboration
+- Study pricing or admission and power-allocation control for capacity-constrained EV charging operations
+- Examine when commercial decisions can be separated from physical scheduling and when congestion, service quality, and grid constraints require joint optimization
+- Develop two candidate extensions beyond the current service-time model; both remain at the formulation and evidence-design stage
 
-## Research Themes
+## Exploratory Research Directions
 
-- **AI systems and resource allocation**: Quantized MoE routing, GPU-cluster fragmentation and scheduling, congestion pricing, and quality-capacity trade-offs
-- **Stochastic service systems**: Queueing, fluid approximations, Lyapunov control, LP/KKT analysis, dynamic programming, and threshold or index policies
-- **Platforms and energy operations**: Spatial matching, customer impatience, EV charging schedules, pricing, and multi-resource grid constraints
-- **Quantitative experimentation**: Factor-family hypothesis generation, linear and nonlinear signal evaluation, backtesting, and scalable research workflows
+These are current working ideas rather than completed manuscripts:
+
+- **Capability, inference latency, and agent interaction**: characterize when faster inference changes the value of model capability in multi-round planning, tool use, and human-agent interaction
+- **Calibrate Decisions, Not Predictions: Online Conformal Filtering under Delayed and Nonstationary Feedback**: accept, reject, shrink, or enhance existing alpha signals using uncertainty, cost, market state, and recent reliability; this is a falsifiable research design, not a validated return result
 
 ## Selected Engineering Projects
 
@@ -111,7 +114,7 @@ Advisor: Prof. Jiheng Zhang
 
 ### Queue-Aware MoE Routing Prototypes
 
-- Implemented vLLM routing prototypes that inject per-expert virtual-queue penalties into expert selection and connect congestion signals with online control
+- Implemented vLLM routing prototypes that inject per-expert virtual-queue penalties into expert selection and connect measurable congestion signals with online control
 
 ### IoT Distributed Home Monitoring and Security System
 
@@ -119,8 +122,9 @@ Advisor: Prof. Jiheng Zhang
 
 ## Technical Skills
 
-- **Programming and data**: Python, C/C++, MATLAB, SQL, NumPy, Pandas, Matplotlib, simulation, and backtesting
-- **AI systems**: MoE routing, quantized inference, vLLM prototyping, accelerator scheduling, and performance evaluation
+- **Programming and data**: Python, C/C++, MATLAB, SQL, NumPy, Pandas, scikit-learn, PyArrow/Parquet, simulation, and backtesting
+- **Research systems**: Linux, Slurm, Git/GitLab, pytest, parallel and resumable workflows, provenance, and audit design
+- **AI systems**: MoE routing, quantized inference, vLLM prototyping, accelerator placement and scheduling, and performance evaluation
 - **Modeling and optimization**: Stochastic processes, queueing, fluid approximations, constrained optimization, LP/KKT, Lyapunov control, dynamic programming, and threshold/index policies
 - **Languages**: Chinese (native); English (professional working proficiency; IELTS 7)
 

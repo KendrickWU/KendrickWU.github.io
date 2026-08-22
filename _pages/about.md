@@ -10,7 +10,7 @@ redirect_from:
 <section class="home-intro">
   <div class="home-intro__eyebrow">Operations Research · AI Systems · Quantitative Research</div>
   <h2>Turning complex systems into practical decisions.</h2>
-  <p class="home-intro__lead">I am Wu Hongfan, a Ph.D. student at HKUST and a Quantitative Research Intern at NewDaq. I develop routing, scheduling, and experimentation methods for AI infrastructure, mobility platforms, EV charging operations, and quantitative research.</p>
+  <p class="home-intro__lead">I am Wu Hongfan, a Ph.D. student at HKUST and a Quantitative Research Intern at NewDaq. I study decision-making in high-frequency markets and resource-constrained AI, mobility, and energy systems.</p>
   <div class="home-intro__links">
     <a href="/publications/">Research</a>
     <a href="/cv/">Curriculum Vitae</a>
@@ -20,7 +20,7 @@ redirect_from:
 
 I am a Ph.D. student in the Department of Industrial Engineering and Decision Analytics at **Hong Kong University of Science and Technology (HKUST)**, supervised by [Prof. Jiheng Zhang](https://reijz.github.io/), Head of IEDA and Full Professor in IEDA and MATH. I received my Master of Engineering degree from Nanyang Technological University (NTU) in 2023 and my Bachelor of Engineering degree from Huazhong University of Science and Technology (HUST) in 2022.
 
-My work sits at the intersection of **operations research, AI systems, and data-intensive experimentation**. I am particularly interested in roles involving LLM systems and AI infrastructure, MaaS or product-facing AI, technical solutions, and quantitative research.
+My work sits at the intersection of **operations research, AI systems, quantitative market microstructure, and data-intensive experimentation**. Across these settings, I build decision models together with scalable experiments, explicit acceptance gates, and reproducible evidence.
 
 <div class="home-note">
   <strong>Two modes</strong>
@@ -31,25 +31,30 @@ My work sits at the intersection of **operations research, AI systems, and data-
 
 ### Quantitative Research Intern, NewDaq
 
-*Shenzhen · 2026–Present · Long-term internship*
+*Shenzhen · Jun 2026–Present · Long-term internship*
 
-NewDaq is a Shenzhen-based RMB 10B+ quantitative investment firm. My work is organized around **factor families rather than isolated signals**:
+My work is organized around **factor families rather than isolated signals** and focuses on upstream discovery and evidence:
 
-- Run batch-level factor research and evaluate both linear and nonlinear predictive power inside an integrated factor library, testing, backtesting, and deployment workflow
-- Extend successful hypotheses to structurally related factor families, turning one-off findings into reusable research logic
-- Help maintain and reconstruct a multidimensional factor-mining and backtesting framework that combines statistical search coverage with economically and physically motivated hypotheses
+- Translate market-microstructure mechanisms in active order flow, order-book liquidity, large trades, impact, reversal, and recovery into reproducible candidate families
+- Evaluate candidates with Rank IC/ICIR, multiple-testing control, cross-window robustness, redundancy gates, forward out-of-fold tests, and explicit spread and execution-cost checks
+- Treat negative results as research output: statistically predictive signals that fail a tradability gate remain diagnostic evidence rather than being relabeled as Alpha
+- Build auditable, resumable research workflows across large high-frequency datasets using Python, Parquet, Slurm, versioned provenance, automated checks, and human approval gates
+
+AI agents assist task orchestration, monitoring, recovery, and audit preparation. Market mechanisms, evaluation definitions, admission thresholds, and final research responsibility remain human-defined.
 
 ## Research Interests
 
-- **LLM and MoE inference systems**: Request-level routing across quantized MoE instances, quality-risk estimation, capacity allocation, and interpretable shadow-price policies
+- **LLM and MoE inference systems**: Request-level routing across quantized MoE instances, slow-timescale resident-pool placement, quality-risk estimation, capacity allocation, and interpretable shadow-price policies
 - **Accelerator-cluster scheduling**: Fragmentation measurement, topology-aware placement, and continuous compaction for deep learning training jobs in shared GPU clusters
 - **Stochastic service systems**: Queueing, fluid approximations, Lyapunov control, LP/KKT analysis, dynamic programming, and threshold or index policies
+- **Quantitative market microstructure**: High-frequency factor families, cost-aware evidence gates, and online calibration of decisions under delayed and nonstationary feedback
+- **Agentic AI evaluation**: How model capability, inference latency, tool use, and multi-round interaction jointly determine task-level value
 - **Mobility and marketplace design**: Spatial matching with heterogeneous demand, customer impatience, and coordinated real-time control
 - **EV charging operations**: Grid-compliant charging schedules and joint pricing-power control, informed by collaboration with a charging operator serving European customers
 
 ## Publications & Working Papers
 
-The [Publications page](/publications/) lists five current research programs and their manuscript status.
+The [Publications page](/publications/) lists five established research programs and their current manuscript status.
 
 1. **[Spatial Matching with Heterogeneous Demand: Coordinated Key Matching Indices for Ride-Hailing](/publications/spatial-matching/)**<br>
    Submitted to *Operations Research*.
@@ -58,13 +63,21 @@ The [Publications page](/publications/) lists five current research programs and
    Submitted to ACM SIGOPS Annual Technical Conference (ATC '26); an Operations Research version is in preparation.
 
 3. **[Dynamic MoE Routing and Precision Allocation for Quantized MoE Serving](/publications/dynamic-moe-routing/)**<br>
-   NeurIPS 2026 version submitted; an Operations Research version is in preparation.
+   NeurIPS 2026 version under revision for ICLR resubmission; an Operations Research version is nearing completion, with empirical validation ongoing.
 
-4. **[Grid-Compliant Service-Time Scheduling for Mixed Single- and Three-Phase AC EV Charging](/publications/ev-charging-ieee/)**<br>
-   Manuscript in preparation for *IEEE Transactions on Smart Grid*.
+4. **[Grid-Compliant Service-Time Scheduling for Mixed Single- and Three-Phase AC EV Charging](/publications/ev-charging-applied-energy/)**<br>
+   Manuscript in preparation for *Applied Energy*; the data, algorithm, and claim boundary are being reconciled before submission.
 
 5. **[Joint Pricing and Power Scheduling for EV Charging](/publications/ev-charging-or/)**<br>
-   Manuscript in preparation for *Operations Research*.
+   *Operations Research* working paper; two candidate extensions are under development.
+
+## Current Working Ideas
+
+These directions are research plans, not completed papers or validated performance claims:
+
+- **Slow placement, fast routing for quantized MoE serving**: Extend the fixed-resident-pool routing study to two timescales, with slower placement decisions and faster request routing under memory, service-rate, quality, and reconfiguration-cost constraints
+- **Capability, inference latency, and agent interaction**: Study when faster inference changes the value of model capability once agents plan, call tools, and interact over multiple rounds
+- **Calibrate Decisions, Not Predictions**: Develop online conformal filtering that accepts, rejects, shrinks, or enhances existing alpha signals under delayed, nonstationary feedback and transaction costs
 
 ## Education
 
@@ -76,8 +89,9 @@ The [Publications page](/publications/) lists five current research programs and
 
 ## Technical Skills
 
-- **Programming and data**: Python, C/C++, MATLAB, SQL, NumPy, Pandas, simulation, and backtesting
-- **AI systems**: MoE routing, quantized inference, vLLM prototyping, accelerator scheduling, and performance evaluation
+- **Programming and data**: Python, C/C++, MATLAB, SQL, NumPy, Pandas, scikit-learn, PyArrow/Parquet, simulation, and backtesting
+- **Research systems**: Linux, Slurm, Git/GitLab, pytest, parallel and resumable workflows, provenance, and audit design
+- **AI systems**: MoE routing, quantized inference, vLLM prototyping, accelerator placement and scheduling, and performance evaluation
 - **Modeling and optimization**: Queueing, stochastic control, fluid approximations, constrained optimization, LP/KKT, dynamic programming, and threshold/index policies
 
 ## Contact
