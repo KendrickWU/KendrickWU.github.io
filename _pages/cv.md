@@ -9,7 +9,7 @@ redirect_from:
 
 ## Profile
 
-HKUST IEDA Ph.D. student and Quantitative Research Intern at NewDaq. My work connects operations research with executable systems and experiments across high-frequency market microstructure, LLM/MoE inference, accelerator scheduling, spatial matching, and EV charging.
+HKUST IEDA Ph.D. student and Quantitative Research Intern at NewDaq. My work connects operations research with executable systems and experiments across high-frequency market microstructure, LLM/MoE inference, accelerator scheduling, spatial matching, and EV charging. I design research systems that turn domain hypotheses into reproducible candidates and layered, decision-ready evidence.
 
 I focus on decision-making under uncertainty and resource constraints: building interpretable models, scalable evaluations, explicit acceptance gates, and evidence that remains useful when a hypothesis fails.
 
@@ -26,12 +26,14 @@ I focus on decision-making under uncertainty and resource constraints: building 
 
 **Quantitative Research Intern** · Shenzhen · *Jun 2026–Present (long-term)*
 
-- Conduct end-to-end high-frequency factor-family research using tick trades, active order flow, and multi-level order books, from market-mechanism decomposition and candidate design through statistical evaluation, redundancy control, evidence packaging, and library recommendations
-- Study active buying and selling, liquidity absorption, price response, order concentration and persistence, queue replenishment and withdrawal, large-trade impact, reversal, and recovery as reusable mechanism families
-- Separate predictability from tradability with multiple-testing control, cross-window robustness, full-library correlation gates, realized-spread and execution-cost checks, and strict reporting of negative results
-- Use Forward OOF Ridge and gradient-boosting tests to distinguish linear contribution, nonlinear incremental information, and lightweight screening without tuning a failed candidate into a positive result
-- Build auditable, parallel, and resumable research workflows with Python, Parquet, Slurm, Git/GitLab, automated checks, and versioned data/configuration/code provenance
-- Use AI agents for orchestration, monitoring, recovery, and audit preparation while keeping mechanisms, metrics, admission thresholds, and final research responsibility human-defined
+- Designed a Feature Sheet–driven research compiler that freezes the research question, data capabilities, causal timing, labels, search spaces, evaluation protocols, and admission boundaries before execution
+- Separated creative, interpretable market-mechanism traversal from deterministic compilation of parameters, windows, and statistical operators, avoiding outcome-driven factor redefinition
+- Built dual statistical representations: vector-preserving robustification, neutralization, and orthogonalization, and collection-to-scalar summaries of event location, dispersion, tails, concentration, and temporal path
+- Implemented an Evidence Router that distinguishes capability or quality failure, linear insufficiency, and hypothesis failure, with strict Forward OOF controls-only versus controls-plus-candidate nonlinear incremental tests
+- Integrated family and library redundancy, nearest-neighbor residual re-evaluation, frozen lineage, content-addressed provenance, fail-closed cache reuse, Evidence Records, and human approval
+- Reused the framework across active order flow, order-book liquidity, and large-trade/impact research, preserving authorized representative signals, reviewable evidence, and auditable negative results under one discipline
+
+[Read the public framework overview →](/quant-research/systematic-alpha-research-framework/)
 
 ### CARTIN Lab, Nanyang Technological University
 
@@ -77,9 +79,9 @@ Advisor: Prof. Jiheng Zhang
 
 ### Dynamic MoE Routing and Precision Allocation for Quantized MoE Serving
 
-**NeurIPS 2026 version under revision for ICLR resubmission; *Operations Research* version nearing completion** · with Zhenghong Huang and Jiheng Zhang
+**Under review at NeurIPS 2026; *Operations Research* version nearing completion** · with Zhenghong Huang and Jiheng Zhang
 
-- **ICLR resubmission**: Route heterogeneous requests across a fixed resident pool of pre-quantized MoE instances using calibrated request-level quality estimates, a window-level LP, and a KKT-consistent routing policy
+- **NeurIPS 2026 version**: Route heterogeneous requests across a fixed resident pool of pre-quantized MoE instances using calibrated request-level quality estimates, a window-level LP, and a KKT-consistent routing policy
 - **Operations Research version**: Formulate quantized MoE serving as stochastic service control with fluid relaxation and endogenous capacity and quality-risk shadow prices; model/theory work is near complete and result-dependent claims remain gated on empirical validation
 - **Slow-placement extension**: Study resident instance mix on a slower timescale and request routing on a faster timescale under memory, service-rate, quality, and reconfiguration-cost constraints
 

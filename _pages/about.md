@@ -20,7 +20,7 @@ redirect_from:
 
 I am a Ph.D. student in the Department of Industrial Engineering and Decision Analytics at **Hong Kong University of Science and Technology (HKUST)**, supervised by [Prof. Jiheng Zhang](https://reijz.github.io/), Head of IEDA and Full Professor in IEDA and MATH. I received my Master of Engineering degree from Nanyang Technological University (NTU) in 2023 and my Bachelor of Engineering degree from Huazhong University of Science and Technology (HUST) in 2022.
 
-My work sits at the intersection of **operations research, AI systems, quantitative market microstructure, and data-intensive experimentation**. Across these settings, I build decision models together with scalable experiments, explicit acceptance gates, and reproducible evidence.
+My work sits at the intersection of **operations research, AI systems, quantitative market microstructure, and data-intensive experimentation**. Across these settings, I build decision and research systems that compile domain hypotheses into reproducible evidence, explicit acceptance gates, and implementable decisions.
 
 <div class="home-note">
   <strong>Two modes</strong>
@@ -33,21 +33,24 @@ My work sits at the intersection of **operations research, AI systems, quantitat
 
 *Shenzhen · Jun 2026–Present · Long-term internship*
 
-My work is organized around **factor families rather than isolated signals** and focuses on upstream discovery and evidence:
+My central contribution is not a single factor family, but a **Feature Sheet–driven research system that encodes researcher judgment into an executable and auditable workflow**:
 
-- Translate market-microstructure mechanisms in active order flow, order-book liquidity, large trades, impact, reversal, and recovery into reproducible candidate families
-- Evaluate candidates with Rank IC/ICIR, multiple-testing control, cross-window robustness, redundancy gates, forward out-of-fold tests, and explicit spread and execution-cost checks
-- Treat negative results as research output: statistically predictive signals that fail a tradability gate remain diagnostic evidence rather than being relabeled as Alpha
-- Build auditable, resumable research workflows across large high-frequency datasets using Python, Parquet, Slurm, versioned provenance, automated checks, and human approval gates
+- Treat the Feature Sheet as an executable research contract that freezes the question, data capabilities, causal timing, labels, search space, evaluation rules, and admission boundary before computation
+- Separate mechanism-first physical hypothesis traversal from deterministic parameter, window, and operator compilation, preventing result-driven factor redefinition
+- Explore two complementary statistical representations: vector-preserving transformations test stability of one mechanism, while collection-to-scalar operators encode the distributional and temporal structure of event sets
+- Route candidates through capability and quality checks, classical evidence, controlled nonlinear incremental tests, residual and redundancy review, and finally a human admission decision
+- Preserve frozen lineage, content-addressed provenance, fail-closed cache reuse, Evidence Records, and negative results so that every conclusion remains auditable
 
-AI agents assist task orchestration, monitoring, recovery, and audit preparation. Market mechanisms, evaluation definitions, admission thresholds, and final research responsibility remain human-defined.
+AI agents assist structured hypothesis expansion, orchestration, monitoring, recovery, and audit preparation. Market mechanisms, evaluation definitions, admission thresholds, and final research responsibility remain human-defined.
+
+[Read the public framework overview →](/quant-research/systematic-alpha-research-framework/)
 
 ## Research Interests
 
 - **LLM and MoE inference systems**: Request-level routing across quantized MoE instances, slow-timescale resident-pool placement, quality-risk estimation, capacity allocation, and interpretable shadow-price policies
 - **Accelerator-cluster scheduling**: Fragmentation measurement, topology-aware placement, and continuous compaction for deep learning training jobs in shared GPU clusters
 - **Stochastic service systems**: Queueing, fluid approximations, Lyapunov control, LP/KKT analysis, dynamic programming, and threshold or index policies
-- **Quantitative market microstructure**: High-frequency factor families, cost-aware evidence gates, and online calibration of decisions under delayed and nonstationary feedback
+- **Quantitative market microstructure**: Mechanism-first alpha research, dual statistical representations, evidence routing, and cost-aware admission under delayed and nonstationary feedback
 - **Agentic AI evaluation**: How model capability, inference latency, tool use, and multi-round interaction jointly determine task-level value
 - **Mobility and marketplace design**: Spatial matching with heterogeneous demand, customer impatience, and coordinated real-time control
 - **EV charging operations**: Grid-compliant charging schedules and joint pricing-power control, informed by collaboration with a charging operator serving European customers
@@ -63,7 +66,7 @@ The [Publications page](/publications/) lists five established research programs
    Submitted to ACM SIGOPS Annual Technical Conference (ATC '26); an Operations Research version is in preparation.
 
 3. **[Dynamic MoE Routing and Precision Allocation for Quantized MoE Serving](/publications/dynamic-moe-routing/)**<br>
-   NeurIPS 2026 version under revision for ICLR resubmission; an Operations Research version is nearing completion, with empirical validation ongoing.
+   Under review at NeurIPS 2026; an Operations Research version is nearing completion, with empirical validation ongoing.
 
 4. **[Grid-Compliant Service-Time Scheduling for Mixed Single- and Three-Phase AC EV Charging](/publications/ev-charging-applied-energy/)**<br>
    Manuscript in preparation for *Applied Energy*; the data, algorithm, and claim boundary are being reconciled before submission.

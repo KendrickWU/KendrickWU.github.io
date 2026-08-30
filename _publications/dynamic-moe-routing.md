@@ -4,7 +4,7 @@ authors:
   - "Zhenghong Huang"
   - "Hongfan Wu"
   - "Jiheng Zhang"
-publication_status: "NeurIPS 2026 version under revision for ICLR resubmission; Operations Research version nearing completion; slow-placement extension in development"
+publication_status: "Under review at NeurIPS 2026; Operations Research version nearing completion; slow-placement extension in development"
 order: 3
 excerpt: "Adaptive request routing across pre-quantized MoE instances, balancing throughput, congestion, and request-specific quality risk."
 redirect_from:
@@ -14,15 +14,15 @@ redirect_from:
 ---
 
 **Authors:** Zhenghong Huang, Hongfan Wu, and Jiheng Zhang<br>
-**Status:** NeurIPS 2026 version under revision for ICLR resubmission; *Operations Research* version nearing completion; slow-placement extension in development
+**Status:** Under review at NeurIPS 2026; *Operations Research* version nearing completion; slow-placement extension in development
 
 This research program studies how an inference service should route heterogeneous requests across pre-quantized copies of the same Mixture-of-Experts model.
 
-## ICLR Resubmission
+## NeurIPS 2026 Submission
 
-The NeurIPS 2026 version, *Adaptive Routing for Quantized Mixture-of-Experts Serving with Theoretical Guarantee*, is being revised for ICLR. It studies a fixed resident pool of pre-quantized MoE instances and combines calibrated request-level quality estimates, a window-level linear program, and a KKT-consistent routing policy.
+The conference paper, *Adaptive Routing for Quantized Mixture-of-Experts Serving with Theoretical Guarantee*, is under review at NeurIPS 2026. It studies a fixed resident pool of pre-quantized MoE instances and combines calibrated request-level quality estimates, a window-level linear program, and a KKT-consistent routing policy.
 
-The revision tightens the boundary between offline quality estimators and signals available at routing time. Evaluation on Qwen3-30B-A3B and DeepSeek-V2-Lite remains the basis for the empirical audit; result-level claims will follow the completed evidence checks.
+The paper distinguishes offline quality estimators from signals available at routing time. Evaluation on Qwen3-30B-A3B and DeepSeek-V2-Lite remains the basis for the empirical audit; result-level claims remain tied to completed evidence checks.
 
 ## Operations Research Version
 

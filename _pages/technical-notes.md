@@ -10,6 +10,12 @@ This page collects a few technical notes and demos that I actively maintain.
 > Note (privacy): most of the detailed write-ups are working drafts / working papers and are not publicly posted at the moment.
 > If you'd like to discuss or request a copy, please email me.
 
+## Systematic alpha research framework
+
+- **From Market Hypotheses to Auditable Evidence: Building a Systematic Alpha Research Framework** (2026-08-24)
+  - Public framework overview: [read the article](/quant-research/systematic-alpha-research-framework/)
+  - A non-proprietary account of mechanism-first candidate compilation, layered evidence routing, nonlinear incremental testing, and human-governed admission
+
 ## PriceMoE / MoE routing in vLLM
 
 - **Shadow Price in MoE Routing: From Queueing Theory to a Minimal vLLM Implementation** (2026-03-01)
