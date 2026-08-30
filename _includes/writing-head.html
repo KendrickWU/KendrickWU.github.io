@@ -6,4 +6,4 @@
 <meta name="description" content="{{ writing_description | strip_html | strip_newlines | escape }}">
 <link rel="canonical" href="{{ page.url | absolute_url }}">
 {% include site-icons.html %}
-<link rel="stylesheet" href="{{ '/assets/css/writing.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/writing.css' | relative_url }}?v={{ site.time | date: '%s' }}">
