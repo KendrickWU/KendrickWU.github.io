@@ -40,7 +40,7 @@
         </div>
 
         {% for post in sorted_posts %}
-          <article class="writing-card">
+          <article class="writing-card writing-card--compact">
             <a class="writing-card__cover" href="{{ post.url | relative_url }}" aria-label="阅读：{{ post.display_title | default: post.title }}">
               {% if post.cover %}
                 <img src="{{ post.cover | relative_url }}" alt="" loading="lazy">
