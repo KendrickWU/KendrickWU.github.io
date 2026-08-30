@@ -956,6 +956,62 @@ img {
   }
 }
 
+/* Article imagery: restrained paper frames and a more readable scale. */
+.writing-post__cover {
+  position: relative;
+  width: min(900px, 100%);
+  margin: 0 auto 76px;
+  padding: 9px;
+  border: 1px solid rgba(60, 56, 48, 0.2);
+  background: var(--writing-white);
+  box-shadow: 0 18px 48px rgba(54, 49, 41, 0.08);
+}
+
+.writing-post__cover::before,
+.writing-post__cover::after {
+  position: absolute;
+  width: 46px;
+  height: 1px;
+  background: var(--writing-accent);
+  content: "";
+  opacity: 0.62;
+}
+
+.writing-post__cover::before {
+  top: -14px;
+  left: 0;
+}
+
+.writing-post__cover::after {
+  right: 0;
+  bottom: -14px;
+}
+
+.writing-post__cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.writing-post img {
+  box-sizing: border-box;
+  width: auto;
+  max-width: min(760px, calc(100vw - 72px));
+  height: auto;
+  max-height: 72vh;
+  margin: 3em 50%;
+  padding: 8px;
+  border: 1px solid rgba(60, 56, 48, 0.2);
+  border-radius: 0;
+  background: var(--writing-white);
+  box-shadow: 0 14px 38px rgba(54, 49, 41, 0.08);
+  object-fit: contain;
+  transform: translateX(-50%);
+}
+
 /* Category archive cards: compact, vertical, and centered like a photo journal. */
 .writing-feed--category {
   display: flex;
@@ -1135,6 +1191,26 @@ img {
 
   .writing-feed--category .writing-card--compact .writing-card__body {
     min-height: 0;
+  }
+
+  .writing-post__cover {
+    width: calc(100% - 8px);
+    margin-bottom: 58px;
+    padding: 6px;
+  }
+
+  .writing-post__cover img {
+    max-height: 68vh;
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+
+  .writing-post img {
+    width: calc(100% - 12px);
+    max-height: none;
+    margin: 2.5em auto;
+    padding: 6px;
+    transform: none;
   }
 }
 
