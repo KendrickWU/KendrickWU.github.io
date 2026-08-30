@@ -48,9 +48,13 @@
                 <span class="writing-card__fallback">{{ current_category.title }} · {{ post.date | date: "%Y" }}</span>
               {% endif %}
             </a>
+            <time class="writing-card__date" datetime="{{ post.date | date_to_xmlschema }}">
+              <span>{{ post.date | date: "%b" }}</span>
+              <strong>{{ post.date | date: "%d" }}</strong>
+            </time>
             <div class="writing-card__body">
               <div class="writing-card__eyebrow">
-                {{ post.writing_type_label | default: current_category.title }}{% if post.writing_order %} · No. {{ post.writing_order }}{% endif %} · {{ post.date | date: "%Y.%m.%d" }}
+                {{ post.writing_type_label | default: current_category.title }}{% if post.writing_order %} · No. {{ post.writing_order }}{% endif %}
               </div>
               <h2><a href="{{ post.url | relative_url }}">{{ post.display_title | default: post.title }}</a></h2>
               {% if post.excerpt %}<p class="writing-card__excerpt">{{ post.excerpt | strip_html }}</p>{% endif %}

@@ -7,6 +7,7 @@
   --writing-line: rgba(60, 56, 48, 0.18);
   --writing-accent: #466a68;
   --writing-accent-dark: #294846;
+  --writing-rust: #a24d3f;
   --writing-white: #fffdf8;
   --writing-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Songti SC", "STSong", serif;
   --writing-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", sans-serif;
@@ -301,75 +302,7 @@ img {
 }
 
 .writing-feed--category {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
   padding-top: 54px;
-}
-
-.writing-feed--category .writing-feed__header,
-.writing-feed--category .writing-empty {
-  grid-column: 1 / -1;
-}
-
-.writing-card--compact,
-.writing-card--compact:nth-of-type(even) {
-  display: flex;
-  min-width: 0;
-  min-height: 0;
-  margin-bottom: 0;
-  flex-direction: column;
-}
-
-.writing-card--compact:nth-of-type(even) .writing-card__cover {
-  order: 0;
-}
-
-.writing-card--compact .writing-card__cover {
-  min-height: 0;
-  aspect-ratio: 4 / 3;
-}
-
-.writing-card--compact .writing-card__cover img,
-.writing-card--compact .writing-card__fallback {
-  min-height: 0;
-  height: 100%;
-}
-
-.writing-card--compact .writing-card__body {
-  min-height: 300px;
-  justify-content: flex-start;
-  padding: 26px 24px 24px;
-}
-
-.writing-card--compact .writing-card__eyebrow {
-  margin-bottom: 18px;
-  font-size: 9px;
-  line-height: 1.7;
-}
-
-.writing-card--compact h2 {
-  margin-bottom: 16px;
-  font-size: clamp(23px, 2.2vw, 31px);
-  line-height: 1.18;
-}
-
-.writing-card--compact .writing-card__excerpt {
-  display: -webkit-box;
-  margin-bottom: 22px;
-  overflow: hidden;
-  font-size: 13px;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-}
-
-.writing-card--compact .writing-card__footer {
-  margin-top: auto;
-}
-
-.writing-card--compact .writing-card__meta {
-  max-width: 65%;
-  font-size: 9px;
 }
 
 .writing-empty {
@@ -1023,18 +956,184 @@ img {
   }
 }
 
+/* Category archive cards: compact, vertical, and centered like a photo journal. */
+.writing-feed--category {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 46px 28px;
+}
+
+.writing-feed--category .writing-feed__header,
+.writing-feed--category .writing-empty {
+  flex: 0 0 100%;
+}
+
+.writing-feed--category .writing-card--compact,
+.writing-feed--category .writing-card--compact:nth-of-type(even) {
+  position: relative;
+  display: flex;
+  flex: 0 1 calc((100% - 56px) / 3);
+  width: min(100%, 340px);
+  min-width: 260px;
+  max-width: 340px;
+  min-height: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  flex-direction: column;
+}
+
+.writing-feed--category .writing-card--compact:hover {
+  box-shadow: none;
+  transform: translateY(-4px);
+}
+
+.writing-feed--category .writing-card--compact:nth-of-type(even) .writing-card__cover {
+  order: 0;
+}
+
+.writing-feed--category .writing-card--compact .writing-card__cover {
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--writing-line);
+  background: var(--writing-paper-deep);
+}
+
+.writing-feed--category .writing-card--compact .writing-card__cover::after {
+  border-width: 8px;
+}
+
+.writing-feed--category .writing-card--compact .writing-card__cover img,
+.writing-feed--category .writing-card--compact .writing-card__fallback {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+}
+
+.writing-card__date {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 64px;
+  height: 64px;
+  margin: -32px auto -32px;
+  border: 4px solid var(--writing-white);
+  border-radius: 50%;
+  background: var(--writing-ink);
+  color: var(--writing-white);
+  font-family: var(--writing-sans);
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.writing-card__date span {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.writing-card__date strong {
+  margin-top: 3px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.writing-feed--category .writing-card--compact .writing-card__body {
+  width: 100%;
+  min-height: 360px;
+  padding: 54px 25px 28px;
+  background: rgba(237, 234, 226, 0.74);
+  text-align: center;
+  justify-content: flex-start;
+}
+
+.writing-feed--category .writing-card--compact .writing-card__eyebrow {
+  order: 2;
+  margin: 0 0 20px;
+  color: var(--writing-faint);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  line-height: 1.7;
+}
+
+.writing-feed--category .writing-card--compact h2 {
+  order: 1;
+  margin: 0 0 21px;
+  font-size: clamp(24px, 2.15vw, 31px);
+  line-height: 1.2;
+}
+
+.writing-feed--category .writing-card--compact h2::after {
+  display: block;
+  width: 58%;
+  height: 4px;
+  margin: 22px auto 0;
+  background: var(--writing-rust);
+  content: "";
+}
+
+.writing-feed--category .writing-card--compact .writing-card__excerpt {
+  display: -webkit-box;
+  order: 3;
+  margin: 0 0 24px;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 1.8;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+
+.writing-feed--category .writing-card--compact .writing-card__footer {
+  order: 4;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top-color: rgba(60, 56, 48, 0.12);
+}
+
+.writing-feed--category .writing-card--compact .writing-card__meta {
+  max-width: 66%;
+  font-size: 9px;
+  text-align: left;
+}
+
+.writing-feed--category .writing-card--compact .writing-card__link {
+  font-size: 9px;
+}
+
+.writing-feed--category .writing-card--compact .writing-card__link::after {
+  width: 24px;
+}
+
 @media (max-width: 1040px) and (min-width: 641px) {
-  .writing-feed--category {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .writing-feed--category .writing-card--compact,
+  .writing-feed--category .writing-card--compact:nth-of-type(even) {
+    flex-basis: calc((100% - 28px) / 2);
+    max-width: 360px;
   }
 }
 
 @media (max-width: 640px) {
   .writing-feed--category {
-    grid-template-columns: 1fr;
+    gap: 30px;
   }
 
-  .writing-card--compact .writing-card__body {
+  .writing-feed--category .writing-card--compact,
+  .writing-feed--category .writing-card--compact:nth-of-type(even) {
+    flex-basis: 100%;
+    min-width: 0;
+    max-width: 420px;
+  }
+
+  .writing-feed--category .writing-card--compact .writing-card__body {
     min-height: 0;
   }
 }
